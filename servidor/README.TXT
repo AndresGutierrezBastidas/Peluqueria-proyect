@@ -1,5 +1,14 @@
 Usar este archivo para explicar el la parte de la base de datos
+NOTA: EL ARCHIVO .env solo se subirá 1 vez. ASEGURAR QUE LUEGO SEA AGREGADO AL GITIGNORE
 
+Esta estructura de carpetas utiliza prácticas comunes en proyectos medianos/grandes. Estas son: 
+  -Separación de responsabilidades
+  -Arquitectura en capas
+  -Dont Repeat Yourself
+  -Seguridad y validación
+  -Escalabilidad
+  -Configuración centralizada (Carpeta config)
+  -Testing
 
 1. 📁 /controllers
    - Responsabilidad: Manejar la lógica de las rutas HTTP (req/res).
@@ -49,6 +58,7 @@ Usar este archivo para explicar el la parte de la base de datos
    - Contenido típico:
      * Formateo de respuestas API.
      * Funciones de apoyo (hasheo, generación de tokens).
+     * Funciones de errores.
    - Ejemplo: apiResponse.js, cryptoHelper.js
 
 8. 📁 /config
