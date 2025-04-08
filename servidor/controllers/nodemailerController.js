@@ -1,6 +1,6 @@
-const nodemailer = require("nodemailer");
+import { createTransport } from "nodemailer";
 
-const transportador = nodemailer.createTransport({
+const transportador = createTransport({
     host: "smtp.gmail.com",
     port: 465,
     secure: true,
@@ -10,7 +10,7 @@ const transportador = nodemailer.createTransport({
     }
 })
 
-exports.correo = async (req, res) => {
+export async function correo(req, res) {
 
     const { tipoCorreo, correo } = req.body;
 

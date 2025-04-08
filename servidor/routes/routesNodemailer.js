@@ -1,7 +1,7 @@
-const express = require("express");
-const router = express.Router();
-const controllerNode = require("../controllers/nodemailerController");
+import { Router } from "express";
+const router = Router();
+import { correo } from "../controllers/nodemailerController";
 
-router.post('/enviarCorreo', controllerNode.correo);
+router.post('/enviarCorreo', correo);
 
-module.exports = router;
+export default router;
