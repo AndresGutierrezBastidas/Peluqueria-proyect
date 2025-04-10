@@ -1,0 +1,67 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Cliente {
+  id       Int    @id @default(autoincrement())
+  nombre   String @db.VarChar(15)
+  apellido String @db.VarChar(15)
+  email    String @unique @db.VarChar(255)
+
+  usuario Usuario?
+}
+
+model Usuario {
+  id       Int    @id @default(autoincrement())
+  password String @db.VarChar(15)
+  rol      Int    @default(1)
+  clientId Int    @unique
+
+  cliente Cliente @relation(fields: [clientId], references: [id])
+
+  reserva Reserva[]
+}
+
+model Reserva {
+  id           Int      @id @default(autoincrement())
+  fechaCreada  DateTime @default(now())
+  fechaReserva DateTime @db.Date
+  hora         DateTime
+  total        Int
+
+  servicioId Int @unique
+  usuarioId  Int @unique
+
+  servicio Servicio @relation(fields: [servicioId], references: [id])
+  usuario  Usuario  @relation(fields: [usuarioId], references: [id])
+}
+
+model Servicio {
+  id            Int    @id @default(autoincrement())
+  nombre        String @db.VarChar(30)
+  precio        Int
+  descripcion   String @db.VarChar(500)
+  profesionalId Int    @unique
+
+  profesional Profesional @relation(fields: [profesionalId], references: [id])
+  Reserva     Reserva[]
+}
+
+model Profesional {
+  id     Int    @id @default(autoincrement())
+  nombre String @db.VarChar(30)
+
+  servicio Servicio[]
+}

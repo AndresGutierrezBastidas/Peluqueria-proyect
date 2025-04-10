@@ -1,10 +1,14 @@
-const express = require('express');
+import express from 'express';
+import { json } from 'express';
+import routesNodemailer from './routes/routesNodemailer.js'; 
+
 const app = express();
 const port = 3000;
-app.use(express.json());
 
-app.use('/api/nodemailer',require('./routes/routesNodemailer'));
+app.use(json());
+
+app.use('/api/nodemailer', routesNodemailer); 
 
 app.listen(port, () => {
-console.log(`Example app listening on port ${port}`)
+  console.log(`Server running on port ${port}`);
 });
