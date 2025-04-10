@@ -1,7 +1,8 @@
-import { LandingServicesComponent } from '../../components/landing-services/landing-services.component';
-import { LandingWelcomeComponent } from '../../components/landing-welcome/landing-welcome.component';
-import { LandingAboutUsComponent } from './../../components/landing-about-us/landing-about-us.component';
+
 import { Component } from '@angular/core';
+import { LandingAboutUsComponent } from '../../components/landing-page/landing-about-us/landing-about-us.component';
+import { LandingServicesComponent } from '../../components/landing-page/landing-services/landing-services.component';
+import { LandingWelcomeComponent } from '../../components/landing-page/landing-welcome/landing-welcome.component';
 
 
 @Component({
