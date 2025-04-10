@@ -20,7 +20,7 @@
     "baseUrl": "./",
     "paths": {
       "@componentes/*": ["src/app/components/*"],
-      "@paginas/*": ["src/app/pages/*"],
+      "@paginas/*": ["src/app/page/*"],
     }
   },
   "angularCompilerOptions": {
