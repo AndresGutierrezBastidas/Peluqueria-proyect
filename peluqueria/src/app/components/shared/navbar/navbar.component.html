@@ -5,11 +5,13 @@
 
       <!-- Desktop Menu -->
       <div class="hidden md:flex space-x-8">
-          <a href="#inicio" class="text-gray-800 font-medium hover:text-amber-600 transition">Inicio</a>
-          <a href="#servicios" class="text-gray-800 font-medium hover:text-amber-600 transition">Servicio</a>
-          <a href="#contacto" class="text-gray-800 font-medium hover:text-amber-600 transition">Contacto</a>
-          <a href="#conoce" class="text-gray-800 font-medium hover:text-amber-600 transition">Conocenos</a>
-          <a href="#reserva" class="text-gray-800 font-medium hover:text-amber-600 transition">Reserva</a>
+        @for (link of links(); track link.link) {
+          <a
+            [href]="link.link"
+            [class]="link.clases">
+            {{link.label}}
+          </a>
+      }
       </div>
 
       <!-- Mobile Button -->
