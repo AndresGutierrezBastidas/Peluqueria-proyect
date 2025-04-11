@@ -12,6 +12,6 @@ import { LandingWelcomeComponent } from '../../components/landing-page/landing-w
   templateUrl: './landing-page.component.html',
   styleUrl: './landing-page.component.css'
 })
-export class LandingPageComponent {
+export default class LandingPageComponent {
 
 }
