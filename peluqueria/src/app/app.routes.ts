@@ -10,7 +10,6 @@ export const routes: Routes = [
             loadComponent:()=>import('@paginas/about-us-page/about-us-page.component')
         }
     ]
-    
     },
     {
     path: '**',
