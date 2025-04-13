@@ -1,12 +1,18 @@
-import { Component, output, EventEmitter, input, signal } from '@angular/core';
+
+import { DatePipe } from '@angular/common';
+import { Component, output, EventEmitter, input, signal, LOCALE_ID } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+
+
 
 @Component({
   selector: 'modal-reserva-hora',
-  imports: [ReactiveFormsModule,FormsModule],
+  imports: [ReactiveFormsModule,FormsModule, DatePipe],
   templateUrl: './modal-reserva-hora.component.html',
   styleUrl: './modal-reserva-hora.component.css',
+  providers: [{provide: [LOCALE_ID], useValue: 'es'}]
 })
+
 export class ModalReservaHoraComponent {
 
   /* Variables para el modal */
@@ -51,7 +57,7 @@ export class ModalReservaHoraComponent {
 
   // Estado del calendario y seleccion
   showCalendar = false;
-  selectedDate = signal(Temporal); // Fecha actual en formato YYYY-MM-DD
+  selectedDate = signal(new Date()); // Fecha actual en formato YYYY-MM-DD
   selectedTime: string | null = null;
 
   // Metodos
@@ -59,13 +65,18 @@ export class ModalReservaHoraComponent {
     this.showCalendar = !this.showCalendar;
   }
 
-  onDateChange(event: Event){
+  onDateChange(event: Event) {
     const input = event.target as HTMLInputElement;
-    console.log(input.value); 
-    this.selectedDate.update(date => new Date(input.value));
-    /* console.log('Fecha seleccionada:', this.selectedDate); */
+    const dateString = input.value; // "YYYY-MM-DD"
+
+    // Convierte a Date (sin usar toLocaleDateString)
+    const [year, month, day] = dateString.split('-').map(Number);
+    const date = new Date(year, month - 1, day); // ¡Meses son 0-indexados!
+
+    this.selectedDate.update(() => date); // Guarda como Date
     this.showCalendar = false;
-  }
+
+}
 
   selectTime(time: string){
     this.selectedTime = time;
@@ -76,7 +87,7 @@ export class ModalReservaHoraComponent {
   }
 
   nextStep() {
-    console.log('Fecha seleccionada:', this.selectedDate);
+    console.log('Fecha seleccionada:', this.onDateChange);
     console.log('Hora seleccionada:', this.selectedTime);
   }
 
