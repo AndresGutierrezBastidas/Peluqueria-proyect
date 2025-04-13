@@ -8,8 +8,9 @@ import { ProfesionalesComponent } from './profesionales/profesionales.component'
   selector: 'modal-reserva-hora',
   imports: [ReactiveFormsModule,FormsModule,CalendarComponent,HorasComponent,ProfesionalesComponent],
   templateUrl: './modal-reserva-hora.component.html',
-  styleUrl: './modal-reserva-hora.component.css',
+  styleUrl: './modal-reserva-hora.component.css'
 })
+
 export class ModalReservaHoraComponent {
 
   /* Variables para el modal */
