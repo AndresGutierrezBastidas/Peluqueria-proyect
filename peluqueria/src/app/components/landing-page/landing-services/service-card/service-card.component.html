@@ -1,44 +1,24 @@
 
-<h1 class="text-5xl font-bold mb-5 mt-10 mb-5">Servicios</h1>
-<div class="flex flex-row justify-between">
+<h1 class="text-5xl font-bold mb-5 mt-10">Servicios</h1>
 
-    <div class="max-w-xs bg-white rounded-lg shadow-sm  ">
-        <a href="#">
-            <img class="rounded-t-lg" src="https://iscemp.edu.pe/wp-content/uploads/2023/11/barberia-iscemp-curso-03-1024x694.jpg" alt="" />
-        </a>
-        <div class="p-5">
-            <a href="#">
-                <h5 class="mb-2 text-2xl font-bold tracking-tight light:text-black ">Corte de pelo</h5>
-            </a>
-            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Corte de pelo adecuado a tu forma de craneo</p>
-        </div>
+<div class="flex flex-wrap justify-center gap-4">
+  <div *ngFor="let card of visibleCards" class="max-w-xs bg-white rounded-lg shadow-sm">
+    <a href="#">
+      <img class="rounded-t-lg" [src]="card.image" alt="" />
+    </a>
+    <div class="p-5">
+      <a href="#">
+        <h5 class="mb-2 text-2xl font-bold tracking-tight">{{ card.title }}</h5>
+      </a>
+      <p class="mb-3 font-normal text-gray-700">{{ card.description }}</p>
     </div>
-
-    <div class="max-w-xs bg-white rounded-lg shadow-sm ">
-        <a href="#">
-            <img class="rounded-t-lg" src="https://iscemp.edu.pe/wp-content/uploads/2023/11/barberia-iscemp-curso-03-1024x694.jpg" alt="" />
-        </a>
-        <div class="p-5">
-            <a href="#">
-                <h5 class="mb-2 text-2xl font-bold tracking-tight light:text-black ">Corte de cabello</h5>
-            </a>
-            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
-        </div>
-    </div>
-
-    <div class="max-w-xs bg-white rounded-lg shadow-sm ">
-        <a href="#">
-            <img class="rounded-t-lg" src="https://iscemp.edu.pe/wp-content/uploads/2023/11/barberia-iscemp-curso-03-1024x694.jpg" alt="" />
-        </a>
-        <div class="p-5">
-            <a href="#">
-                <h5 class="mb-2 text-2xl font-bold tracking-tight light:text-black ">Asesoría facial</h5>
-            </a>
-            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
-        </div>
-    </div>
+  </div>
 </div>
-<div class="flex justify-center pt-6">
-    <button type="submit" class="bg-black text-white size-fit rounded-lg w-28 h-12 text-base">Ver más</button>
+
+<!-- Botón solo si hay más de 3 tarjetas -->
+<div class="flex justify-center pt-6" *ngIf="cards.length > 4">
+  <button (click)="toggleShow()" class="bg-black text-white size-fit rounded-lg w-28 h-12 text-base">
+    {{ showAll ? 'Ver menos' : 'Ver más' }}
+  </button>
 </div>
 
