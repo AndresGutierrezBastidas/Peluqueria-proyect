@@ -68,13 +68,11 @@ export class ModalReservaHoraComponent {
     const input = event.target as HTMLInputElement;
     const dateString = input.value; // "YYYY-MM-DD"
 
-    // Convierte a Date (sin usar toLocaleDateString)
-    const [year, month, day] = dateString.split('-').map(Number);
-    const date = new Date(year, month - 1, day); // ¡Meses son 0-indexados!
+    // Convierte a Date (sin usar toLocaleDateString) ["2002", "12", "04"]
+    const date = new Date(dateString.replace(/-/g, '/'));
 
     this.selectedDate.update(() => date); // Guarda como Date
     this.showCalendar = false;
-
 }
 
   selectTime(time: string){
