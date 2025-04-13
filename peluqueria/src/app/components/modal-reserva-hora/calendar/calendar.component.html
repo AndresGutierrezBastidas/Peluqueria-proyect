@@ -1,0 +1,10 @@
+<!-- Contenido del Calendario -->
+<div class="flex items-center justify-between max-w-md mx-auto mb-6">
+    <!-- Calendario Emergente -->
+    <input type="date"
+    [value]="selectedDate() | date: 'yyyy-MM-dd'"
+    (change)="onDateChange($event)"
+    class="border border-gray-300 rounded-lg p-2">
+    
+</div>
+
