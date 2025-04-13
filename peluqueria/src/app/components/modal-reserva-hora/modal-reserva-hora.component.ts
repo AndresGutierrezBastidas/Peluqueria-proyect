@@ -9,8 +9,7 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
   selector: 'modal-reserva-hora',
   imports: [ReactiveFormsModule,FormsModule, DatePipe],
   templateUrl: './modal-reserva-hora.component.html',
-  styleUrl: './modal-reserva-hora.component.css',
-  providers: [{provide: [LOCALE_ID], useValue: 'es'}]
+  styleUrl: './modal-reserva-hora.component.css'
 })
 
 export class ModalReservaHoraComponent {
