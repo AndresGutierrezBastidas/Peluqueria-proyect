@@ -1,5 +1,5 @@
+
 <!-- Horarios -->
-<div class="grid grid-cols-3 gap-4 w-full max-w-md mx-auto">
     @for(time of times; track time){
     <input 
     [class.bg-blue-500]="selectedTime === time"
@@ -13,4 +13,4 @@
     type="text" placeholder="{{time}}" readonly
     >
     }
-</div>
+

@@ -10,20 +10,17 @@ import { Component, output, signal } from '@angular/core';
 export class CalendarComponent {
   // Estado del calendario y seleccion
   showCalendar = false;
-  selectedDate = signal(new Date().toLocaleDateString('es-Cl')); // Fecha actual en formato YYYY-MM-DD
-  date = output<String>();
-
-  // Metodos
-  toggleCalendar() {
-    this.showCalendar = !this.showCalendar;
-  }
+  selectedDate = signal(new Date());
+  date = output<Date>();
 
   onDateChange(event: Event) {
     const input = event.target as HTMLInputElement;
-    console.log(input.value);
-    this.selectedDate.update(date => input.value);
-    this.date.emit(this.selectedDate().toString());
-    console.log('Fecha seleccionada:', this.selectedDate);
+    const dateString = input.value; // "YYYY-MM-DD"
+    // Convierte a Date (sin usar toLocaleDateString) ["2002", "12", "04"]
+    const date = new Date(dateString.replace(/-/g, '/'));
+
+    this.selectedDate.update(() => date); // Guarda como Date
+    this.date.emit(date); // Emite la fecha seleccionada
     this.showCalendar = false;
   }
 }
