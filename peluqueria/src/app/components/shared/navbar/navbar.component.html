@@ -11,6 +11,11 @@
         <a [routerLink]="['/Conocenos']" class="text-gray-800 font-medium hover:text-amber-600 transition">Conocenos</a>
       </div>
 
+      <modal-reserva-hora 
+      [isVisible]="isModalVisible" 
+      (close)="closeModal()" 
+      ></modal-reserva-hora>
+
       <!-- Mobile Button -->
       <div class="md:hidden">
           <button class="text-gray-800">

@@ -1,0 +1,6 @@
+<!-- Contenido del Calendario -->
+    <input type="date"
+    [value]="selectedDate() | date: 'yyyy-MM-dd'"
+    (change)="onDateChange($event)"
+    class="border border-gray-300 rounded-lg p-2">
+

@@ -1,0 +1,13 @@
+<div class="flex-col items-center text-center justify-center">
+    <div class="text-4xl font-bold">
+        <p>{{ this.fechaReserva().getDate() }} 
+            de 
+            {{ this.fechaReserva().toLocaleString('es-Es',{month: 'long'}).charAt(0).toUpperCase() +
+            this.fechaReserva().toLocaleString('es-Es',{month: 'long'}).slice(1) }} 
+        </p>
+    </div>
+    <div class="text-2xl font-bold">
+        <p>{{ horaReserva() }}</p>
+        <p>{{ profesional().nombre }}</p>
+    </div>
+</div>
