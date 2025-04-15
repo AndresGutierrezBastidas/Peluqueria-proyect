@@ -21,6 +21,7 @@ model Cliente {
   email    String @unique @db.VarChar(255)
 
   usuario Usuario?
+  Reserva Reserva[]
 }
 
 model Usuario {
@@ -31,7 +32,6 @@ model Usuario {
 
   cliente Cliente @relation(fields: [clientId], references: [id])
 
-  reserva Reserva[]
 }
 
 model Reserva {
@@ -42,10 +42,10 @@ model Reserva {
   total        Int
 
   servicioId Int @unique
-  usuarioId  Int @unique
+  clienteId  Int @unique
 
   servicio Servicio @relation(fields: [servicioId], references: [id])
-  usuario  Usuario  @relation(fields: [usuarioId], references: [id])
+  cliente  Cliente  @relation(fields: [clienteId], references: [id])
 }
 
 model Servicio {
