@@ -64,7 +64,6 @@ model Servicio {
 model Hora {
   id            Int    @id @default(autoincrement())
   hora          String @db.VarChar(10)
-  isReserved    Boolean @default(false)
   
   Reserva     Reserva[]
 }
