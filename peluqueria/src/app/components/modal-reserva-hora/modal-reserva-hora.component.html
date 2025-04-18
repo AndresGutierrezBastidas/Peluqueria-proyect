@@ -3,56 +3,65 @@
 @if (isVisible()){
 <!-- Fondo -->
 <div class="fixed inset-0 bg-gray-800/75 flex items-center justify-center z-50 text-gray-800">
+    
     <!-- Modal -->
-    <div class="bg-white rounded-lg shadow-lg p-6 w-[90%] max-w-4xl">
+    <div class="bg-white rounded-lg shadow-lg p-3.5 w-[52%] max-w-4xl">
+        <div class="flex flex-col place-items-end">
+            <!-- Boton para cerrar modal -->
+        <p (click)="closeModal()" class="-translate-x-5 text-xl text-gray-600 font-extrabold cursor-pointer hover:text-gray-800">
+        X
+        </p>
+        </div>
+        
         @if(pasoActual === 1){
         <!-- Titulo -->
-        <h2 class="text-3xl text-center mb-6 ">Seleccione un profesional</h2>
+        <h2 class="text-3xl flex-col text-center mb-6 ">Seleccione un profesional</h2>
 
-        <!-- Profesionales -->
-        <profesionales (profesional)="selectedProf($event)" class="flex justify-center space-x-4 mb-6"></profesionales>
+        <form>
+            <!-- Profesionales -->
+            <profesionales (profesional)="selectedProf($event)" class="flex justify-center space-x-4 mb-6"></profesionales>
 
-        <!-- Separador -->
-        <hr class="border-gray-300 mb-6">
+            <!-- Separador -->
+            <hr class="border-gray-300 mb-6 w-[90%] m-auto">
 
-        <!-- Fecha Seleccionada -->
-        <p class="text-2xl font-medium text-gray-800 text-center flex-grow mb-5 first-letter:uppercase">
-            {{ date | date:'MMMM'}}
-            <br>
-            {{ date | date:'dd'}}
-        </p>
+            <!-- Fecha Seleccionada -->
+            <p class="text-2xl font-medium text-gray-800 text-center flex-row mb-5 first-letter:uppercase">
+                {{ this.date() | date:'MMMM'}}
+                <br>
+                {{ this.date() | date:'dd'}}
+            </p>
 
 
-        <div class="flex justify-center mb-4">
+            <div class="flex flex-row justify-end mb-4">
 
-            <!-- Calendario -->
-            <calendar class="flex items-center justify-between max-w-md mx-auto mb-6" (date)="onDateSelected($event)">
-            </calendar>
+                <!-- Calendario -->
+                <calendar 
+                class="flex flex-col justify-center max-w-md m-auto" 
+                (date)="onDateSelected($event)">
+                </calendar>
 
-            <!-- Horas -->
-            <horas (hora)="selectedHour($event)" class="grid grid-cols-3 gap-4 w-full max-w-md mx-auto"></horas>
-        </div>
-
+                <!-- Horas -->
+                <horas (hora)="selectedHour($event)" class="flex-col w-md px-5 border-s-1"></horas>
+            </div>
+        </form>
         <!-- Botones de accion -->
-        <div class="flex justify-end mt-6">
+        <div class="flex flex-row justify-end mt-6 -translate-x-5 text-end">
 
             <!-- Boton para pasar a los datos del que reserva -->
-            <button (click)="nextStep()"
-                class="bg-gray-800 mr-2 w-35 text-white px-2 py-2 rounded-lg hover:bg-gray-700">
+            <button 
+            [class.disabled]="this.reservaForm.get('formPrimerPaso')?.status === 'INVALID'"
+            [class.cursor-not-allowed]="this.reservaForm.get('formPrimerPaso')?.status === 'INVALID'"
+            [class.opacity-50]="this.reservaForm.get('formPrimerPaso')?.status === 'INVALID'"
+            (click)="nextStep()"
+                class="bg-gray-800 w-30 text-white py-2 rounded-lg hover:bg-gray-700">
                 Siguiente
             </button>
-
-            <!-- Boton para cerrar modal -->
-            <button (click)="closeModal()" class="bg-red-500 w-20 text-white px-2 py-2 rounded-lg hover:bg-red-600">
-                Cerrar
-            </button>
-
         </div>
         }
 
         @else if(pasoActual === 2){
         <!-- Titulo -->
-        <h2 class="text-3xl text-center mb-6">Confirma la hora</h2>
+        <h2 class="text-3xl text-center mb-6 font-bold">Confirma la hora</h2>
 
         <div class="grid grid-cols-2 items-center justify-center">
             <!-- Form Datos -->
@@ -61,9 +70,9 @@
 
             <!-- Datos servicio -->
             <datos-servicio 
-            [fechaReserva]="date" 
-            [horaReserva]="hora" 
-            [profesional]="profesional"
+            [fechaReserva]="this.date()" 
+            [horaReserva]="this.hora()" 
+            [profesional]="this.profesional()"
             class="flex justify-center space-x-4">
             </datos-servicio>
         </div>

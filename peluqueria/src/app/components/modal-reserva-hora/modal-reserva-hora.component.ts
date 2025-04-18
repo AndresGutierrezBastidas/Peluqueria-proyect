@@ -1,4 +1,4 @@
-import { Component, output, EventEmitter, input} from '@angular/core';
+import { Component, output, EventEmitter, input, signal} from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CalendarComponent } from './primer-paso/calendar/calendar.component';
 import { HorasComponent } from './primer-paso/horas/horas.component';
@@ -6,6 +6,7 @@ import { ProfesionalesComponent } from './primer-paso/profesionales/profesionale
 import { DatePipe } from '@angular/common';
 import { DatosServicioComponent } from './segundo-paso/datos-servicio/datos-servicio.component';
 import { FormDatosComponent } from './segundo-paso/form-datos/form-datos.component';
+import { ModalServiceService } from '@servicios/landingServices/modal-services/modal-service.service';
 
 @Component({
   selector: 'modal-reserva-hora',
@@ -15,7 +16,6 @@ import { FormDatosComponent } from './segundo-paso/form-datos/form-datos.compone
   templateUrl: './modal-reserva-hora.component.html',
   styleUrl: './modal-reserva-hora.component.css'
 })
-
 export class ModalReservaHoraComponent {
 
   /* Variables para el modal */
@@ -24,39 +24,47 @@ export class ModalReservaHoraComponent {
   pasoActual: number = 1;
 
   /* Mostrar fecha escogida */
-  date: Date = new Date();
-  hora: string = '';
+  date = signal<Date>(new Date());
+  hora = signal<string>('');
 
   /* Profesional y servicio */
-  profesional: any = null;
+  profesional = signal<any>(null);
 
   /* Form reserva */
   reservaForm = new FormGroup({
-    fechaReserva: new FormControl(Date,Validators.required),
-    horaReserva: new FormControl('', Validators.required),
-  })
-
-  /* Form Cliente */
-  clienteForm = new FormGroup({
-    nombre: new FormControl('', Validators.required),
-    telefono: new FormControl('', Validators.required),
-    correo: new FormControl('', [Validators.required, Validators.email]),
+    formPrimerPaso: new FormGroup({
+      fechaReserva: new FormControl<string>('',Validators.required),
+      horaReserva: new FormControl<string>('', Validators.required),
+      profesional: new FormControl<any>(null , Validators.required)
+    }),
+    formSegundoPaso: new FormGroup({
+      nombre: new FormControl<string>('', Validators.required),
+      apellido: new FormControl<string>('', Validators.required),
+      telefono: new FormControl<number>(0 ,Validators.required),
+      correo: new FormControl<string>('', [Validators.required, Validators.email]),
+    })
   })
 
   onDateSelected(date: Date){
-    this.date = date;
+    this.date.set(date);
+    console.log(date);
+    this.reservaForm.get('formPrimerPaso.fechaReserva')?.setValue(this.date().toLocaleString('es-CL'));
   }
-  
+
   selectedHour(hora: string){
-    this.hora = hora;
+    this.hora.set(hora);
+    this.reservaForm.get('formPrimerPaso.horaReserva')?.setValue(this.hora());
   }
 
   selectedProf(profesional: any){
-    this.profesional = profesional;
+    this.profesional.set(profesional);
+    this.reservaForm.get('formPrimerPaso.profesional')?.setValue(this.profesional());
   }
 
   nextStep() {
-    this.pasoActual++;
+    if (this.reservaForm.get('formPrimerPaso')?.status === 'VALID'){
+      this.pasoActual++;
+    }
   }
 
   closeModal() {

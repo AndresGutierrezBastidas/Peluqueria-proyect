@@ -12,10 +12,7 @@
           <button (click)="openModal()" class="text-gray-800 font-medium hover:text-amber-600 transition">Reserva</button>
       </div>
 
-      <modal-reserva-hora 
-      [isVisible]="isModalVisible" 
-      (close)="closeModal()" 
-      ></modal-reserva-hora>
+      
 
       <!-- Mobile Button -->
       <div class="md:hidden">
@@ -27,3 +24,8 @@
       </div>
   </div>
 </nav>
+
+<modal-reserva-hora 
+      [isVisible]="isModalVisible" 
+      (close)="closeModal()" 
+      ></modal-reserva-hora>
