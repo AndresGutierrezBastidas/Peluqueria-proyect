@@ -1,6 +1,6 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, DestroyRef, inject, OnDestroy, OnInit, output, signal } from '@angular/core';
 import { register, SwiperContainer } from 'swiper/element/bundle';
-import {  SwiperOptions } from 'swiper/types';
+import { SwiperOptions } from 'swiper/types';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import { Subject, takeUntil } from 'rxjs';
 // register Swiper custom elements
@@ -16,15 +16,14 @@ register();
 })
 export class ProfesionalesComponent {
   selectedProfessional: any = null;
-  groupedProfessionals: any[][] = [];
+  groupedProfessionals = signal<any[][]>([]);
   currentGroupIndex: number = 0;
   profesional = output<any>();
   destroyed = new Subject<void>();
   
   swiperElement = signal<SwiperContainer | null>(null)
 
-
-  professionals: any[] = [{
+  professionals = signal<any[]>([{
     id: 1,
     nombre: 'Juan\nPerez',
   }, {
@@ -58,13 +57,12 @@ export class ProfesionalesComponent {
   {
     id: 10,
     nombre: 'Carla\nHerrera'
-  },
-  ];
+  }
+  ]);
 
   constructor(private responsive: BreakpointObserver) {
 
     this.Breakpoint()
-    
     
     const swiperContainer = document.querySelector('.swiper-container')
     const swiperOptions: SwiperOptions = {
@@ -78,14 +76,11 @@ export class ProfesionalesComponent {
       this.swiperElement.set(swiperContainer as SwiperContainer)
       this.swiperElement()?.initialize
     }
-
-    
-  }
-  
+  } 
 
   Breakpoint(){
-    this.responsive.observe("grid-cols-5").pipe(takeUntil(this.destroyed)).subscribe(state => {
-      if(!state.matches){
+    this.responsive.observe("(width >= 768px)").pipe(takeUntil(this.destroyed)).subscribe(state => {
+      if(state.matches){
         console.log("Arreglo de 5")
         this.groupProfessionals(5);
       }else{
@@ -95,33 +90,18 @@ export class ProfesionalesComponent {
     })
   }
 
-
-
-
-
   selectProfessional(professional: any) {
     this.selectedProfessional = professional;
     this.profesional.emit(this.selectedProfessional);
   }
 
-
   groupProfessionals(qty: number) {
     const groupSize = qty;
-    for (let i = 0; i < this.professionals.length; i += groupSize) {
-      this.groupedProfessionals.push(this.professionals.slice(i, i + groupSize)
-      ); //Pushea el grupo de profesionales en este arreglo, que deberían ser 5 por cada slide.
+    this.groupedProfessionals.set([]);
+    for (let i = 0; i < this.professionals().length; i += groupSize) {
+    this.groupedProfessionals.update((prev) => [...prev, this.professionals().slice(i, i + groupSize)]);
+    //Pushea el grupo de profesionales en este arreglo, que deberían ser 5 por cada slide.
     }
   }
 
-  carruselIzquierda() {
-    if(this.currentGroupIndex > 0) {
-      this.currentGroupIndex--;
-    }
-  }
-
-  carruselDerecha() {
-    if(this.currentGroupIndex < this.groupedProfessionals.length - 1) {
-      this.currentGroupIndex++;
-    }
-  }
 }
