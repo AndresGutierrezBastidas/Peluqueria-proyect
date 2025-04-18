@@ -6,7 +6,7 @@ import { Component, input } from '@angular/core';
   templateUrl: './admin-tabla.component.html',
   styleUrl: './admin-tabla.component.css'
 })
-export class AdminTablaComponent {
+export default class AdminTablaComponent {
   titulos = input.required<string[]>()
   datos = input.required<[]>()
 }
