@@ -2,10 +2,10 @@
 
 @if (isVisible()){
 <!-- Fondo -->
-<div class="fixed inset-0 bg-gray-800/75 flex items-center justify-center z-50 text-gray-800">
+<div class="fixed mx-auto inset-0 bg-gray-800/75 flex items-center justify-center px-4 z-50 text-gray-800">
     
     <!-- Modal -->
-    <div class="bg-white rounded-lg shadow-lg p-3.5 w-[52%] max-w-4xl">
+    <div class="bg-white rounded-lg shadow-lg p-4 w-full max-w-[750px]">
         <div class="flex flex-col place-items-end">
             <!-- Boton para cerrar modal -->
         <p (click)="closeModal()" class="-translate-x-5 text-xl text-gray-600 font-extrabold cursor-pointer hover:text-gray-800">
@@ -15,11 +15,11 @@
         
         @if(pasoActual === 1){
         <!-- Titulo -->
-        <h2 class="text-3xl flex-col text-center mb-6 ">Seleccione un profesional</h2>
+        <h2 class="text-3xl text-center mb-6 ">Seleccione un profesional</h2>
 
         <form>
             <!-- Profesionales -->
-            <profesionales (profesional)="selectedProf($event)" class="flex justify-center space-x-4 mb-6"></profesionales>
+            <profesionales (profesional)="selectedProf($event)"></profesionales>
 
             <!-- Separador -->
             <hr class="border-gray-300 mb-6 w-[90%] m-auto">
