@@ -10,6 +10,16 @@ import { ModalReservaHoraComponent } from '@componentes/modal-reserva-hora/modal
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent {
+  
+  isModalVisible: boolean = false;
+
+  openModal() {
+    this.isModalVisible = true;
+  }
+
+  closeModal() {
+    this.isModalVisible = false;
+  }
 
 
 
