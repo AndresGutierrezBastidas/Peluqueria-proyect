@@ -1,80 +1,50 @@
 
 
 
-<div class="flex flex-col items-center ">
-<div class=" relative  mt-40">
-  <table class="  w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+<div class="flex flex-col items-center mt-40">
+  <button type="submit" class= "bg-black  text-white size-fit rounded-lg w-28 h-12 text-base">Nuevo</button>
+<div class=" relative mt-10">
+  <div class="flex flex-row bg-gray-100 p-3 ">
+
+    <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-sm rounded-lg block w-full p-2.5 " placeholder="Nombre" required />
+    <input type="text" id="first_name" class=" ml-1 bg-gray-50 border border-gray-300 text-sm rounded-lg block w-full p-2.5 " placeholder="Apellido" required />
+    <input type="text" id="first_name" class=" ml-1 bg-gray-50 border border-gray-300 text-sm rounded-lg block w-full p-2.5 " placeholder="Status" required />
+    <input type="text" id="first_name" class=" ml-1 bg-gray-50 border border-gray-300 text-sm rounded-lg block w-full p-2.5 " placeholder="Hola" required />
+  </div>
+  <table class=" mt-10  w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
       <thead class="text-md text-gray-700 uppercase bg-gray-50 ">
           <tr>
+
+            @for (titulos of titulos(); track $index) {
               <th scope="col" class="px-6 py-3">
-                  Product name
-              </th>
-              <th scope="col" class="px-6 py-3">
-                  Color
-              </th>
-              <th scope="col" class="px-6 py-3">
-                  Category
-              </th>
-              <th scope="col" class="px-6 py-3">
-                  Price
-              </th>
-              <th scope="col" class="px-6 py-3  ">
-                Editar
-              </th>
+                {{titulos}}
+            </th>
+            }
+
           </tr>
       </thead>
       <tbody>
+        @for (dato of datos(); track $index) {
           <tr class="bg-gray-100">
-              <th scope="row" class="px-6 py-4 font-medium  whitespace-nowrap text-gray-800">
-                  Apple MacBook Pro 17"
-              </th>
-              <td class="px-6 py-4 text-gray-800">
-                  Silver
-              </td>
-              <td class="px-6 py-4 text-gray-800">
-                  Laptop
-              </td>
-              <td class="px-6 py-4 text-gray-800">
-                  $2999
-              </td>
-              <td class="px-4 py-2">
-                <span class="material-symbols-outlined text-gray-800">open_in_new</span>
-              </td>
-          </tr>
-          <tr class="bg-gray-100">
-            <th scope="row" class="px-6 py-4 font-medium  whitespace-nowrap text-gray-800">
-                Apple MacBook Pro 17"
-            </th>
-            <td class="px-6 py-4 text-gray-800">
-                Silver
-            </td>
-            <td class="px-6 py-4 text-gray-800">
-                Laptop
-            </td>
-            <td class="px-6 py-4 text-gray-800">
-                $2999
-            </td>
+            @for (item of dato; track $index) {
+              @if ($index === 0) {
+                <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap text-gray-800">
+                  {{item}}
+                </th>
+              } @else {
+                <td class="px-6 py-4 text-gray-800">
+                  {{item}}
+                </td>
+              }
+            }
             <td class="px-4 py-2">
               <span class="material-symbols-outlined text-gray-800">open_in_new</span>
             </td>
-        </tr>
-        <tr class="bg-gray-100">
-          <th scope="row" class="px-6 py-4 font-medium  whitespace-nowrap text-gray-800">
-              Apple MacBook Pro 17"
-          </th>
-          <td class="px-6 py-4 text-gray-800">
-              Silver
-          </td>
-          <td class="px-6 py-4 text-gray-800">
-              Laptop
-          </td>
-          <td class="px-6 py-4 text-gray-800">
-              $2999
-          </td>
-          <td class="px-4 py-2">
-            <span class="material-symbols-outlined text-gray-800">open_in_new</span>
-          </td>
-      </tr>
+          </tr>
+        }
+
+        <!-- Ejemplos estáticos (opcional, puedes eliminarlos si no los necesitas) -->
+        
       </tbody>
   </table>
 </div>

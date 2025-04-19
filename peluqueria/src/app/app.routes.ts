@@ -10,7 +10,7 @@ export const routes: Routes = [
     },
     {
       path: 'tabla',
-      loadComponent: () => import('@componentes/admin-pov/admin-tabla/admin-tabla.component'),
+      loadComponent: () => import('@paginas/admin-pov/admin-profesionales/admin-profesionales.component'),
     },
     {
     path: '**',
