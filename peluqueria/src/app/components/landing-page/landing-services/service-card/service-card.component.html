@@ -2,14 +2,10 @@
 <h1 class="text-5xl font-bold mb-5 mt-10">Servicios</h1>
 
 <div class="flex flex-wrap justify-center gap-4">
-  <div *ngFor="let card of visibleCards" class="max-w-xs bg-white rounded-lg shadow-sm">
-    <a href="#">
+  <div *ngFor="let card of visibleCards" class="max-w-xs bg-white rounded-lg shadow-sm" (click)="openModal()">
       <img class="rounded-t-lg" [src]="card.image" alt="" />
-    </a>
     <div class="p-5">
-      <a href="#">
         <h5 class="mb-2 text-2xl font-bold tracking-tight">{{ card.title }}</h5>
-      </a>
       <p class="mb-3 font-normal text-gray-700">{{ card.description }}</p>
     </div>
   </div>
@@ -22,3 +18,7 @@
   </button>
 </div>
 
+<modal-reserva-hora 
+      [isVisible]="isModalVisible"
+      (close)="closeModal()" 
+      ></modal-reserva-hora>
