@@ -3,19 +3,24 @@
 @if (isVisible()){
 <!-- Fondo -->
 <div class="fixed mx-auto inset-0 bg-gray-800/75 flex items-center justify-center px-4 z-50 text-gray-800">
-    
+
     <!-- Modal -->
-    <div class="bg-white rounded-lg shadow-lg p-4 w-full max-w-[750px]">
+    <div class="bg-white rounded-lg shadow-lg p-4 w-90 
+    md:w-full max-w-[750px] md:h-full overflow-x-auto"
+    [class.max-h-[770px]]="pasoActual === 1"
+    [class.md:max-h-[500px]]="pasoActual === 2"
+    >
         <div class="flex flex-col place-items-end">
             <!-- Boton para cerrar modal -->
-        <p (click)="closeModal()" class="-translate-x-5 text-xl text-gray-600 font-extrabold cursor-pointer hover:text-gray-800">
-        X
-        </p>
+            <p (click)="closeModal()"
+                class="md:-translate-x-5 text-xl text-gray-600 font-semibold md:font-extrabold cursor-pointer hover:text-gray-800">
+                X
+            </p>
         </div>
-        
+
         @if(pasoActual === 1){
         <!-- Titulo -->
-        <h2 class="text-3xl text-center mb-6 ">Seleccione un profesional</h2>
+        <h2 class="text-2xl md:text-3xl text-center mb-6 ">Seleccione un profesional</h2>
 
         <form>
             <!-- Profesionales -->
@@ -32,27 +37,24 @@
             </p>
 
 
-            <div class="flex flex-row justify-end mb-4">
+            <div class="flex flex-col md:flex-row justify-end mb-4">
 
                 <!-- Calendario -->
-                <calendar 
-                class="flex flex-col justify-center max-w-md m-auto" 
-                (date)="onDateSelected($event)">
+                <calendar class="flex flex-col justify-center max-w-md m-auto" (date)="onDateSelected($event)">
                 </calendar>
 
                 <!-- Horas -->
-                <horas (hora)="selectedHour($event)" class="flex-col w-md px-5 border-s-1"></horas>
+                <horas (hora)="selectedHour($event)"
+                    class="flex-col place-items-center w-full md:w-md px-5 md:border-s-1 mt-5 md:mt-0"></horas>
             </div>
         </form>
         <!-- Botones de accion -->
-        <div class="flex flex-row justify-end mt-6 -translate-x-5 text-end">
+        <div class="flex flex-row justify-center md:justify-end mt-6  md:-translate-x-5 md:text-end">
 
             <!-- Boton para pasar a los datos del que reserva -->
-            <button 
-            [class.disabled]="this.reservaForm.get('formPrimerPaso')?.status === 'INVALID'"
-            [class.cursor-not-allowed]="this.reservaForm.get('formPrimerPaso')?.status === 'INVALID'"
-            [class.opacity-50]="this.reservaForm.get('formPrimerPaso')?.status === 'INVALID'"
-            (click)="nextStep()"
+            <button [class.disabled]="this.reservaForm.get('formPrimerPaso')?.status === 'INVALID'"
+                [class.cursor-not-allowed]="this.reservaForm.get('formPrimerPaso')?.status === 'INVALID'"
+                [class.opacity-50]="this.reservaForm.get('formPrimerPaso')?.status === 'INVALID'" (click)="nextStep()"
                 class="bg-gray-800 w-30 text-white py-2 rounded-lg hover:bg-gray-700">
                 Siguiente
             </button>
@@ -63,23 +65,20 @@
         <!-- Titulo -->
         <h2 class="text-3xl text-center mb-6 font-bold">Confirma la hora</h2>
 
-        <div class="grid grid-cols-2 items-center justify-center">
+        <div class="grid grid-cols-1 md:grid-cols-2 items-center justify-center">
             <!-- Form Datos -->
-            <form-datos class="border-e-2 border-gray-400">
+            <form-datos class="md:border-e-2 border-gray-400">
             </form-datos>
 
             <!-- Datos servicio -->
-            <datos-servicio 
-            [fechaReserva]="this.date()" 
-            [horaReserva]="this.hora()" 
-            [profesional]="this.profesional()"
-            class="flex justify-center space-x-4">
+            <datos-servicio [fechaReserva]="this.date()" [horaReserva]="this.hora()" [profesional]="this.profesional()"
+                class="flex justify-center md:space-x-4">
             </datos-servicio>
         </div>
 
 
         <!-- Botones de accion -->
-        <div class="flex justify-end mt-6">
+        <div class="flex justify-center md:justify-end mt-6">
 
             <!-- Boton para pasar a los datos del que reserva -->
             <button (click)="confirmar()"

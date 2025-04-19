@@ -1,4 +1,4 @@
-import { Component, output, EventEmitter, input, signal} from '@angular/core';
+import { Component, output, EventEmitter, input, signal, inject} from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CalendarComponent } from './primer-paso/calendar/calendar.component';
 import { HorasComponent } from './primer-paso/horas/horas.component';
@@ -17,6 +17,8 @@ import { ModalServiceService } from '@servicios/landingServices/modal-services/m
   styleUrl: './modal-reserva-hora.component.css'
 })
 export class ModalReservaHoraComponent {
+  /* Servicios Injectados */
+  private modalService = inject(ModalServiceService);
 
   /* Variables para el modal */
   isVisible = input<boolean>();

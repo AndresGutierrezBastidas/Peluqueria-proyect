@@ -3,9 +3,7 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class ModalServiceService {
+export class ProfesionalesService {
 
-  constructor() { 
-    
-  }
+  constructor() { }
 }

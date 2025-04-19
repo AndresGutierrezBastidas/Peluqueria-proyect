@@ -1,4 +1,5 @@
-<div class="grid grid-cols-3 gap-4 mx-w-lg">
+<div class="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-4 max-w-full md:max-w-100 md:mx-w-lg 
+    text-center">
     <!-- Horarios -->
     @for(time of times; track time){
     <input 
@@ -8,7 +9,7 @@
     [class.bg-gray-100]="selectedTime() !== time" 
     [class.text-gray-800]="selectedTime() !== time"
     [class.hover:bg-gray-200]="selectedTime() !== time"
-    class="bg-gray-100 text-gray-800 text-center px-4 py-2 rounded-lg cursor-pointer"
+    class="bg-gray-100 text-gray-800 text-center px-2 py-2 md:px-4 md:py-2 rounded-lg cursor-pointer"
     (click)="selectTime(time)"
     type="text" placeholder="{{time}}" readonly>
     }
