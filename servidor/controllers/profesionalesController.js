@@ -8,3 +8,5 @@ export async function profesionales(req, res) {
         console.log('Error al obtener los profesionales', e.message)
     }
 }
+
+

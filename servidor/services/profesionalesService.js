@@ -1,8 +1,13 @@
 import prisma from '../lib/prisma.js';
 
 export async function getProfesionales() {
-    const profesionales = await prisma.profesional.findMany();
-    return profesionales
+    try {
+        const profesionales = await prisma.profesional.findMany();
+        return profesionales;
+    } catch (error) {
+        console.error("Error en getProfesionales:", error.message);
+        throw error; // Propaga el error al controlador
+    }
 }
 
 
