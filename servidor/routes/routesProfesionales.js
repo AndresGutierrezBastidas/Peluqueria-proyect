@@ -1,8 +1,9 @@
 import { Router } from "express";
-import { profesionales } from "../controllers/profesionalesController.js";
+import { obtenerProfesionales } from "../controllers/profesionalesController.js";
+
 const router = Router();
 
 
-router.get('/getProf', profesionales);
+router.get('/getProf', obtenerProfesionales);
 
 export default router;

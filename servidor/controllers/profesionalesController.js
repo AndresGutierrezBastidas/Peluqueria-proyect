@@ -1,9 +1,9 @@
 import { getProfesionales } from "../services/profesionalesService.js"
 
-export async function profesionales(req, res) {
+export async function obtenerProfesionales(req, res) {
     try{
-       const getProfs =  await getProfesionales()
-       res.json(getProfs)
+       const response =  await getProfesionales()
+       res.json(response)
     }catch(e){
         console.log('Error al obtener los profesionales', e.message)
     }
