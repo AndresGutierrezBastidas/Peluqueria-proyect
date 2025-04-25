@@ -6,8 +6,15 @@
 
   
 .carousel-item {
+<<<<<<< HEAD
     transition: transform 0.5s ease-in-out;
   }
 
 
 
+=======
+    scroll-snap-align: start;
+    flex: none;
+    transition: transform 0.5s ease-in-out;
+  }
+>>>>>>> 03e3d63859c28e1ed03c0cf999d0ab8bb9c0c11c

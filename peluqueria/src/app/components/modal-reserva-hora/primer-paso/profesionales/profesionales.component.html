@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
     <swiper-container class="w-full" #swiper>
         @for(group of groupedProfessionals(); track $index) {
@@ -25,3 +26,39 @@
         <button (click)="swiper.swiper.slidePrev()">Anterior</button>
         <button (click)="swiper.swiper.slideNext()">Siguiente</button>
       </div>
+=======
+<div class="flex items-center">
+    <!-- Icono de flecha izquierda -->
+    <div class="flex flex-col justify-center items-center w-10">
+        <button class="text-3xl cursor-pointer"
+        (click)="carruselIzquierda()"
+        [disabled]="currentGroupIndex === 0">
+            ❮
+        </button>
+    </div>
+    <div class="carousel carousel-center justify-between w-full space-x-4 overflow-x-auto scrollbar-hide">
+        @for(professional of groupedProfessionals[currentGroupIndex]; track professional.id){
+        <div class="flex flex-col items-center w-28 text-center cursor-pointer carousel-item"
+            (click)="selectProfessional(professional)">
+            <img src="https://s3-alpha-sig.figma.com/img/4d12/44c8/cd23f93c1a9d40fe9c4df8756afecddf?Expires=1745193600&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=QgHdOs1Jj-xo~UAVUIC63sb3UcZCCfZRJcIml25MSlJnPfrDf4P-QeUQ6Wu3fQPzpwC7-Fcgv-NgBWhtVnj-Izqdz01UaS3vxg7xPQoJsba5xbT8ZdAPzlylgOhM7ar4SlfFZDjN-phfQoPlj3FuLKG0w-RwXNfXGzd6iRP6X9msZSZofEZhhscwrssf4aJeE69PuEcjgHrtax6tkoreoT~a-eq1fCtqnuL7W7Bf-iWUa3h2Ik20QvxI-7UcAe5UCzH0AJ3c1PCYmSvYZoa~vaFtEdWJvLiWWheEE9PYQaN-LNSQYHrhmGAwmwzSvSt7-64CqpFXIrvjdg-sA7BZeg__"
+                alt="Profesional"
+                class="w-22 h-22 rounded-full mb-2 border border-gray-300 transition duration-400 ease-in-out"
+                [class.border-amber-600]="selectedProfessional === professional"
+                [class.border-gray-300]="selectedProfessional !== professional">
+            <p class=" font-bold text-gray-600 mt-2 transition duration-400 ease-in-out whitespace-pre-wrap"
+                [class.text-amber-600]="selectedProfessional === professional"
+                [class.text-gray-600]="selectedProfessional !== professional">{{professional.nombre}}</p>
+        </div>
+        }
+
+    </div>
+    <!-- Icono de flecha Derecha -->
+    <div class="flex flex-col justify-center items-center w-10">
+        <button class="text-3xl cursor-pointer"
+        (click)="carruselDerecha()"
+        [disabled]="currentGroupIndex === groupedProfessionals.length - 1">
+            ❯
+        </button>
+    </div>
+</div>
+>>>>>>> 03e3d63859c28e1ed03c0cf999d0ab8bb9c0c11c
