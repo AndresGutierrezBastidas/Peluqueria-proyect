@@ -13,6 +13,10 @@ export const routes: Routes = [
       loadComponent: () => import('@paginas/admin-pov/admin-profesionales/admin-profesionales.component'),
     },
     {
+      path: 'side-bar',
+      loadComponent: () => import('@componentes/admin-pov/side-bar/side-bar.component'),
+    },
+    {
     path: '**',
     redirectTo: 'Inicio'
     }
