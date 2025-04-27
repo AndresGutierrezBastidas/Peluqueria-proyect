@@ -6,7 +6,7 @@ export async function obtenerServicios(req, res) {
        const response =  await getServicios();
        res.json(response)
     }catch(e){
-        console.log('Error al obtener los profesionales', e.message)
+        console.log('Error al obtener los Servicios', e.message);
     }
 }
 
