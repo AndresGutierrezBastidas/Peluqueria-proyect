@@ -16,7 +16,7 @@ export class ServiciosLandingService {
   servicios = signal<Servicio[]>([]);
 
   obtenerServicios():Servicio[]{
-    this.http.get(`${this.url}/getServices`).subscribe((resp:any) => {
+    this.http.get<Servicio[]>(`${this.url}/getServices`).subscribe((resp:Servicio[]) => {
       const servicios = resp.map((item:Servicio) => (
         {
           descripcion: item.descripcion,
@@ -26,7 +26,7 @@ export class ServiciosLandingService {
           profesionalId: item.profesionalId
         })
       )
-      
+
 
       this.servicios.update((list) => [
         ...list,...servicios
