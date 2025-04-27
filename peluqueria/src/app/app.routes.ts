@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import path from 'path';
 
 export const routes: Routes = [
     {
@@ -15,6 +16,13 @@ export const routes: Routes = [
     {
       path: 'side-bar',
       loadComponent: () => import('@componentes/admin-pov/side-bar/side-bar.component'),
+      children: [
+        {
+          path: 'tabla',
+          loadComponent: () =>
+          import('@paginas/admin-pov/admin-profesionales/admin-profesionales.component'),
+        }
+      ]
     },
     {
     path: '**',
