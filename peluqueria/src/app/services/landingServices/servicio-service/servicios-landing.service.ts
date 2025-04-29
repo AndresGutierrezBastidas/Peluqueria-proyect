@@ -8,10 +8,7 @@ import { map, tap } from 'rxjs';
   providedIn: 'root',
 })
 export class ServiciosLandingService {
-  constructor() {
-    this.obtenerServicios();
-  }
-
+  
   http = inject(HttpClient);
   url = 'http://localhost:3000/api/services';
 

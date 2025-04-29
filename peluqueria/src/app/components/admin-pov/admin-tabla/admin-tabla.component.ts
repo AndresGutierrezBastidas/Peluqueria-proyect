@@ -1,4 +1,6 @@
-import { Component, input, signal } from '@angular/core';
+import { Component, inject, input, signal } from '@angular/core';
+import { Profesional } from '@interfaces/profesionales.interface';
+import { ProfesionalesService } from '@servicios/landingServices/profesionales-services/profesionales.service';
 
 @Component({
   selector: 'admin-tabla',
@@ -10,7 +12,28 @@ export default class AdminTablaComponent {
   // titulos = input.required<string[]>()
   // datos = input.required<[]>()
 
-  titulos = signal(['nombre','apellido','estado','rut', 'editar']);
-  datos = signal([['Miguel','Pérez','activo','222'],['Sebastian','Silva','inactivo','333'],['Andres','Bastidas','activo','444']]);
+
+
+
+
+  profesionales = inject(ProfesionalesService)
+  datos = signal<Profesional[]>(this.profesionales.obtenerProfesionales());
+
+  constructor(){
+    console.log(this.datos())
+    this.titulos.update((titulos) => [...titulos,'editar'])
+  }
+
+  table = signal(false);
+
+  isVisible(open:boolean){
+    this.table.set(open);
+  }
+
+  titulos = signal(this.datos().length > 0 ? Object.keys(this.datos()[0]) : []);
+
+
+  // titulos = signal(['id','nombre','editar']);
+
 
 }

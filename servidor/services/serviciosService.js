@@ -13,7 +13,6 @@ export async function getServicios() {
 
 export async function createServicio(info) {
     try {
-        console.error(info);
         const servicio = await prisma.servicio.create({data:info});
         return servicio;
     } catch (error) {
