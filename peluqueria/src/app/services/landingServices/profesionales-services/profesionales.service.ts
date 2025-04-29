@@ -1,4 +1,4 @@
-import { Profesional } from './../../../interfaces/profesionales.interface';
+import { Profesional } from '@interfaces/profesionales.interface';
 import { HttpClient } from '@angular/common/http';
 import { effect, inject, Injectable, signal } from '@angular/core';
 

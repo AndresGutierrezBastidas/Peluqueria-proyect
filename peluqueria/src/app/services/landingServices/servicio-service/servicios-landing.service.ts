@@ -1,4 +1,4 @@
-import { Servicio } from './../../../interfaces/servicio.interface';
+import { Servicio } from '@interfaces/servicio.interface';
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 
