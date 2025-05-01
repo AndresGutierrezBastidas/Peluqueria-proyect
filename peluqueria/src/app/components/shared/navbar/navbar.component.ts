@@ -9,8 +9,6 @@ import { RouterLink } from '@angular/router';
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent {
-<<<<<<< HEAD
-=======
   
   isModalVisible: boolean = false;
 
@@ -21,6 +19,5 @@ export class NavbarComponent {
   closeModal() {
     this.isModalVisible = false;
   }
->>>>>>> presentacion
 
 }

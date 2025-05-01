@@ -1,8 +1,12 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, DestroyRef, inject, OnDestroy, OnInit, output, signal } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, output, signal } from '@angular/core';
 import { register, SwiperContainer } from 'swiper/element/bundle';
 import { SwiperOptions } from 'swiper/types';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import { Subject, takeUntil } from 'rxjs';
+import { ProfesionalesService } from '@servicios/landingServices/profesionales-services/profesionales.service';
+import { Profesional } from '@interfaces/profesionales.interface';
+import { toSignal } from '@angular/core/rxjs-interop';
+
 // register Swiper custom elements
 register();
 
@@ -15,15 +19,19 @@ register();
   styleUrl: './profesionales.component.css',
 })
 export class ProfesionalesComponent {
-  selectedProfessional: any = null;
   groupedProfessionals = signal<any[][]>([]);
+
   currentGroupIndex: number = 0;
   profesional = output<any>();
   destroyed = new Subject<void>();
-  
+
+  private profS = inject(ProfesionalesService);
+  professionals = signal<Profesional[]>(this.profS.obtenerProfesionales()); 
+
+
   swiperElement = signal<SwiperContainer | null>(null)
 
-  professionals = signal<any[]>([{
+  /* professionals = signal<any[]>([{
     id: 1,
     nombre: 'Juan\nPerez',
   }, {
@@ -58,7 +66,7 @@ export class ProfesionalesComponent {
     id: 10,
     nombre: 'Carla\nHerrera'
   }
-  ]);
+  ]); */
 
   constructor(private responsive: BreakpointObserver) {
 
@@ -91,17 +99,18 @@ export class ProfesionalesComponent {
   }
 
   selectProfessional(professional: any) {
-    this.selectedProfessional = professional;
-    this.profesional.emit(this.selectedProfessional);
+    this.profesional.emit(professional);
   }
 
   groupProfessionals(qty: number) {
     const groupSize = qty;
+    const profsAr = this.profS.profesionales();
     this.groupedProfessionals.set([]);
-    for (let i = 0; i < this.professionals().length; i += groupSize) {
-    this.groupedProfessionals.update((prev) => [...prev, this.professionals().slice(i, i + groupSize)]);
+    for (let i = 0; i < profsAr.length; i += groupSize) {
+    this.groupedProfessionals.update((prev) => [...prev, profsAr.slice(i, i + groupSize)]);
     //Pushea el grupo de profesionales en este arreglo, que deberían ser 5 por cada slide.
     }
+    
   }
 
 }
