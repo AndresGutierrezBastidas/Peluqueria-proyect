@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ServiceCardComponent } from './service-card/service-card.component';
+import { ServiciosLandingService } from '@servicios/landingServices/servicio-service/servicios-landing.service';
+import { Servicio } from '@interfaces/servicio.interface';
+
 
 
 @Component({
@@ -9,5 +12,7 @@ import { ServiceCardComponent } from './service-card/service-card.component';
   styleUrl: './landing-services.component.css'
 })
 export class LandingServicesComponent {
-
+  serviciosService = inject(ServiciosLandingService);
+  servicios =  signal<Servicio[]>(this.serviciosService.obtenerServicios());
+  
 }

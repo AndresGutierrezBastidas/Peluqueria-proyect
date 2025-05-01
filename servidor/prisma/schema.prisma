@@ -55,6 +55,7 @@ model Servicio {
   precio        Int
   descripcion   String @db.VarChar(500)
   profesionalId Int    @unique
+  // foto Int @db.VarChar(1)
 
   profesional Profesional @relation(fields: [profesionalId], references: [id])
   Reserva     Reserva[]

@@ -6,7 +6,11 @@ export async function getProfesionales() {
         return profesionales;
     } catch (error) {
         console.error("Error en getProfesionales:", error.message);
+<<<<<<< HEAD
         throw error; // Propaga el error al controlador
+=======
+        throw error;
+>>>>>>> presentacion
     }
 }
 
