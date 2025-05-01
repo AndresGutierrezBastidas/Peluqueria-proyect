@@ -1,99 +1,101 @@
 <!-- Modal de Reserva de hora -->
 
-@if (isVisible()){
-<!-- Fondo -->
-<div class="fixed mx-auto inset-0 bg-gray-800/75 flex items-center justify-center px-4 z-50 text-gray-800">
 
-    <!-- Modal -->
-    <div class="bg-white rounded-lg shadow-lg p-4 w-90 
-    md:w-full max-w-[750px] md:h-full overflow-x-auto"
-    [class.max-h-[770px]]="pasoActual === 1"
-    [class.md:max-h-[500px]]="pasoActual === 2"
-    >
-        <div class="flex flex-col place-items-end">
-            <!-- Boton para cerrar modal -->
-            <p (click)="closeModal()"
-                class="md:-translate-x-5 text-xl text-gray-600 font-semibold md:font-extrabold cursor-pointer hover:text-gray-800">
-                X
-            </p>
-        </div>
-
-        @if(pasoActual === 1){
-        <!-- Titulo -->
-        <h2 class="text-2xl md:text-3xl text-center mb-6 ">Seleccione un profesional</h2>
-
-        <form>
-            <!-- Profesionales -->
-            <profesionales (profesional)="selectedProf($event)"></profesionales>
-
-            <!-- Separador -->
-            <hr class="border-gray-300 mb-6 w-[90%] m-auto">
-
-            <!-- Fecha Seleccionada -->
-            <p class="text-2xl font-medium text-gray-800 text-center flex-row mb-5 first-letter:uppercase">
-                {{ this.date() | date:'MMMM'}}
-                <br>
-                {{ this.date() | date:'dd'}}
-            </p>
-
-
-            <div class="flex flex-col md:flex-row justify-end mb-4">
-
-                <!-- Calendario -->
-                <calendar class="flex flex-col justify-center max-w-md m-auto" (date)="onDateSelected($event)">
-                </calendar>
-
-                <!-- Horas -->
-                <horas (hora)="selectedHour($event)"
-                    class="flex-col place-items-center w-full md:w-md px-5 md:border-s-1 mt-5 md:mt-0"></horas>
+    @if (isVisible()){
+    <!-- Fondo -->
+    <div class="fixed mx-auto inset-0 bg-gray-800/75 flex items-center justify-center px-4 z-50 text-gray-800">
+    
+        <!-- Modal -->
+        <div class="bg-white rounded-lg shadow-lg p-4 w-90 
+        md:w-full max-w-[750px] md:h-full overflow-x-auto"
+        [class.max-h-[770px]]="pasoActual === 1"
+        [class.md:max-h-[500px]]="pasoActual === 2"
+        >
+            <div class="flex flex-col place-items-end">
+                <!-- Boton para cerrar modal -->
+                <p (click)="closeModal()"
+                    class="md:-translate-x-5 text-xl text-gray-600 font-semibold md:font-extrabold cursor-pointer hover:text-gray-800">
+                    X
+                </p>
             </div>
-        </form>
-        <!-- Botones de accion -->
-        <div class="flex flex-row justify-center md:justify-end mt-6  md:-translate-x-5 md:text-end">
-
-            <!-- Boton para pasar a los datos del que reserva -->
-            <button [class.disabled]="this.reservaForm.get('formPrimerPaso')?.status === 'INVALID'"
-                [class.cursor-not-allowed]="this.reservaForm.get('formPrimerPaso')?.status === 'INVALID'"
-                [class.opacity-50]="this.reservaForm.get('formPrimerPaso')?.status === 'INVALID'" (click)="nextStep()"
-                class="bg-gray-800 w-30 text-white py-2 rounded-lg hover:bg-gray-700">
-                Siguiente
-            </button>
+    
+            @if(pasoActual === 1){
+            <!-- Titulo -->
+            <h2 class="text-2xl md:text-3xl text-center mb-6 ">Seleccione un profesional</h2>
+    
+            <form>
+                <!-- Profesionales -->
+                <profesionales (profesional)="selectedProf($event)"></profesionales>
+    
+                <!-- Separador -->
+                <hr class="border-gray-300 mb-6 w-[90%] m-auto">
+    
+                <!-- Fecha Seleccionada -->
+                <p class="text-2xl font-medium text-gray-800 text-center flex-row mb-5 first-letter:uppercase">
+                    {{ this.date() | date:'MMMM'}}
+                    <br>
+                    {{ this.date() | date:'dd'}}
+                </p>
+    
+    
+                <div class="flex flex-col md:flex-row justify-end mb-4">
+    
+                    <!-- Calendario -->
+                    <calendar class="flex flex-col justify-center max-w-md m-auto" (date)="onDateSelected($event)">
+                    </calendar>
+    
+                    <!-- Horas -->
+                    <horas (hora)="selectedHour($event)"
+                        class="flex-col place-items-center w-full md:w-md px-5 md:border-s-1 mt-5 md:mt-0"></horas>
+                </div>
+            </form>
+            <!-- Botones de accion -->
+            <div class="flex flex-row justify-center md:justify-end mt-6  md:-translate-x-5 md:text-end">
+    
+                <!-- Boton para pasar a los datos del que reserva -->
+                <button [class.disabled]="this.reservaForm.get('formPrimerPaso')?.status === 'INVALID'"
+                    [class.cursor-not-allowed]="this.reservaForm.get('formPrimerPaso')?.status === 'INVALID'"
+                    [class.opacity-50]="this.reservaForm.get('formPrimerPaso')?.status === 'INVALID'" (click)="nextStep()"
+                    class="bg-gray-800 w-30 text-white py-2 rounded-lg hover:bg-gray-700">
+                    Siguiente
+                </button>
+            </div>
+            }
+    
+            @else if(pasoActual === 2){
+            <!-- Titulo -->
+            <h2 class="text-3xl text-center mb-6 font-bold">Confirma la hora</h2>
+    
+            <div class="grid grid-cols-1 md:grid-cols-2 items-center justify-center">
+                <!-- Form Datos -->
+                <form-datos class="md:border-e-2 border-gray-400">
+                </form-datos>
+    
+                <!-- Datos servicio -->
+                <datos-servicio [fechaReserva]="this.date()" [horaReserva]="this.hora()" [profesional]="this.profesional()"
+                    class="flex justify-center md:space-x-4">
+                </datos-servicio>
+            </div>
+    
+    
+            <!-- Botones de accion -->
+            <div class="flex justify-center md:justify-end mt-6">
+    
+                <!-- Boton para pasar a los datos del que reserva -->
+                <button (click)="confirmar()"
+                    class="bg-gray-800 mr-2 w-35 text-white px-2 py-2 rounded-lg hover:bg-gray-700">
+                    Confirmar
+                </button>
+    
+                <!-- Boton para cerrar modal -->
+                <button (click)="previousStep()" class="bg-red-500 w-20 text-white px-2 py-2 rounded-lg hover:bg-red-600">
+                    Volver
+                </button>
+    
+            </div>
+            }
+    
         </div>
-        }
-
-        @else if(pasoActual === 2){
-        <!-- Titulo -->
-        <h2 class="text-3xl text-center mb-6 font-bold">Confirma la hora</h2>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 items-center justify-center">
-            <!-- Form Datos -->
-            <form-datos class="md:border-e-2 border-gray-400">
-            </form-datos>
-
-            <!-- Datos servicio -->
-            <datos-servicio [fechaReserva]="this.date()" [horaReserva]="this.hora()" [profesional]="this.profesional()"
-                class="flex justify-center md:space-x-4">
-            </datos-servicio>
-        </div>
-
-
-        <!-- Botones de accion -->
-        <div class="flex justify-center md:justify-end mt-6">
-
-            <!-- Boton para pasar a los datos del que reserva -->
-            <button (click)="confirmar()"
-                class="bg-gray-800 mr-2 w-35 text-white px-2 py-2 rounded-lg hover:bg-gray-700">
-                Confirmar
-            </button>
-
-            <!-- Boton para cerrar modal -->
-            <button (click)="previousStep()" class="bg-red-500 w-20 text-white px-2 py-2 rounded-lg hover:bg-red-600">
-                Volver
-            </button>
-
-        </div>
-        }
-
     </div>
-</div>
-}
+    }
+
