@@ -2,7 +2,8 @@ import { Servicio } from '@interfaces/servicio.interface';
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 
-import { map, tap } from 'rxjs';
+import { tap } from 'rxjs';
+import { adapter } from '@adapter/commonAdapter';
 
 @Injectable({
   providedIn: 'root',
@@ -16,15 +17,7 @@ export class ServiciosLandingService {
 
   obtenerServicios(){
     this.http.get<Servicio[]>(`${this.url}/getServices`).subscribe((resp:Servicio[]) => {
-      const servicios = resp.map((item:Servicio) => (
-        {
-          descripcion: item.descripcion,
-          id: item.id,
-          nombre: item.nombre,
-          precio: item.precio,
-          profesionalId: item.profesionalId
-        })
-      )
+      const servicios = adapter(resp)
 
 
       this.servicios.update((list) => [

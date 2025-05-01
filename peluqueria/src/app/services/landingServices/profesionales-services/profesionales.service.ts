@@ -1,6 +1,7 @@
 import { Profesional } from '@interfaces/profesionales.interface';
 import { HttpClient } from '@angular/common/http';
 import { effect, inject, Injectable, signal } from '@angular/core';
+import { adapter } from '@adapter/commonAdapter';
 
 
 @Injectable({
@@ -24,10 +25,7 @@ export class ProfesionalesService {
     this.http
       .get<Profesional[]>(`${this.url}/getProf`)
       .subscribe((resp: Profesional[]) => {
-        const profesionales = resp.map((item: Profesional) => ({
-          id: item.id,
-          nombre: item.nombre,
-        }));
+        const profesionales = adapter(resp)
         this.profesionales.update((lista) => [...lista, ...profesionales]);
       });
 
