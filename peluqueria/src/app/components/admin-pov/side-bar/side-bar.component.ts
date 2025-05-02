@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { RouterLink, RouterOutlet } from '@angular/router';
+
 
 @Component({
   selector: 'side-bar',
-  imports: [RouterOutlet], 
+  imports: [RouterLink],
   templateUrl: './side-bar.component.html',
   styleUrl: './side-bar.component.css'
 })
