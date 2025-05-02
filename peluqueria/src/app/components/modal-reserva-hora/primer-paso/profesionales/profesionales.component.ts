@@ -26,7 +26,7 @@ export class ProfesionalesComponent {
   destroyed = new Subject<void>();
 
   profS = inject(ProfesionalesService);
-  professionals: Signal<Profesional[] | undefined> = toSignal(this.profS.obtenerProfesionales()); 
+  professionals: Signal<Profesional[] | undefined> = toSignal(this.profS.obtenerProfesionales(), { initialValue: undefined}); 
 
 
   swiperElement = signal<SwiperContainer | null>(null)
@@ -107,11 +107,12 @@ export class ProfesionalesComponent {
   groupProfessionals(qty: number) {
     const groupSize = qty;
     this.groupedProfessionals.set([]);
-    for (let i = 0; i < this.professionals.length; i += groupSize) {
-    this.groupedProfessionals.update((prev) => [...prev, this.professionals()!.slice(i, i + groupSize)]);
-    //Pushea el grupo de profesionales en este arreglo, que deberían ser 5 por cada slide.
-    }
-    
+    if(this.professionals()){
+      for (let i = 0; i < this.professionals()!.length; i += groupSize) {
+      this.groupedProfessionals.update((prev) => [...prev, this.professionals()!.slice(i, i + groupSize)]);
+      //Pushea el grupo de profesionales en este arreglo, que deberían ser 5 por cada slide.
+      }
+    }    
   }
 
 }

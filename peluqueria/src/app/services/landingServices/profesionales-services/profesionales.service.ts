@@ -11,17 +11,19 @@ export class ProfesionalesService {
   constructor() {
   }
 
+  http = inject(HttpClient);
+  private url = 'http://localhost:3000/api/profesionales';
+  profesionales = signal<Profesional[]>([]);
+
 
   getProfesionales = effect(() => {
     this.obtenerProfesionales()
   })
 
-  http = inject(HttpClient);
-  url = 'http://localhost:3000/api/profesionales';
-  profesionales = signal<Profesional[]>([]);
+  
 
   obtenerProfesionales(): Observable<Profesional[]>{
-    return this.http.get<Profesional[]>(`${this.url}/getProf`)
+    return this.http.get<Profesional[]>(`${this.url}/getProf`);
   }
   
 }
