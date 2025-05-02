@@ -1,6 +1,7 @@
 import { Profesional } from '@interfaces/profesionales.interface';
 import { HttpClient } from '@angular/common/http';
 import { effect, inject, Injectable, signal } from '@angular/core';
+import { Observable } from 'rxjs';
 
 
 @Injectable({
@@ -8,8 +9,6 @@ import { effect, inject, Injectable, signal } from '@angular/core';
 })
 export class ProfesionalesService {
   constructor() {
-    this.obtenerProfesionales();
-    console.log(this.obtenerProfesionales())
   }
 
 
@@ -21,18 +20,8 @@ export class ProfesionalesService {
   url = 'http://localhost:3000/api/profesionales';
   profesionales = signal<Profesional[]>([]);
 
-  obtenerProfesionales():Profesional[]{
-    this.http.get<Profesional[]>(`${this.url}/getProf`)
-      .subscribe((resp: Profesional[]) => {
-        const profs = resp.map((item: Profesional) => ({
-          id: item.id,
-          nombre: item.nombre,
-        }));
-        this.profesionales.update((lista) => [...lista, ...profs]);
-        
-      });
-
-      
-      return this.profesionales()
+  obtenerProfesionales(): Observable<Profesional[]>{
+    return this.http.get<Profesional[]>(`${this.url}/getProf`)
   }
+  
 }

@@ -1,4 +1,5 @@
-import { Component, inject, input, signal } from '@angular/core';
+import { Component, inject, input, Signal, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { Profesional } from '@interfaces/profesionales.interface';
 import { ProfesionalesService } from '@servicios/landingServices/profesionales-services/profesionales.service';
 
@@ -17,7 +18,7 @@ export default class AdminTablaComponent {
 
 
   profesionales = inject(ProfesionalesService)
-  datos = signal<Profesional[]>(this.profesionales.obtenerProfesionales());
+  datos: Signal<Profesional[] | undefined> = toSignal(this.profesionales.obtenerProfesionales());
 
   constructor(){
     console.log(this.datos())
@@ -30,7 +31,7 @@ export default class AdminTablaComponent {
     this.table.set(open);
   }
 
-  titulos = signal(this.datos().length > 0 ? Object.keys(this.datos()[0]) : []);
+  titulos = signal(this.datos.length > 0 ? Object.keys(this.datos()![0] ) : []);
 
 
   // titulos = signal(['id','nombre','editar']);

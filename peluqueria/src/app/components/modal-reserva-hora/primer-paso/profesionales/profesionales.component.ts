@@ -1,4 +1,4 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, output, signal } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, output, Signal, signal } from '@angular/core';
 import { register, SwiperContainer } from 'swiper/element/bundle';
 import { SwiperOptions } from 'swiper/types';
 import {BreakpointObserver} from '@angular/cdk/layout';
@@ -25,8 +25,8 @@ export class ProfesionalesComponent {
   profesional = output<any>();
   destroyed = new Subject<void>();
 
-  private profS = inject(ProfesionalesService);
-  professionals = signal<Profesional[]>(this.profS.obtenerProfesionales()); 
+  profS = inject(ProfesionalesService);
+  professionals: Signal<Profesional[] | undefined> = toSignal(this.profS.obtenerProfesionales()); 
 
 
   swiperElement = signal<SwiperContainer | null>(null)
@@ -70,6 +70,8 @@ export class ProfesionalesComponent {
 
   constructor(private responsive: BreakpointObserver) {
 
+    console.log(this.professionals())
+
     this.Breakpoint()
     
     const swiperContainer = document.querySelector('.swiper-container')
@@ -104,10 +106,9 @@ export class ProfesionalesComponent {
 
   groupProfessionals(qty: number) {
     const groupSize = qty;
-    const profsAr = this.profS.profesionales();
     this.groupedProfessionals.set([]);
-    for (let i = 0; i < profsAr.length; i += groupSize) {
-    this.groupedProfessionals.update((prev) => [...prev, profsAr.slice(i, i + groupSize)]);
+    for (let i = 0; i < this.professionals.length; i += groupSize) {
+    this.groupedProfessionals.update((prev) => [...prev, this.professionals()!.slice(i, i + groupSize)]);
     //Pushea el grupo de profesionales en este arreglo, que deberían ser 5 por cada slide.
     }
     
