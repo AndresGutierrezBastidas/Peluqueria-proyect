@@ -23,12 +23,9 @@
 
 
 
-@defer (when isModalVisible) {
   <modal-reserva-hora 
-        [isVisible]="isModalVisible"
-        (close)="closeModal()" 
-        ></modal-reserva-hora>
-
-}@placeholder {
+    @fadeIn
+    [isVisible]="isModalVisible"
+    (close)="closeModal()">
+  </modal-reserva-hora>
   <div class="hidden">Aquí está el modal</div>
-}
