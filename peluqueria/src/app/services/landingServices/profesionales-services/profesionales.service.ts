@@ -13,10 +13,6 @@ export class ProfesionalesService {
   }
 
 
-  getProfesionales = effect(() => {
-    this.obtenerProfesionales()
-  })
-
   http = inject(HttpClient);
   url = 'http://localhost:3000/api/profesionales';
   profesionales = signal<Profesional[]>([]);
