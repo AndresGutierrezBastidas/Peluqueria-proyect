@@ -1,4 +1,4 @@
-import { getReservas } from '../services/reservaService.js';
+import { getReservas, createReserva } from '../services/reservaService.js';
 
 
 
@@ -11,4 +11,13 @@ export async function obtenerReserva(req, res) {
     }
 }
 
-
+export async function crearReserva(req, res) {
+    try {
+        const reserva = req.body;
+        const crearReserva = await createReserva(reserva);
+        res.status(201).json(crearReserva)
+    } catch (error) {
+        console.log('Error al crear la Reserva', error.message);
+        res.status(500).json({  error: error.message });
+    }
+}

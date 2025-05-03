@@ -12,6 +12,24 @@ export async function getReservas() {
         throw error; 
         
     }
+}
 
+export async function createReserva(datos) {
+    try {
+        const reserva = await prisma.reserva.create({
+            data : {
+                fechaCreada: new Date().toISOString(),
+                fechaReserva: datos.fechaReserva,
+                total: datos.total,
+                servicioId: datos.servicioId,
+                clienteId: datos.clienteId,
+                horaId: datos.horaId
+            }
+        });
+        return reserva;
+    } catch (error) {
+        console.error("Error en createServicio:", datos , error.message);
+        throw error; 
+    }
     
 }
