@@ -4,7 +4,7 @@ import { ModalReservaHoraComponent } from '@componentes/modal-reserva-hora/modal
 
 @Component({
   selector: 'service-card',
-  imports: [CommonModule],
+  imports: [CommonModule, ModalReservaHoraComponent],
   standalone: true, // importante si es un componente independiente
   templateUrl: './service-card.component.html',
   styleUrl: './service-card.component.css'
@@ -13,6 +13,18 @@ export class ServiceCardComponent {
 
   /* Variables Cards */
   showAll = false;
+
+
+  isModalVisible: boolean = false;
+
+  openModal() {
+    this.isModalVisible = true;
+  }
+
+  closeModal() {
+    this.isModalVisible = false;
+  }
+
 
   cards = [
     {
