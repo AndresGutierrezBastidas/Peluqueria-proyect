@@ -7,6 +7,7 @@ import { DatePipe } from '@angular/common';
 import { DatosServicioComponent } from './segundo-paso/datos-servicio/datos-servicio.component';
 import { FormDatosComponent } from './segundo-paso/form-datos/form-datos.component';
 import { ModalServiceService } from '@servicios/landingServices/modal-services/modal-service.service';
+import { Profesional } from '@interfaces/profesionales.interface';
 
 @Component({
   selector: 'modal-reserva-hora',
@@ -22,6 +23,7 @@ export class ModalReservaHoraComponent {
 
   /* Variables para el modal */
   isVisible = input<boolean>();
+  service = input.required<any>();
   close = output<void>();
   pasoActual: number = 1;
 
