@@ -21,6 +21,8 @@ export class ModalReservaHoraComponent {
   /* Servicios Injectados */
   private modalService = inject(ModalServiceService);
 
+  
+
   /* Variables para el modal */
   isVisible = input<boolean>();
   service = input.required<any>();
