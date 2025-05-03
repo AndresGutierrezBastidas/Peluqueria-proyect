@@ -1,15 +1,13 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, output, Signal, signal } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, input, output, signal } from '@angular/core';
 import { register, SwiperContainer } from 'swiper/element/bundle';
 import { SwiperOptions } from 'swiper/types';
 import {BreakpointObserver} from '@angular/cdk/layout';
-import { Subject, takeUntil } from 'rxjs';
-import { ProfesionalesService } from '@servicios/landingServices/profesionales-services/profesionales.service';
+import {  Subject, takeUntil } from 'rxjs';
 import { Profesional } from '@interfaces/profesionales.interface';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { ProfesionalesService } from '@servicios/landingServices/profesionales-services/profesionales.service';
 
 // register Swiper custom elements
 register();
-
 
 @Component({
   selector: 'profesionales',
@@ -20,58 +18,37 @@ register();
 })
 export class ProfesionalesComponent {
   groupedProfessionals = signal<any[][]>([]);
-
+  
   currentGroupIndex: number = 0;
   profesional = output<any>();
   destroyed = new Subject<void>();
+  swiperElement = signal<SwiperContainer | null>(null);
 
-  profS = inject(ProfesionalesService);
-  professionals: Signal<Profesional[] | undefined> = toSignal(this.profS.obtenerProfesionales(), { initialValue: undefined}); 
+  profService = inject(ProfesionalesService)
+  sp = signal(NaN);
+  professionals = signal<Profesional[]>(this.profService.profesionales()); 
 
-
-  swiperElement = signal<SwiperContainer | null>(null)
-
-  /* professionals = signal<any[]>([{
-    id: 1,
-    nombre: 'Juan\nPerez',
-  }, {
-    id: 2,
-    nombre: 'Maria\nLopez',
-  }, {
-    id: 3,
-    nombre: 'Carlos\nSanchez',
-  }, {
-    id: 4,
-    nombre: 'Miguel\nPerez',
-  }, {
-    id: 5,
-    nombre: 'Ana\nTorres',
-  }, {
-    id: 6,
-    nombre: 'Joaquin\nValdebenito',
-  },
-  {
-    id: 7,
-    nombre: 'Pedro\nTorres'
-  },
-  {
-    id: 8,
-    nombre: 'Laura\nFernandez'
-  },
-  {
-    id: 9,
-    nombre: 'Diego\nVargas'
-  },
-  {
-    id: 10,
-    nombre: 'Carla\nHerrera'
+  /* Funciones Profesionales */
+  selectProfessional(professional: any) {
+    this.sp.set(professional.id);
+    this.profesional.emit(professional);
   }
-  ]); */
 
-  constructor(private responsive: BreakpointObserver) {
-
+  groupProfessionals(qty: number) {
+    const groupSize = qty;
+    this.groupedProfessionals.set([]);
     console.log(this.professionals())
+    if(this.professionals()){
+      for (let i = 0; i < this.professionals().length; i += groupSize) {
+      this.groupedProfessionals.update((prev) => [...prev, this.professionals().slice(i, i + groupSize)]);
+      //Pushea el grupo de profesionales en este arreglo, que deberían ser 5 por cada slide.
+      }
+    } 
+  }
 
+  /* Funciones Swiper */
+  constructor(private responsive: BreakpointObserver) {
+    console.log(`contructor = ${this.professionals()}`)
     this.Breakpoint()
     
     const swiperContainer = document.querySelector('.swiper-container')
@@ -100,19 +77,5 @@ export class ProfesionalesComponent {
     })
   }
 
-  selectProfessional(professional: any) {
-    this.profesional.emit(professional);
-  }
-
-  groupProfessionals(qty: number) {
-    const groupSize = qty;
-    this.groupedProfessionals.set([]);
-    if(this.professionals()){
-      for (let i = 0; i < this.professionals()!.length; i += groupSize) {
-      this.groupedProfessionals.update((prev) => [...prev, this.professionals()!.slice(i, i + groupSize)]);
-      //Pushea el grupo de profesionales en este arreglo, que deberían ser 5 por cada slide.
-      }
-    }    
-  }
-
+  
 }

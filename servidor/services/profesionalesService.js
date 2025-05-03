@@ -10,5 +10,18 @@ export async function getProfesionales() {
     }
 }
 
-
+export async function getProfServicio(id){
+    try {
+        const profServicio = await prisma.$queryRaw(prisma.sql`
+        SELECT p.* 
+        FROM profesional p 
+        JOIN servicio s ON (s.id = p.id)
+        WHERE s.id = ${id}
+        GROUP BY p.id`);
+        return profServicio
+    } catch (error) {
+        console.error("Error en getProfServicio", error.message);
+        throw error;
+    }
+}
 

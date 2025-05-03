@@ -9,10 +9,10 @@
                      <img src="https://s3-alpha-sig.figma.com/img/4d12/44c8/cd23f93c1a9d40fe9c4df8756afecddf?Expires=1745193600&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=QgHdOs1Jj-xo~UAVUIC63sb3UcZCCfZRJcIml25MSlJnPfrDf4P-QeUQ6Wu3fQPzpwC7-Fcgv-NgBWhtVnj-Izqdz01UaS3vxg7xPQoJsba5xbT8ZdAPzlylgOhM7ar4SlfFZDjN-phfQoPlj3FuLKG0w-RwXNfXGzd6iRP6X9msZSZofEZhhscwrssf4aJeE69PuEcjgHrtax6tkoreoT~a-eq1fCtqnuL7W7Bf-iWUa3h2Ik20QvxI-7UcAe5UCzH0AJ3c1PCYmSvYZoa~vaFtEdWJvLiWWheEE9PYQaN-LNSQYHrhmGAwmwzSvSt7-64CqpFXIrvjdg-sA7BZeg__"
                      alt="Profesional"
                        class="w-20 h-20 md:w-16 md:h-16 rounded-full border-2 mb-2"
-                       [class.border-amber-600]="professional()?.id === professional.id"
-                       [class.border-gray-300]="professional()?.id !== professional.id">
+                       [class.border-amber-600]="sp() === professional.id"
+                       [class.border-gray-300]="sp() !== professional.id">
                   <p class="text-md md:text-sm font-medium line-clamp-2 transition duration-300 ease-in-out whitespace-pre-wrap"
-                     [class.text-amber-600]="professional()?.id === professional.id">
+                     [class.text-amber-600]="sp() === professional.id">
                     {{professional.nombre}}
                   </p>
                 </div>
