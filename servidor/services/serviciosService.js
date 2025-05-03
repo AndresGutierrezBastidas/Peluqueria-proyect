@@ -1,9 +1,5 @@
 import prisma from '../lib/prisma.js';
 
-<<<<<<< HEAD
-=======
-
->>>>>>> ManuelAPIBD
 export async function getServicios() {
     try {
         const servicios = await prisma.servicio.findMany();
@@ -12,8 +8,6 @@ export async function getServicios() {
         console.error("Error en getHoras:", error.message);
         throw error; 
     }
-<<<<<<< HEAD
-=======
 }
 
 export async function createServicio(info) {
@@ -24,5 +18,4 @@ export async function createServicio(info) {
         console.error("Error en createServicio:",info, error.message);
         throw error; 
     }
->>>>>>> ManuelAPIBD
 }
