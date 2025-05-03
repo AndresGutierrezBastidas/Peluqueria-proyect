@@ -2,10 +2,7 @@
   <div class="w-full bg-white"> <!-- Ocupa 100% del viewport -->
     <div class="container mx-auto p-8 md:p-12 h-full ">
       <service-card (click)="openModal()" />
-      <modal-reserva-hora 
-      [isVisible]="isModalVisible()"
-      (close)="closeModal()"
-      [service]="servicios()"/>
+      <modal-reserva-hora [isVisible]="isModalVisible()"/>
     </div>
   </div>
 

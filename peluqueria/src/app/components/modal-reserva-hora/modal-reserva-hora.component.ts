@@ -25,7 +25,6 @@ export class ModalReservaHoraComponent {
 
   /* Variables para el modal */
   isVisible = input<boolean>();
-  service = input.required<any>();
   close = output<void>();
   pasoActual: number = 1;
 
