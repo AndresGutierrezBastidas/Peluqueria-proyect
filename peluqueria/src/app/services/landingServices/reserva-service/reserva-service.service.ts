@@ -3,17 +3,23 @@ import { inject, Injectable, signal } from '@angular/core';
 import { Reserva } from '@interfaces/reserva.interface';
 import { adapter } from '@adapter/commonAdapter';
 
+
+
+
 @Injectable({
   providedIn: 'root',
 })
 export class ReservaServiceService {
-  constructor() {}
+  constructor() {
+    this.obtenerReservas();
+  }
 
   http = inject(HttpClient);
   url = 'http://localhost:3000/api/reserva';
   reservas = signal<Reserva[]>([]);
+  
 
-  obtenerReservas(): Reserva[] {
+  obtenerReservas():void{
     this.http
       .get<Reserva[]>(`${this.url}/getReserva`)
       .subscribe((resp: Reserva[]) => {
@@ -21,7 +27,9 @@ export class ReservaServiceService {
         this.reservas.update((list) => [...list, ...reservas]);
 
       });
-      console.log(this.reservas());
-      return this.reservas();
+
   }
+
+
+
 }

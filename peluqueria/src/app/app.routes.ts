@@ -11,7 +11,7 @@ export const routes: Routes = [
     },
     {
       path: 'tabla',
-      loadComponent: () => import('@paginas/admin-pov/admin-profesionales/admin-profesionales.component'),
+      loadComponent: () => import('@paginas/admin-pov/admin-profesionales/admin-profesionales.component')
     },
     {
       path: 'side-bar',

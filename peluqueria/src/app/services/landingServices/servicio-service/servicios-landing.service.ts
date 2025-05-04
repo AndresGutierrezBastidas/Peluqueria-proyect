@@ -9,13 +9,18 @@ import { adapter } from '@adapter/commonAdapter';
   providedIn: 'root',
 })
 export class ServiciosLandingService {
-  
+
+  constructor(){
+    this.obtenerServicios();
+  }
+
   http = inject(HttpClient);
   url = 'http://localhost:3000/api/services';
 
+
   servicios = signal<Servicio[]>([]);
 
-  obtenerServicios(){
+  obtenerServicios():void{
     this.http.get<Servicio[]>(`${this.url}/getServices`).subscribe((resp:Servicio[]) => {
       const servicios = adapter(resp)
 
@@ -24,7 +29,6 @@ export class ServiciosLandingService {
         ...list,...servicios
       ]);
     });
-    return this.servicios();
   }
 
 
