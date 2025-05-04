@@ -1,10 +1,11 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, effect, inject, OnInit, output, signal } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, DestroyRef, effect, inject, OnInit, output, signal } from '@angular/core';
 import { register, SwiperContainer } from 'swiper/element/bundle';
 import { SwiperOptions } from 'swiper/types';
 import {BreakpointObserver} from '@angular/cdk/layout';
-import {  Subject, takeUntil } from 'rxjs';
+import {  pipe, Subject, takeUntil } from 'rxjs';
 import { Profesional } from '@interfaces/profesionales.interface';
 import { ProfesionalesService } from '@servicios/landingServices/profesionales-services/profesionales.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 // register Swiper custom elements
 register();
@@ -21,7 +22,7 @@ export class ProfesionalesComponent implements OnInit {
   
   currentGroupIndex: number = 0;
   profesional = output<any>();
-  destroyed = new Subject<void>();
+  destroyed = inject(DestroyRef);
   swiperElement = signal<SwiperContainer | null>(null);
   
   private profService = inject(ProfesionalesService)
@@ -46,7 +47,7 @@ export class ProfesionalesComponent implements OnInit {
   } 
   
   private loadProfessionals() {
-    this.profService.obtenerProfesionales().subscribe({
+    this.profService.obtenerProfesionales().pipe(takeUntilDestroyed(this.destroyed)).subscribe({
       next: (res) => {
         if (res.length > 0) {
           this.professionals.set(res);
@@ -96,7 +97,7 @@ export class ProfesionalesComponent implements OnInit {
   }
 
   private setUpBreakpointListener(){
-    this.responsive.observe("(width >= 768px)").pipe(takeUntil(this.destroyed)).subscribe(state => {
+    this.responsive.observe("(width >= 768px)").pipe(takeUntilDestroyed(this.destroyed)).subscribe(state => {
       this.handleBreakPoint(state.matches)
     })
   }
