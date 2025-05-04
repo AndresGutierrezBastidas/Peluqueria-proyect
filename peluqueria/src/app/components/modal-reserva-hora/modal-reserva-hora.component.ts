@@ -24,7 +24,7 @@ export class ModalReservaHoraComponent {
   
 
   /* Variables para el modal */
-  isVisible = input<boolean>(false);
+  isVisible = input<boolean>();
   close = output<void>();
   pasoActual: number = 1;
 

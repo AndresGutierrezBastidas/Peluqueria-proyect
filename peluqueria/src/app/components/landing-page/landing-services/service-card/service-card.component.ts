@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ModalReservaHoraComponent } from '@componentes/modal-reserva-hora/modal-reserva-hora.component';
 
 @Component({
   selector: 'service-card',
-  imports: [CommonModule, ModalReservaHoraComponent],
+  imports: [CommonModule],
   standalone: true, // importante si es un componente independiente
   templateUrl: './service-card.component.html',
   styleUrl: './service-card.component.css'

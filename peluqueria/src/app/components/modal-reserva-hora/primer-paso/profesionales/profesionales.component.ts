@@ -1,4 +1,4 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, input, output, signal } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, effect, inject, input, output, signal } from '@angular/core';
 import { register, SwiperContainer } from 'swiper/element/bundle';
 import { SwiperOptions } from 'swiper/types';
 import {BreakpointObserver} from '@angular/cdk/layout';
@@ -26,7 +26,8 @@ export class ProfesionalesComponent {
 
   profService = inject(ProfesionalesService)
   sp = signal(NaN);
-  professionals = signal<Profesional[]>(this.profService.profesionales()); 
+  professionals = signal<Profesional[]>([]);
+
 
   /* Funciones Profesionales */
   selectProfessional(professional: any) {
@@ -37,7 +38,6 @@ export class ProfesionalesComponent {
   groupProfessionals(qty: number) {
     const groupSize = qty;
     this.groupedProfessionals.set([]);
-    console.log(this.professionals())
     if(this.professionals()){
       for (let i = 0; i < this.professionals().length; i += groupSize) {
       this.groupedProfessionals.update((prev) => [...prev, this.professionals().slice(i, i + groupSize)]);
@@ -48,8 +48,15 @@ export class ProfesionalesComponent {
 
   /* Funciones Swiper */
   constructor(private responsive: BreakpointObserver) {
-    console.log(`contructor = ${this.professionals()}`)
-    this.Breakpoint()
+    
+    this.setUpBreakpointListener()
+    // Escuchar cambios en los profesionales del servicio
+    effect(() => {
+      console.log('Lol')
+      this.professionals.set(this.profService.profesionales());
+      this.applyBreakPoint() // Vuelve a agrupar cuando lleguen los datos
+    });
+    
     
     const swiperContainer = document.querySelector('.swiper-container')
     const swiperOptions: SwiperOptions = {
@@ -65,16 +72,22 @@ export class ProfesionalesComponent {
     }
   } 
 
-  Breakpoint(){
+  private setUpBreakpointListener(){
     this.responsive.observe("(width >= 768px)").pipe(takeUntil(this.destroyed)).subscribe(state => {
-      if(state.matches){
-        console.log("Arreglo de 5")
-        this.groupProfessionals(5);
-      }else{
-        console.log("Arreglo de 3")
-        this.groupProfessionals(3);
-      }
+      this.handleBreakPoint(state.matches)
     })
+  }
+
+  private handleBreakPoint(isLargeScreen: boolean){
+    const groupSize = isLargeScreen ? 5 : 3;
+    console.log(`Arreglo de ${groupSize}`)
+    this.groupProfessionals(groupSize)
+  }
+
+  private applyBreakPoint(){
+    const widthScreen = window.innerWidth;
+    const isScreenLarge = widthScreen >= 768;
+    this.handleBreakPoint(isScreenLarge);
   }
 
   
