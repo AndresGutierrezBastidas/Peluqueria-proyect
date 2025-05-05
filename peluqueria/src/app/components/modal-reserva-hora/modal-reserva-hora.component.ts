@@ -1,5 +1,5 @@
-import { Component, output, EventEmitter, input, signal, inject} from '@angular/core';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, output, input, signal, inject} from '@angular/core';
+import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CalendarComponent } from './primer-paso/calendar/calendar.component';
 import { HorasComponent } from './primer-paso/horas/horas.component';
 import { ProfesionalesComponent } from './primer-paso/profesionales/profesionales.component';
@@ -27,46 +27,15 @@ export class ModalReservaHoraComponent {
   close = output<void>();
   pasoActual: number = 1;
 
-  /* Mostrar fecha escogida */
-  date = signal<Date>(new Date());
-  hora = signal<string>('');
+  /* Datos FS */
+  dataFS = signal<[Date, string, Profesional] | null>(null);
 
-  /* Profesional y servicio */
-  profesional = signal<any>(null);
-
-  /* Form reserva */
-  reservaForm = new FormGroup({
-    formPrimerPaso: new FormGroup({
-      fechaReserva: new FormControl<string>('',Validators.required),
-      horaReserva: new FormControl<string>('', Validators.required),
-      profesional: new FormControl<any>(null , Validators.required)
-    }),
-    formSegundoPaso: new FormGroup({
-      nombre: new FormControl<string>('', Validators.required),
-      apellido: new FormControl<string>('', Validators.required),
-      telefono: new FormControl<number>(0 ,Validators.required),
-      correo: new FormControl<string>('', [Validators.required, Validators.email]),
-    })
-  })
-
-  onDateSelected(date: Date){
-    this.date.set(date);
-    console.log(date);
-    this.reservaForm.get('formPrimerPaso.fechaReserva')?.setValue(this.date().toLocaleString('es-CL'));
-  }
-
-  selectedHour(hora: string){
-    this.hora.set(hora);
-    this.reservaForm.get('formPrimerPaso.horaReserva')?.setValue(this.hora());
-  }
-
-  selectedProf(profesional: any){
-    this.profesional.set(profesional);
-    this.reservaForm.get('formPrimerPaso.profesional')?.setValue(this.profesional());
+  selectedData(data: any){
+    
   }
 
   nextStep() {
-    if (this.reservaForm.get('formPrimerPaso')?.status === 'VALID'){
+    if (this.modalService.form.get('FS')?.valid){
       this.pasoActual++;
     }
   }
@@ -80,6 +49,10 @@ export class ModalReservaHoraComponent {
   }
 
   confirmar(){
-    console.log('Reserva confirmada');
+    if(this.modalService.form.get('SS')?.valid){
+      this.modalService.crearReserva();
+      console.log('Reserva confirmada');
+    }
+    console.log('Reserva no confirmada');
   }
 }
