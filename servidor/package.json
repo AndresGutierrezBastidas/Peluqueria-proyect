@@ -18,8 +18,11 @@
     "nodemailer": "^6.10.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.26.0",
     "@types/express": "^5.0.1",
     "@types/nodemailer": "^6.4.17",
+    "eslint": "^9.26.0",
+    "globals": "^16.0.0",
     "prisma": "^6.6.0"
   }
 }
