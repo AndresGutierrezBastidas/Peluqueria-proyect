@@ -12,13 +12,23 @@
   </section>
 
   <!-- Sección sobre nosotros -->
-  <section id="conoce">
-      <landing-about-us></landing-about-us>
-  </section>
+  @defer (on viewport) {
 
-  <section id="map">
-    <landing-map></landing-map>
-  </section>
+    <section @fadeIn id="conoce">
+        <landing-about-us></landing-about-us>
+    </section>
+  }@placeholder {
+    <div>Sección de conócenos</div>
+  }
+
+  @defer (on viewport) {
+
+    <section id="map">
+      <landing-map></landing-map>
+    </section>
+  }@placeholder {
+    <div>Sección del mapa</div>
+  }
 
 </main>
 
