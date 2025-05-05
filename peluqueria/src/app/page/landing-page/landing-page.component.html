@@ -6,28 +6,32 @@
   </header>
 
   <!-- Sección de servicios -->
-  <section id="servicios">
+  @defer (on viewport) {
 
-      <landing-services></landing-services>
-  </section>
+    <section @fadeIn id="servicios">
+  
+        <landing-services></landing-services>
+    </section>
+  }@placeholder {
+    <div class="size-full">Sección de servicios</div>
+  }
 
   <!-- Sección sobre nosotros -->
   @defer (on viewport) {
-
     <section @fadeIn id="conoce">
         <landing-about-us></landing-about-us>
     </section>
   }@placeholder {
-    <div>Sección de conócenos</div>
+    <div class="container size-full">Sección de conócenos</div>
   }
 
   @defer (on viewport) {
 
-    <section id="map">
+    <section @fadeIn id="map">
       <landing-map></landing-map>
     </section>
   }@placeholder {
-    <div>Sección del mapa</div>
+    <div class="container size-full">Sección del mapa</div>
   }
 
 </main>
