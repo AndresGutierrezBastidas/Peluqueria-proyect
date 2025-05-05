@@ -11,8 +11,6 @@ import { ServiciosLandingService } from '@servicios/landingServices/servicio-ser
 })
 export default class AdminServiciosComponent {
   servicios = inject(ServiciosLandingService);
-  constructor(){
-    console.log(this.servicios.servicios())
-  }
+  
 
 }

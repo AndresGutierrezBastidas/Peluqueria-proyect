@@ -18,9 +18,17 @@ export const routes: Routes = [
       loadComponent: () => import('@paginas/admin-pov/admin-dasboard/admin-dasboard.component'),
       children: [
         {
-          path: 'tabla',
+          path: 'profesionales',
           loadComponent: () =>
           import('@paginas/admin-pov/admin-profesionales/admin-profesionales.component'),
+        },{
+          path: 'servicios',
+          loadComponent: () =>
+          import('@paginas/admin-pov/admin-servicios/admin-servicios.component'),
+        },{
+          path: 'reservas',
+          loadComponent: () =>
+          import('@paginas/admin-pov/admin-reservas/admin-reservas.component'),
         }
       ]
     },
