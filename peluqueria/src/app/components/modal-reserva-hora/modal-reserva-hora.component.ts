@@ -29,20 +29,15 @@ export class ModalReservaHoraComponent {
   dataFS = signal<[Date , Horas , Profesional ]>([new Date, {id: NaN, hora: ''} , {id: NaN, nombre: ''} ]);
   valid = signal(this.modalService.form.get('FS')?.valid);
 
-  selectedData(data: any, i: number){
-    console.log('Cambio datos');
-    
+  selectedData(data: any, i: number){  
     this.dataFS.update((prev) => {
       if(i === 0) return [data, prev[1], prev[2]];
       if(i === 1) return [prev[0], data, prev[2]];
       if(i === 2) return [prev[0], prev[1], data];
       return [prev[0], prev[1], prev[2]];
     });
-
-    console.log(`nuevos datos: ${JSON.stringify(this.dataFS())}`);
     
     if(this.dataFS()[0] !== new Date && !isNaN(this.dataFS()[1].id) && !isNaN(this.dataFS()[2].id)){
-      console.log('cambiare datos del form');
       
       this.modalService.form.get('FS')?.setValue({
         profesional: this.dataFS()[2],
@@ -51,15 +46,12 @@ export class ModalReservaHoraComponent {
       })
 
       this.valid.set(this.modalService.form.get('FS')?.valid)
-      console.log(this.valid());
       
     }
     
   }
 
-  nextStep() {
-    console.log(JSON.stringify(this.modalService.form.get('FS')?.valid));
-    
+  nextStep() {    
     if (this.modalService.form.get('FS')?.valid){
       this.pasoActual++;
     }

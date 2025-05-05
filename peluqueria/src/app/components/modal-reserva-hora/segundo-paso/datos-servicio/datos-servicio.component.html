@@ -1,6 +1,6 @@
 <div class="flex-col items-center text-center justify-center">
     <div class="text-4xl font-bold">
-        <p>{{ this.datosFS()[0] }} 
+        <p>{{ this.datosFS()[0].getDate() }} 
             de 
             {{ this.datosFS()[0].toLocaleString('es-Es',{month: 'long'}).charAt(0).toUpperCase() +
             this.datosFS()[0].toLocaleString('es-Es',{month: 'long'}).slice(1) }} 
