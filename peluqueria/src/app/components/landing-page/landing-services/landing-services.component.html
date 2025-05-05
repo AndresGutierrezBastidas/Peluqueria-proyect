@@ -1,12 +1,14 @@
+@let isVisible = isModalVisible();
 
-  <div class="w-full bg-white bg-gray-100 "> <!-- Ocupa 100% del viewport -->
+  <div class="w-full bg-white"> <!-- Ocupa 100% del viewport -->
     <div class="container mx-auto p-8 md:p-12 h-full ">
       <service-card (click)="openModal()" />
-      <modal-reserva-hora 
-      [isVisible]="isModalVisible()"
-      [professionals]="profesionales()"
-      (close)="closeModal()" 
-      ></modal-reserva-hora>
+      @defer (when isVisible) {
+
+        <modal-reserva-hora (close)="closeModal()" [isVisible]="isModalVisible()"/>
+      }@placeholder {
+        <div class="hidden">Hola</div>
+      }
     </div>
   </div>
 

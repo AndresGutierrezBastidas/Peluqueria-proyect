@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ModalReservaHoraComponent } from '@componentes/modal-reserva-hora/modal-reserva-hora.component';
 
 @Component({
   selector: 'service-card',
@@ -13,6 +12,18 @@ export class ServiceCardComponent {
 
   /* Variables Cards */
   showAll = false;
+
+
+  isModalVisible: boolean = false;
+
+  openModal() {
+    this.isModalVisible = true;
+  }
+
+  closeModal() {
+    this.isModalVisible = false;
+  }
+
 
   cards = [
     {
