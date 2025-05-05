@@ -1,6 +1,6 @@
 <!-- Modal de Reserva de hora -->
 @if (isVisible()) {
-    
+
     <!-- Modal -->
     <div class="bg-white rounded-lg shadow-lg p-4 w-90 
     md:w-full max-w-[750px] md:h-full overflow-x-auto"
@@ -22,27 +22,27 @@
 
             <form>
                 <!-- Profesionales -->
-                <profesionales (profesional)="selectedData($event)"></profesionales>
+                <profesionales (profesional)="selectedData($event, 2)"></profesionales>
 
                 <!-- Separador -->
                 <hr class="border-gray-300 mb-6 w-[90%] m-auto">
 
                 <!-- Fecha Seleccionada -->
                 <p class="text-2xl font-medium text-gray-800 text-center flex-row mb-5 first-letter:uppercase">
-                    {{ this.date() | date:'MMMM'}}
+                    <!-- {{ this.dataFS(). | date:'MMMM'}} -->
                     <br>
-                    {{ this.date() | date:'dd'}}
+                    <!-- {{ this.date() | date:'dd'}} -->
                 </p>
 
 
                 <div class="flex flex-col md:flex-row justify-end mb-4">
 
                     <!-- Calendario -->
-                    <calendar class="flex flex-col justify-center max-w-md m-auto" (date)="selectedData($event)">
+                    <calendar class="flex flex-col justify-center max-w-md m-auto" (date)="selectedData($event, 0)">
                     </calendar>
 
                     <!-- Horas -->
-                    <horas (hora)="selectedData($event)"
+                    <horas (hora)="selectedData($event, 1)"
                         class="flex-col place-items-center w-full md:w-md px-5 md:border-s-1 mt-5 md:mt-0"></horas>
                 </div>
             </form>
@@ -50,9 +50,8 @@
             <div class="flex flex-row justify-center md:justify-end mt-6  md:-translate-x-5 md:text-end">
 
                 <!-- Boton para pasar a los datos del que reserva -->
-                <button [class.disabled]="this.reservaForm.get('formPrimerPaso')?.status === 'INVALID'"
-                    [class.cursor-not-allowed]="this.reservaForm.get('formPrimerPaso')?.status === 'INVALID'"
-                    [class.opacity-50]="this.reservaForm.get('formPrimerPaso')?.status === 'INVALID'" (click)="nextStep()"
+                <button [class.disabled]="!this.valid()" 
+                    [class.opacity-50]="!this.valid()" (click)="nextStep()"
                     class="bg-gray-800 w-30 text-white py-2 rounded-lg hover:bg-gray-700">
                     Siguiente
                 </button>
@@ -68,9 +67,12 @@
                 </form-datos>
 
                 <!-- Datos servicio -->
-                <datos-servicio [fechaReserva]="this.date()" [horaReserva]="this.hora()" [profesional]="this.profesional()"
+                @if(this.dataFS()[0] && this.dataFS()[1] && this.dataFS()) {
+                    <datos-servicio [datosFS]="dataFS()"
                     class="flex justify-center md:space-x-4">
-                </datos-servicio>
+                    </datos-servicio>
+                }
+                
             </div>
 
 

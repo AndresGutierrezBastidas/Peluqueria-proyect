@@ -11,7 +11,7 @@ export class ModalServiceService {
 
   form = new FormGroup({
     FS: new FormGroup<fsInterface>({
-      profesional: new FormControl( NaN, Validators.required),
+      profesional: new FormControl( null, Validators.required),
       dia: new FormControl(null,Validators.required),
       horas: new FormControl(null, Validators.required)
     }),

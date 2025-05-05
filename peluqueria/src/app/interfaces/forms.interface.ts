@@ -1,9 +1,11 @@
 import { FormControl } from "@angular/forms";
+import { Horas } from "./horas.interface";
+import { Profesional } from "./profesionales.interface";
 
 export interface fsInterface {
-    profesional: FormControl<number | null>,
+    profesional: FormControl<Profesional | null>,
     dia: FormControl<Date | null>,
-    horas: FormControl<number | null>
+    horas: FormControl<Horas | null>
 }
 
 export interface ssInterface {
