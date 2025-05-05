@@ -9,27 +9,24 @@ datasource db {
 }
 
 model cliente {
-  id       Int    @id @default(autoincrement())
-  nombre   String @db.VarChar(15)
-  apellido String @db.VarChar(15)
-  email    String @unique(map: "Cliente_email_key") @db.VarChar(255)
-
-  usuario usuario?
-  Reserva reserva[]
+  id       Int       @id @default(autoincrement())
+  nombre   String    @db.VarChar(15)
+  apellido String    @db.VarChar(15)
+  email    String    @unique(map: "Cliente_email_key") @db.VarChar(255)
+  Reserva  reserva[]
+  usuario  usuario?
 }
 
 model hora {
-  id   Int    @id @default(autoincrement())
-  hora String @db.VarChar(10)
-
+  id      Int       @id @default(autoincrement())
+  hora    String    @db.VarChar(10)
   Reserva reserva[]
 }
 
 model profesional {
-  id     Int    @id @default(autoincrement())
-  nombre String @db.VarChar(30)
-
-  serPro servicioProfesional[]
+  id                  Int                   @id @default(autoincrement())
+  nombre              String                @db.VarChar(30)
+  servicioprofesional servicioprofesional[]
 }
 
 model reserva {
@@ -40,10 +37,9 @@ model reserva {
   servicioId   Int
   clienteId    Int
   horaId       Int
-
-  servicio servicio @relation(fields: [servicioId], references: [id])
-  cliente  cliente  @relation(fields: [clienteId], references: [id])
-  hora     hora     @relation(fields: [horaId], references: [id])
+  cliente      cliente  @relation(fields: [clienteId], references: [id])
+  hora         hora     @relation(fields: [horaId], references: [id])
+  servicio     servicio @relation(fields: [servicioId], references: [id])
 
   @@index([clienteId], map: "clienteId")
   @@index([horaId], map: "horaId")
@@ -51,32 +47,29 @@ model reserva {
 }
 
 model servicio {
-  id          Int    @id @default(autoincrement())
-  nombre      String @db.VarChar(30)
-  precio      Int
-  descripcion String @db.VarChar(500)
-
-  Reserva reserva[]
-  serPro  servicioProfesional[]
-}
-
-model servicioProfesional {
-  id            Int @id @default(autoincrement())
-  servicioId    Int
-  profesionalId Int
-
-  profesional profesional @relation(fields: [profesionalId], references: [id])
-  servicio    servicio    @relation(fields: [servicioId], references: [id])
-
-  @@index([servicioId], map: "servicioId")
-  @@index([profesionalId], map: "profesionalId")
+  id                  Int                   @id @default(autoincrement())
+  nombre              String                @db.VarChar(30)
+  precio              Int
+  descripcion         String                @db.VarChar(500)
+  Reserva             reserva[]
+  servicioprofesional servicioprofesional[]
 }
 
 model usuario {
-  id       Int    @id @default(autoincrement())
-  password String @db.VarChar(15)
-  rol      Int    @default(1)
-  clientId Int    @unique(map: "Usuario_clientId_key")
+  id       Int     @id @default(autoincrement())
+  password String  @db.VarChar(15)
+  rol      Int     @default(1)
+  clientId Int     @unique(map: "Usuario_clientId_key")
+  cliente  cliente @relation(fields: [clientId], references: [id])
+}
 
-  cliente cliente @relation(fields: [clientId], references: [id])
+model servicioprofesional {
+  id            Int         @id @default(autoincrement())
+  servicioId    Int
+  profesionalId Int
+  profesional   profesional @relation(fields: [profesionalId], references: [id], map: "servicioProfesional_profesionalId_fkey")
+  servicio      servicio    @relation(fields: [servicioId], references: [id], map: "servicioProfesional_servicioId_fkey")
+
+  @@index([profesionalId], map: "profesionalId")
+  @@index([servicioId], map: "servicioId")
 }

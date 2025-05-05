@@ -1,4 +1,4 @@
-import { getProfesionales, getProfServicio} from "../services/profesionalesService.js"
+import { getProfesionales, getProfServicio } from "../services/profesionalesService.js"
 
 export async function obtenerProfesionales(req, res) {
     try{
