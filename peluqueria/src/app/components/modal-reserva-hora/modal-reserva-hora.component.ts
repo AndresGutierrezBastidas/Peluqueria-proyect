@@ -38,17 +38,13 @@ export class ModalReservaHoraComponent {
     });
     
     if(this.dataFS()[0] !== new Date && !isNaN(this.dataFS()[1].id) && !isNaN(this.dataFS()[2].id)){
-      
       this.modalService.form.get('FS')?.setValue({
         profesional: this.dataFS()[2],
         horas: this.dataFS()[1],
         dia: this.dataFS()[0]
       })
-
       this.valid.set(this.modalService.form.get('FS')?.valid)
-      
     }
-    
   }
 
   nextStep() {    

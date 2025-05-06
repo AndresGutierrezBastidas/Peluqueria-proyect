@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ModalReservaHoraComponent } from '@componentes/modal-reserva-hora/modal-reserva-hora.component';
 
 @Component({
   selector: 'service-card',
-  imports: [CommonModule],
+  imports: [CommonModule,ModalReservaHoraComponent],
   standalone: true, // importante si es un componente independiente
   templateUrl: './service-card.component.html',
   styleUrl: './service-card.component.css'
@@ -13,15 +14,14 @@ export class ServiceCardComponent {
   /* Variables Cards */
   showAll = false;
 
-
-  isModalVisible: boolean = false;
+  isModalVisible = signal<boolean>(false);
 
   openModal() {
-    this.isModalVisible = true;
+    this.isModalVisible.set(true);
   }
 
   closeModal() {
-    this.isModalVisible = false;
+    this.isModalVisible.set(false);
   }
 
 
