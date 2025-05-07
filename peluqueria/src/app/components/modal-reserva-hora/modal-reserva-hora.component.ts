@@ -2,7 +2,6 @@ import { Component, output, input, signal, inject, computed} from '@angular/core
 import { CalendarComponent } from './primer-paso/calendar/calendar.component';
 import { HorasComponent } from './primer-paso/horas/horas.component';
 import { ProfesionalesComponent } from './primer-paso/profesionales/profesionales.component';
-import { DatePipe } from '@angular/common';
 import { DatosServicioComponent } from './segundo-paso/datos-servicio/datos-servicio.component';
 import { FormDatosComponent } from './segundo-paso/form-datos/form-datos.component';
 import { ModalServiceService } from '@servicios/landingServices/modal-services/modal-service.service';
@@ -22,6 +21,7 @@ export class ModalReservaHoraComponent {
 
   /* Variables para el modal */
   isVisible = input<boolean>();
+  serviceId = input.required<number>()
   close = output<void>();
   pasoActual: number = 1;
 
