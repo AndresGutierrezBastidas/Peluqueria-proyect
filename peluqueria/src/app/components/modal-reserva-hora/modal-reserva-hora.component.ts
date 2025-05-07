@@ -1,4 +1,4 @@
-import { Component, output, input, signal, inject, computed} from '@angular/core';
+import { Component, output, input, signal, inject} from '@angular/core';
 import { CalendarComponent } from './primer-paso/calendar/calendar.component';
 import { HorasComponent } from './primer-paso/horas/horas.component';
 import { ProfesionalesComponent } from './primer-paso/profesionales/profesionales.component';

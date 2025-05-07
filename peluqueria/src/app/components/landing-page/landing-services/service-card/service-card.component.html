@@ -25,7 +25,7 @@
 </div>
 
 @defer (when isVisible) {
-  <modal-reserva-hora (close)="closeModal()" [serviceId]="service()" [isVisible]="isModalVisible()"/>
+  <modal-reserva-hora (close)="closeModal()" [serviceId]="service()" [isVisible]="isVisible"/>
 }@placeholder {
   <div class="hidden">Hola</div>
 }

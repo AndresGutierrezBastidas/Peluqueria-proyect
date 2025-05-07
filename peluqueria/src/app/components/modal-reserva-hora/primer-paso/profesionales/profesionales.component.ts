@@ -1,8 +1,7 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, DestroyRef, effect, inject, input, OnInit, output, signal } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, DestroyRef, inject, input, OnInit, output, signal } from '@angular/core';
 import { register, SwiperContainer } from 'swiper/element/bundle';
 import { SwiperOptions } from 'swiper/types';
 import {BreakpointObserver} from '@angular/cdk/layout';
-import {  pipe, Subject, takeUntil } from 'rxjs';
 import { Profesional } from '@interfaces/profesionales.interface';
 import { ProfesionalesService } from '@servicios/landingServices/profesionales-services/profesionales.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
