@@ -1,3 +1,5 @@
+@let formGroup = inputSS();
+
 <!-- Modal de Reserva de hora -->
 @if (isVisible()) {
 <div class="fixed mx-auto inset-0 bg-gray-800/75 flex items-center justify-center px-4 z-50 text-gray-800">
@@ -30,10 +32,10 @@
 
                 <!-- Fecha Seleccionada -->
                 <p class="text-3xl font-bold text-gray-800 text-center flex-row mb-5">
-                    {{ this.dataFS()[0].toLocaleString('es-Es',{month: 'long'}).charAt(0).toUpperCase() +
-                    this.dataFS()[0].toLocaleString('es-Es',{month: 'long'}).slice(1) }}
+                    {{ dataFS()[0].toLocaleString('es-Es',{month: 'long'}).charAt(0).toUpperCase() +
+                    dataFS()[0].toLocaleString('es-Es',{month: 'long'}).slice(1) }}
                     <br>
-                    {{ this.dataFS()[0].getDate() }}
+                    {{ dataFS()[0].getDate() }}
                 </p>
 
 
@@ -52,8 +54,8 @@
             <div class="flex flex-row justify-center md:justify-end mt-6  md:-translate-x-5 md:text-end">
 
                 <!-- Boton para pasar a los datos del que reserva -->
-                <button [class.disabled]="!this.valid()" 
-                    [class.opacity-50]="!this.valid()" (click)="nextStep()"
+                <button [class.disabled]="!modalService.form.get('FS')?.valid" 
+                    [class.opacity-50]="!modalService.form.get('FS')?.valid" (click)="nextStep()"
                     class="bg-gray-800 w-30 text-white py-2 rounded-lg hover:bg-gray-700">
                     Siguiente
                 </button>
@@ -64,12 +66,13 @@
             <h2 class="text-3xl text-center mb-6 font-bold">Confirma la hora</h2>
 
             <div class="grid grid-cols-1 md:grid-cols-2 items-center justify-center">
+
                 <!-- Form Datos -->
-                <form-datos class="md:border-e-2 border-gray-400">
+                <form-datos [formGroup]="formGroup" class="md:border-e-2 border-gray-400">
                 </form-datos>
 
                 <!-- Datos servicio -->
-                @if(this.dataFS()[0] && this.dataFS()[1] && this.dataFS()) {
+                @if(dataFS()[0] && dataFS()[1] && dataFS()[2]) {
                     <datos-servicio [datosFS]="dataFS()"
                     class="flex justify-center md:space-x-4">
                     </datos-servicio>

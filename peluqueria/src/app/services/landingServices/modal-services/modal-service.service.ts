@@ -19,7 +19,7 @@ export class ModalServiceService {
       nombre: new FormControl('', [Validators.required, Validators.minLength(3)]),
       apellido: new FormControl('', [Validators.required, Validators.minLength(3)]),
       email: new FormControl('', [Validators.required, Validators.email]),
-      telefono: new FormControl(NaN, [Validators.required, Validators.minLength(8)])
+      telefono: new FormControl(123456789, [Validators.required, Validators.minLength(8)])
     })
   })
 

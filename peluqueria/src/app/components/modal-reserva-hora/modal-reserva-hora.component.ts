@@ -7,11 +7,13 @@ import { FormDatosComponent } from './segundo-paso/form-datos/form-datos.compone
 import { ModalServiceService } from '@servicios/landingServices/modal-services/modal-service.service';
 import { Profesional } from '@interfaces/profesionales.interface';
 import { Horas } from '@interfaces/horas.interface';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ssInterface } from '@interfaces/forms.interface';
 
 @Component({
   selector: 'modal-reserva-hora',
   imports: [CalendarComponent,HorasComponent,ProfesionalesComponent,
-    DatosServicioComponent,FormDatosComponent],
+    DatosServicioComponent,FormDatosComponent,ReactiveFormsModule],
   templateUrl: './modal-reserva-hora.component.html',
   styleUrl: './modal-reserva-hora.component.css'
 })
@@ -27,7 +29,9 @@ export class ModalReservaHoraComponent {
 
   /* Datos FS */
   dataFS = signal<[Date , Horas , Profesional ]>([new Date, {id: NaN, hora: ''} , {id: NaN, nombre: ''} ]);
+  inputSS = signal(this.modalService.form.get('SS') as FormGroup)
   valid = signal(this.modalService.form.get('FS')?.valid);
+
 
   selectedData(data: any, i: number){  
     this.dataFS.update((prev) => {
@@ -43,7 +47,6 @@ export class ModalReservaHoraComponent {
         horas: this.dataFS()[1],
         dia: this.dataFS()[0]
       })
-      this.valid.set(this.modalService.form.get('FS')?.valid)
     }
   }
 
