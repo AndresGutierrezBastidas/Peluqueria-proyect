@@ -21,6 +21,11 @@ export const routes: Routes = [
           path: 'tabla',
           loadComponent: () =>
           import('@paginas/admin-pov/admin-profesionales/admin-profesionales.component'),
+        },
+        {
+          path: 'cuenta',
+          loadComponent: () =>
+          import('@paginas/admin-pov/admin-cuenta/admin-cuenta.component'),
         }
       ]
     },

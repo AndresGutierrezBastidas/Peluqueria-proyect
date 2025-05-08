@@ -1,1 +1,17 @@
-<p>admin-cuenta works!</p>
+<div class=" h-screen flex items-center  bg-white">
+    <form [formGroup]="form" (ngSubmit)="handleSubmit()">
+        <div class="grid gap-2">
+            <label for="name">Nombres</label>
+            <input type="text" id="name">   
+        </div>
+        <div class="grid gap-2">
+            <label for="oldPass">Contraseña antigua</label>
+            <input type="password" id="password">   
+        </div>
+        <div class="grid gap-2 pb-2">
+            <label for="newPass">Contraseña antigua</label>
+            <input type="password" id="password">   
+        </div>
+        <button class="rounded-md size-auto-12 p-2 bg-black text-amber-50 hover:scale-105 transition-transform ">Guardar</button>
+    </form>
+</div>
