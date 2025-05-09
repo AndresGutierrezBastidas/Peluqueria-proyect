@@ -1,8 +1,7 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, DestroyRef, effect, inject, OnInit, output, signal } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, DestroyRef, inject, input, OnInit, output, signal } from '@angular/core';
 import { register, SwiperContainer } from 'swiper/element/bundle';
 import { SwiperOptions } from 'swiper/types';
 import {BreakpointObserver} from '@angular/cdk/layout';
-import {  pipe, Subject, takeUntil } from 'rxjs';
 import { Profesional } from '@interfaces/profesionales.interface';
 import { ProfesionalesService } from '@servicios/landingServices/profesionales-services/profesionales.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -28,6 +27,7 @@ export class ProfesionalesComponent implements OnInit {
   private profService = inject(ProfesionalesService)
   sp = signal(NaN);
   professionals = signal<Profesional[]>([]);
+  serviceId = input.required<number>();
   
   
   /* Funciones Profesionales */
@@ -47,7 +47,7 @@ export class ProfesionalesComponent implements OnInit {
   } 
   
   private loadProfessionals() {
-    this.profService.obtenerProfesionales().pipe(takeUntilDestroyed(this.destroyed)).subscribe({
+    this.profService.getProfServicios(this.serviceId()).pipe(takeUntilDestroyed(this.destroyed)).subscribe({
       next: (res) => {
         if (res.length > 0) {
           this.professionals.set(res);
@@ -106,7 +106,6 @@ export class ProfesionalesComponent implements OnInit {
 
   private handleBreakPoint(isLargeScreen: boolean){
     const groupSize = isLargeScreen ? 5 : 3;
-    console.log(`Arreglo de ${groupSize}`)
     this.groupProfessionals(groupSize)
   }
 

@@ -11,14 +11,14 @@ import { toSignal } from '@angular/core/rxjs-interop';
 })
 export class HorasComponent {
   private horasS = inject(HorasService)
-  selectedTime = signal<string>('');
-  hora = output<string>();
+  sT = signal<number>(0);
+  hora = output<Horas>();
   
   // Horarios disponibles
   horas: Signal<Horas[] | undefined> = toSignal(this.horasS.getHoras())
 
-  selectTime(time: string) {
-    this.selectedTime.set(time);
-    this.hora.emit(this.selectedTime());
+  selectTime(time: Horas) {    
+    this.sT.set(time.id);
+    this.hora.emit(time);
   }
 }

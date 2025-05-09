@@ -4,14 +4,14 @@
     <!-- Horarios -->
     @for(time of times; track time.id){
     <input 
-    [class.bg-amber-600]="selectedTime() === time.hora"
-    [class.text-white]="selectedTime() === time.hora"
-    [class.hover:bg-amber-500]="selectedTime() === time.hora"
-    [class.bg-gray-100]="selectedTime() !== time.hora" 
-    [class.text-gray-800]="selectedTime() !== time.hora"
-    [class.hover:bg-gray-200]="selectedTime() !== time.hora"
+    [class.bg-amber-600]="sT() === time.id"
+    [class.text-white]="sT() === time.id"
+    [class.hover:bg-amber-500]="sT() === time.id"
+    [class.bg-gray-100]="sT() !== time.id" 
+    [class.text-gray-800]="sT() !== time.id"
+    [class.hover:bg-gray-200]="sT() !== time.id"
     class="bg-gray-100 text-gray-800 text-center px-2 py-2 md:px-4 md:py-2 rounded-lg cursor-pointer"
-    (click)="selectTime(time.hora)"
+    (click)="selectTime(time)"
     type="text" placeholder="{{time.hora}}" readonly>
     }
 </div>

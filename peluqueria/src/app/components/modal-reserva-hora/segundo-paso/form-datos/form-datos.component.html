@@ -1,30 +1,22 @@
 <div class="container flex-col place-items-center justify-center text-start ">
-    <form class="w-75 max-w-sm p-2 ">
-        <label for="nombre" class="text-md font-light ">Nombre</label>
-        <div class="mb-4">
-            <input 
-            
-            type="text" 
-            class="border-1 border-gray-600/25 rounded-lg p-1 w-70"
-            id="nombre">
+    <div class="w-75 max-w-sm p-2" [formGroup]="formGroup()">
+           <app-custom-input 
+            [control]="formGroup().controls.nombre" 
+            [formControlName]="'nombre'"/> 
+        <div>
+            <app-custom-input 
+            [control]="formGroup().controls.apellido" 
+            [formControlName]="'apellido'"/>
         </div>
-        <label for="apellido" class="text-md font-light ">Apellido</label>
-        <div class="mb-4">
-            <input type="text" 
-            class="border-1 border-gray-600/25 rounded-lg p-1 w-70"
-             id="apellido">
+        <div>
+            <app-custom-input 
+            [control]="formGroup().controls.email" 
+            [formControlName]="'email'"/>
         </div>
-        <label for="correo" class="text-md font-light ">Correo</label>
-        <div class="mb-4">
-            <input type="text" 
-            class="border-1 border-gray-600/25 rounded-lg p-1 w-70"
-             id="correo">
+        <div>
+            <app-custom-input 
+            [control]="formGroup().controls.telefono"
+            [formControlName]="'telefono'"/>
         </div>
-        <label for="telefono" class="text-md font-light ">Telefono</label>
-        <div class="mb-4">
-            <input type="text" 
-            class="border-1 border-gray-600/25 rounded-lg p-1 w-70"
-             id="telefono">
-        </div>
-    </form>
+    </div>
 </div>
