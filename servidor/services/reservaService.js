@@ -1,10 +1,40 @@
-import  prisma  from '../lib/prisma.js';
+import  prisma  from '../lib/prisma.ts';
+import  prismaExtended  from '../lib/prismaExtended.ts';
 
 
 export async function getReservas() {
 
     try {
-        const reserva = await prisma.reserva.findMany();
+        const reserva = await prismaExtended.reserva.findMany({
+            omit: {
+              clienteId: true,
+              horaId: true,
+              servicioId: true
+            }, 
+            include: {
+                cliente: {
+                    select: {
+                        fullname: true,
+                    }
+                },
+                servicio: {
+                    select: {
+                        serPro: {
+                            select: {
+                                profesional: {
+                                    select: {
+                                        nombre: true
+                                    }
+                                }
+
+                            }
+                        }
+                    }
+                },
+                
+
+            }
+        });
         return reserva;
     } catch (error) {
         

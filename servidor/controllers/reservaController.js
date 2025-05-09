@@ -2,7 +2,7 @@ import { getReservas, createReserva } from '../services/reservaService.js';
 
 
 
-export async function obtenerReserva(req, res) {
+export async function obtenerReservas(req, res) {
     try {
         const response = await getReservas();
         res.json(response);
