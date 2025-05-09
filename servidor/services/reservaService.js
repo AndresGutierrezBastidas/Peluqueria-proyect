@@ -14,7 +14,7 @@ export async function getReservas() {
             include: {
                 cliente: {
                     select: {
-                        fullname: true,
+                        fullName: true,
                     }
                 },
                 servicio: {

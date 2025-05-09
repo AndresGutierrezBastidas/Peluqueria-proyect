@@ -5,7 +5,7 @@ import { PrismaClient } from "@prisma/client";
 const prismaExtended = new PrismaClient().$extends({ 
     result: {
       cliente: { // Solo afecta al model Cliente
-        fullname: {
+        fullName: {
           needs: { nombre: true, apellido: true },
           compute(cliente) {
             return `${cliente.nombre} ${cliente.apellido}`;
