@@ -13,6 +13,6 @@ import { trigger, state, style, animate, transition, keyframes } from '@angular/
 })
 export class LandingServicesComponent {
   serviciosService = inject(ServiciosLandingService);
-  servicios =  signal<Servicio[]>(this.serviciosService.servicios());
+  servicios =  signal<Servicio[]>(this.serviciosService.serviciosArray());
 
 }

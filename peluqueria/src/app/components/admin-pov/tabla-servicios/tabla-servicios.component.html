@@ -51,7 +51,7 @@
               {{ dato.descripcion }}
             </td>
             <td class="px-6 py-4 text-gray-800">
-              {{ dato.profesionalId }}
+              {{ profesionales.getProfesionalById(dato.profesionalId)?.nombre }}
             </td>
 
             <td class="px-4 py-2">

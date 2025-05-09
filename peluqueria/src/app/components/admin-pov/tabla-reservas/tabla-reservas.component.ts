@@ -1,17 +1,18 @@
 import { Component, effect, inject, input, signal } from '@angular/core';
 import { Reserva } from '@interfaces/reserva.interface';
-import { ReservaServiceService } from '@servicios/landingServices/reserva-service/reserva-service.service';
+import { ServiciosLandingService } from '@servicios/landingServices/servicio-service/servicios-landing.service';
 
 @Component({
   selector: 'tabla-reservas',
   imports: [],
   templateUrl: './tabla-reservas.component.html',
-  styleUrl: './tabla-reservas.component.css'
+  styleUrl: './tabla-reservas.component.css',
 })
 export class TablaReservasComponent {
   datos = input.required<Reserva[]>();
   table = signal(false);
   titulos = signal<string[]>([]);
+  servicios = inject(ServiciosLandingService);
 
   constructor() {
     effect(() => {
@@ -20,6 +21,11 @@ export class TablaReservasComponent {
         this.titulos.set([...Object.keys(datos[0]), 'editar']);
       }
     });
+  }
+
+  fechaFormateada(fecha: any) {
+    const date = new Date(fecha)
+    return date.toLocaleDateString();
   }
 
   isVisible(open: boolean) {

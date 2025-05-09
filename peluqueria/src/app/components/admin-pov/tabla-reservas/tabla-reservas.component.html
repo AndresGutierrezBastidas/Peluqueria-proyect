@@ -42,16 +42,16 @@
               {{ dato.id }}
             </td>
             <td class="px-6 py-4 text-gray-800">
-              {{ dato.fechaCreada }}
+              {{ fechaFormateada(dato.fechaCreada) }}
             </td>
             <td class="px-6 py-4 text-gray-800">
-              {{ dato.fechaReserva }}
+              {{ fechaFormateada(dato.fechaReserva) }}
             </td>
             <td class="px-6 py-4 text-gray-800">
-              {{ dato.total }}
+              ${{ dato.total }}
             </td>
             <td class="px-6 py-4 text-gray-800">
-              {{ dato.servicioId }}
+              {{ servicios.obtenerServicioNombreId(dato.servicioId) }}
             </td>
             <td class="px-6 py-4 text-gray-800">
               {{ dato.clienteId }}
