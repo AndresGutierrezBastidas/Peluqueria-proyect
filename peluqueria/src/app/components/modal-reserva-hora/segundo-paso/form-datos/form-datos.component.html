@@ -2,22 +2,21 @@
     <div class="w-75 max-w-sm p-2" [formGroup]="formGroup()">
            <app-custom-input 
             [control]="formGroup().controls.nombre" 
-            [formControlName]="'Nombre'"
-            /> 
+            [formControlName]="'nombre'"/> 
         <div>
             <app-custom-input 
             [control]="formGroup().controls.apellido" 
-            [formControlName]="'Apellido'"/>
+            [formControlName]="'apellido'"/>
         </div>
         <div>
             <app-custom-input 
             [control]="formGroup().controls.email" 
-            [formControlName]="'Correo'"/>
+            [formControlName]="'email'"/>
         </div>
         <div>
             <app-custom-input 
-            [control]="formGroup().controls.telefono" 
-            [formControlName]="'Telefono'"/>
+            [control]="formGroup().controls.telefono"
+            [formControlName]="'telefono'"/>
         </div>
     </div>
 </div>

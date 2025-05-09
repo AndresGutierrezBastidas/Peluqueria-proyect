@@ -1,5 +1,6 @@
 @let localControl = control();
-<label for="nombre" class="text-md font-light ">{{ formControlName() }}</label>
+<label for="formControlName()" class="text-md font-light ">{{ formControlName().charAt(0).toUpperCase() +
+     formControlName().slice(1) }}</label>
 <div>
     <input 
     class="border-1 border-gray-600/25 rounded-lg p-1 w-70"

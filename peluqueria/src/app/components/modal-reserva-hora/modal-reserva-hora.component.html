@@ -62,6 +62,7 @@
             </div>
         </div>
         <div [class.hidden]="pasoActual !== 2">
+
             <!-- Titulo -->
             <h2 class="text-3xl text-center mb-6 font-bold">Confirma la hora</h2>
 
@@ -72,12 +73,10 @@
                 </form-datos>
 
                 <!-- Datos servicio -->
-                @if(dataFS()[0] && dataFS()[1] && dataFS()[2]) {
-                    <datos-servicio [datosFS]="dataFS()"
-                    class="flex justify-center md:space-x-4">
-                    </datos-servicio>
-                }
-                
+                <datos-servicio [datosFS]="dataFS()"
+                class="flex justify-center md:space-x-4">
+                </datos-servicio>
+
             </div>
 
 
