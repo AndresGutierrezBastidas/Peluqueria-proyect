@@ -17,10 +17,10 @@ export class ServiceCardComponent {
   showAll = false;
 
   isModalVisible = signal<boolean>(false);
-  service = signal<number>(0)
+  service = signal<Servicio>({} as Servicio);
 
-  openModal(id: any) {
-    this.service.set(id);
+  openModal(card: Servicio) {
+    this.service.set(card);
     this.isModalVisible.set(true);
   }
 

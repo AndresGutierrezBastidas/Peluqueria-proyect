@@ -1,9 +1,7 @@
 
-
-
 export interface Servicio {
   descripcion: string;
-  id?: number;
+  id: number;
   nombre: string;
   precio: number;
   profesionalId: number;

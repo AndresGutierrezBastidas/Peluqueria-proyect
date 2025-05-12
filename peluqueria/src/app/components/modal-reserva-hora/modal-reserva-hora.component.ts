@@ -9,6 +9,7 @@ import { Profesional } from '@interfaces/profesionales.interface';
 import { Horas } from '@interfaces/horas.interface';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ssInterface } from '@interfaces/forms.interface';
+import { Servicio } from '@interfaces/servicio.interface';
 
 @Component({
   selector: 'modal-reserva-hora',
@@ -23,7 +24,7 @@ export class ModalReservaHoraComponent {
 
   /* Variables para el modal */
   isVisible = input<boolean>();
-  serviceId = input.required<number>()
+  serviceId = input.required<Servicio>()
   close = output<void>();
   pasoActual: number = 1;
 
@@ -57,7 +58,9 @@ export class ModalReservaHoraComponent {
   }
 
   closeModal() {
-      this.close.emit();
+    this.pasoActual = 1;
+    this.modalService.form.reset();
+    this.close.emit();
   }
 
   previousStep() {
@@ -65,10 +68,9 @@ export class ModalReservaHoraComponent {
   }
 
   confirmar(){
+    console.log(this.modalService.form.get('SS')?.valid);
     if(this.modalService.form.get('SS')?.valid){
-      this.modalService.crearReserva();
-      console.log('Reserva confirmada');
+      this.modalService.crearReserva(this.serviceId());
     }
-    console.log('Reserva no confirmada');
   }
 }
