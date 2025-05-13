@@ -24,4 +24,22 @@ export class ReservaServiceService {
       console.log(this.reservas());
       return this.reservas();
   }
+
+  crearReserva(reserva: any){
+      this.http.post(`${this.url}/postReserva`,reserva)
+      .subscribe({
+        next: (resp: any) => {
+          console.log(resp);
+          if (resp.error) {
+            console.log(resp.error);
+            return;
+          } else {
+            this.obtenerReservas();
+          }
+        },
+        error: (err) => {
+          console.error('HTTP error occurred:', err);
+        },
+      });
+  }
 }

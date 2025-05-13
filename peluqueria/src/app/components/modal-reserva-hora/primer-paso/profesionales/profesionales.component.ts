@@ -5,6 +5,7 @@ import {BreakpointObserver} from '@angular/cdk/layout';
 import { Profesional } from '@interfaces/profesionales.interface';
 import { ProfesionalesService } from '@servicios/landingServices/profesionales-services/profesionales.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Servicio } from '@interfaces/servicio.interface';
 
 // register Swiper custom elements
 register();
@@ -27,7 +28,7 @@ export class ProfesionalesComponent implements OnInit {
   private profService = inject(ProfesionalesService)
   sp = signal(NaN);
   professionals = signal<Profesional[]>([]);
-  serviceId = input.required<number>();
+  serviceId = input.required<Servicio>();
   
   
   /* Funciones Profesionales */
@@ -47,7 +48,7 @@ export class ProfesionalesComponent implements OnInit {
   } 
   
   private loadProfessionals() {
-    this.profService.getProfServicios(this.serviceId()).pipe(takeUntilDestroyed(this.destroyed)).subscribe({
+    this.profService.getProfServicios(this.serviceId().id).pipe(takeUntilDestroyed(this.destroyed)).subscribe({
       next: (res) => {
         if (res.length > 0) {
           this.professionals.set(res);

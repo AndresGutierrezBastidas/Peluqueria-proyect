@@ -1,5 +1,5 @@
-import  prisma  from '../lib/prisma.ts';
-import  prismaExtended  from '../lib/prismaExtended.ts';
+import  prisma  from '../lib/prisma.js';
+import  prismaExtended  from '../lib/prismaExtended.js';
 
 
 export async function getReservas() {
@@ -45,6 +45,8 @@ export async function getReservas() {
 }
 
 export async function createReserva(datos) {
+    console.log("Datos de reserva:", datos);
+    
     try {
         const reserva = await prisma.reserva.create({
             data : {
@@ -58,7 +60,7 @@ export async function createReserva(datos) {
         });
         return reserva;
     } catch (error) {
-        console.error("Error en createServicio:", datos , error.message);
+        console.error("Error en createReserva:", datos , error.message);
         throw error; 
     }
     

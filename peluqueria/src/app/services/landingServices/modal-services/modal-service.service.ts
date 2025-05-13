@@ -19,11 +19,28 @@ export class ModalServiceService {
       nombre: new FormControl('', [Validators.required, Validators.minLength(3)]),
       apellido: new FormControl('', [Validators.required, Validators.minLength(3)]),
       email: new FormControl('', [Validators.required, Validators.email]),
-      telefono: new FormControl(123456789, [Validators.required, Validators.minLength(8)])
+      telefono: new FormControl(null, [Validators.required, Validators.minLength(8)])
     })
   })
 
-  crearReserva(){
-    console.log('se creo la reserva');
+  crearReserva(service: any){
+    if(this.form.get('FS')?.valid && this.form.get('SS')?.valid){
+      const dataCliente = {
+        nombre: this.form.get('SS')?.value.nombre,
+        apellido: this.form.get('SS')?.value.apellido,
+        email: this.form.get('SS')?.value.email
+      }
+
+      const dataReserva = {
+        fechaReserva: this.form.get('FS')?.value.dia,
+        total: service.precio,
+        servicioId: service.id,
+        clienteId: 1,
+        horaId: this.form.get('FS')?.value.horas?.id
+      }
+      console.log(JSON.stringify(dataReserva));
+      
+      this.reservaS.crearReserva(dataReserva);
+    }
   }
 }
