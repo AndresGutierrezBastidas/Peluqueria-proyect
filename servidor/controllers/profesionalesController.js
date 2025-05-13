@@ -1,4 +1,4 @@
-import { getProfesionales } from "../services/profesionalesService.js"
+import { getProfesionales, getProfServicio } from "../services/profesionalesService.js"
 
 export async function obtenerProfesionales(req, res) {
     try{
@@ -9,4 +9,17 @@ export async function obtenerProfesionales(req, res) {
     }
 }
 
+export async function servicioProfesionales(req, res) {
+    try {
+        const id = parseInt(req.params.id);
 
+        if(isNaN(id)){
+            return res.status(400).json({ error : 'El ID proporcionado no es valido'});
+        }
+
+        const response = await getProfServicio(id);
+        res.json(response);
+    } catch (e) {
+        console.log('Error al obtener los profesionales', e.message);
+    }
+}

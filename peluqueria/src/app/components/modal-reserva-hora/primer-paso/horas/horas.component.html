@@ -1,17 +1,18 @@
+@let times = horas();
 <div class="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-4 max-w-full md:max-w-100 md:mx-w-lg 
     text-center">
     <!-- Horarios -->
-    @for(time of times; track time){
+    @for(time of times; track time.id){
     <input 
-    [class.bg-amber-600]="selectedTime() === time"
-    [class.text-white]="selectedTime() === time"
-    [class.hover:bg-amber-500]="selectedTime() === time"
-    [class.bg-gray-100]="selectedTime() !== time" 
-    [class.text-gray-800]="selectedTime() !== time"
-    [class.hover:bg-gray-200]="selectedTime() !== time"
+    [class.bg-amber-600]="sT() === time.id"
+    [class.text-white]="sT() === time.id"
+    [class.hover:bg-amber-500]="sT() === time.id"
+    [class.bg-gray-100]="sT() !== time.id" 
+    [class.text-gray-800]="sT() !== time.id"
+    [class.hover:bg-gray-200]="sT() !== time.id"
     class="bg-gray-100 text-gray-800 text-center px-2 py-2 md:px-4 md:py-2 rounded-lg cursor-pointer"
     (click)="selectTime(time)"
-    type="text" placeholder="{{time}}" readonly>
+    type="text" placeholder="{{time.hora}}" readonly>
     }
 </div>
 

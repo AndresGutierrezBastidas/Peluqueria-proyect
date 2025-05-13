@@ -2,7 +2,7 @@ import { Servicio } from '@interfaces/servicio.interface';
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 
-import { tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { adapter } from '@adapter/commonAdapter';
 
 @Injectable({
@@ -20,15 +20,12 @@ export class ServiciosLandingService {
 
   servicios = signal<Servicio[]>([]);
 
-  obtenerServicios():void{
-    this.http.get<Servicio[]>(`${this.url}/getServices`).subscribe((resp:Servicio[]) => {
+  obtenerServicios(): Observable<Servicio[]>{
+    return this.http.get<Servicio[]>(`${this.url}/getServices`).pipe(
+      tap((resp : Servicio[]) => {
       const servicios = adapter(resp)
-
-
-      this.servicios.update((list) => [
-        ...list,...servicios
-      ]);
-    });
+      this.servicios.update((list) => [...list,...servicios]);      
+    }));
   }
 
 

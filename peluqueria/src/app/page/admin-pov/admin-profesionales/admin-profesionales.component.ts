@@ -1,7 +1,5 @@
-import { Component, inject } from '@angular/core';
-import AdminTablaComponent from '@componentes/admin-pov/admin-tabla-profesionales/admin-tabla.component';
-import { ProfesionalesComponent } from '@componentes/modal-reserva-hora/primer-paso/profesionales/profesionales.component';
-import { ProfesionalesService } from '@servicios/landingServices/profesionales-services/profesionales.service';
+import { Component } from '@angular/core';
+import AdminTablaComponent from '@componentes/admin-pov/admin-tabla/admin-tabla.component';
 
 @Component({
   selector: 'app-admin-profesionales',
@@ -10,5 +8,5 @@ import { ProfesionalesService } from '@servicios/landingServices/profesionales-s
   styleUrl: './admin-profesionales.component.css'
 })
 export default class AdminProfesionalesComponent {
-  profesionales = inject(ProfesionalesService);
+
 }

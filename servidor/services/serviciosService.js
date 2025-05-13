@@ -1,6 +1,5 @@
 import prisma from '../lib/prisma.js';
 
-
 export async function getServicios() {
     try {
         const servicios = await prisma.servicio.findMany();

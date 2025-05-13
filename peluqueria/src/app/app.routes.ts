@@ -15,7 +15,7 @@ export const routes: Routes = [
     },
     {
       path: 'side-bar',
-      loadComponent: () => import('@paginas/admin-pov/admin-dasboard/admin-dasboard.component'),
+      loadComponent: () => import('@componentes/admin-pov/side-bar/side-bar.component'),
       children: [
         {
           path: 'tabla',

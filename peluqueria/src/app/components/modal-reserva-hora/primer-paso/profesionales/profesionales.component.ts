@@ -1,11 +1,14 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, DestroyRef, inject, OnDestroy, OnInit, output, signal } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, DestroyRef, inject, input, OnInit, output, signal } from '@angular/core';
 import { register, SwiperContainer } from 'swiper/element/bundle';
 import { SwiperOptions } from 'swiper/types';
 import {BreakpointObserver} from '@angular/cdk/layout';
-import { Subject, takeUntil } from 'rxjs';
+import { Profesional } from '@interfaces/profesionales.interface';
+import { ProfesionalesService } from '@servicios/landingServices/profesionales-services/profesionales.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Servicio } from '@interfaces/servicio.interface';
+
 // register Swiper custom elements
 register();
-
 
 @Component({
   selector: 'profesionales',
@@ -14,94 +17,99 @@ register();
   templateUrl: './profesionales.component.html',
   styleUrl: './profesionales.component.css',
 })
-export class ProfesionalesComponent {
-  selectedProfessional: any = null;
+export class ProfesionalesComponent implements OnInit {
   groupedProfessionals = signal<any[][]>([]);
+  
   currentGroupIndex: number = 0;
   profesional = output<any>();
-  destroyed = new Subject<void>();
+  destroyed = inject(DestroyRef);
+  swiperElement = signal<SwiperContainer | null>(null);
   
-  swiperElement = signal<SwiperContainer | null>(null)
-
-  professionals = signal<any[]>([{
-    id: 1,
-    nombre: 'Juan\nPerez',
-  }, {
-    id: 2,
-    nombre: 'Maria\nLopez',
-  }, {
-    id: 3,
-    nombre: 'Carlos\nSanchez',
-  }, {
-    id: 4,
-    nombre: 'Miguel\nPerez',
-  }, {
-    id: 5,
-    nombre: 'Ana\nTorres',
-  }, {
-    id: 6,
-    nombre: 'Joaquin\nValdebenito',
-  },
-  {
-    id: 7,
-    nombre: 'Pedro\nTorres'
-  },
-  {
-    id: 8,
-    nombre: 'Laura\nFernandez'
-  },
-  {
-    id: 9,
-    nombre: 'Diego\nVargas'
-  },
-  {
-    id: 10,
-    nombre: 'Carla\nHerrera'
-  }
-  ]);
-
-  constructor(private responsive: BreakpointObserver) {
-
-    this.Breakpoint()
-    
-    const swiperContainer = document.querySelector('.swiper-container')
-    const swiperOptions: SwiperOptions = {
-      slidesPerView: 1,
-      spaceBetween: 16,
-      freeMode: true,
-    }
-
-    if(swiperContainer){
-      Object.assign(swiperContainer!, swiperOptions)
-      this.swiperElement.set(swiperContainer as SwiperContainer)
-      this.swiperElement()?.initialize
-    }
-  } 
-
-  Breakpoint(){
-    this.responsive.observe("(width >= 768px)").pipe(takeUntil(this.destroyed)).subscribe(state => {
-      if(state.matches){
-        console.log("Arreglo de 5")
-        this.groupProfessionals(5);
-      }else{
-        console.log("Arreglo de 3")
-        this.groupProfessionals(3);
-      }
-    })
-  }
-
+  private profService = inject(ProfesionalesService)
+  sp = signal(NaN);
+  professionals = signal<Profesional[]>([]);
+  serviceId = input.required<Servicio>();
+  
+  
+  /* Funciones Profesionales */
   selectProfessional(professional: any) {
-    this.selectedProfessional = professional;
-    this.profesional.emit(this.selectedProfessional);
+    this.sp.set(professional.id);
+    this.profesional.emit(professional);
   }
+  
+  ngOnInit() {
+    this.loadProfessionals();
+  }
+
+  /* Funciones Swiper */
+  constructor(private responsive: BreakpointObserver) {
+    this.setUpBreakpointListener()
+    
+  } 
+  
+  private loadProfessionals() {
+    this.profService.getProfServicios(this.serviceId().id).pipe(takeUntilDestroyed(this.destroyed)).subscribe({
+      next: (res) => {
+        if (res.length > 0) {
+          this.professionals.set(res);
+          this.applyInitialView(); //Aquí estaba el problema. Se seteaban los profesionales, 
+          // pero no se realizaba la actualización del arreglo de groupedProfessionals() de forma inicial
+        }
+      },
+      error: (err) => console.error('Error loading professionals', err)
+    });
+  }
+
+
+  private initializeSwiper() {
+    setTimeout(() => { // Pequeño delay para asegurar renderizado
+      const swiperContainer = document.querySelector('.swiper-container');
+      if (swiperContainer) {
+        const swiperOptions: SwiperOptions = {
+          slidesPerView: 1,
+          spaceBetween: 16,
+          freeMode: true,
+        };
+        Object.assign(swiperContainer, swiperOptions);
+        this.swiperElement.set(swiperContainer as SwiperContainer);
+        this.swiperElement()?.initialize();
+      }
+    }, 50);
+  }
+
+
+  private applyInitialView() {
+    const initialGroupSize = window.innerWidth >= 768 ? 5 : 3;
+    this.groupProfessionals(initialGroupSize);
+    this.initializeSwiper();
+  }
+
 
   groupProfessionals(qty: number) {
     const groupSize = qty;
-    this.groupedProfessionals.set([]);
-    for (let i = 0; i < this.professionals().length; i += groupSize) {
-    this.groupedProfessionals.update((prev) => [...prev, this.professionals().slice(i, i + groupSize)]);
-    //Pushea el grupo de profesionales en este arreglo, que deberían ser 5 por cada slide.
+    const group = []
+    if(this.professionals().length > 0){
+      for (let i = 0; i < this.professionals().length; i += groupSize) {
+      group.push(this.professionals().slice(i, i + groupSize))
+      //Pushea el grupo de profesionales en este arreglo, que deberían ser 5 por cada slide.
     }
+      this.groupedProfessionals.set(group)
+    } 
   }
 
+  private setUpBreakpointListener(){
+    this.responsive.observe("(width >= 768px)").pipe(takeUntilDestroyed(this.destroyed)).subscribe(state => {
+      this.handleBreakPoint(state.matches)
+    })
+  }
+
+
+
+  private handleBreakPoint(isLargeScreen: boolean){
+    const groupSize = isLargeScreen ? 5 : 3;
+    this.groupProfessionals(groupSize)
+  }
+
+
+  
 }
