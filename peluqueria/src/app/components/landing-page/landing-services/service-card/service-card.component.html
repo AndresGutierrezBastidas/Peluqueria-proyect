@@ -7,10 +7,10 @@
   <div (click)="openModal(card.id)" class="max-w-xs bg-white rounded-lg shadow-sm">
       <img class="rounded-t-lg" src="https://iscemp.edu.pe/wp-content/uploads/2023/11/barberia-iscemp-curso-03-1024x694.jpg" alt="" />
     <div class="p-5">
-      <a href="#" class="flex flex-row gap-7">
+      <div class="flex flex-row gap-7">
         <h5 class="mb-2 text-2xl font-bold tracking-tight">{{ card.nombre }}</h5>
         <h5 class="mb-2 text-2xl font-bold tracking-tight text-end">{{ card.precio }}</h5>
-      </a>
+      </div>
       <p class="mb-3 font-normal text-gray-700">{{ card.descripcion }}</p>
     </div>
   </div>
