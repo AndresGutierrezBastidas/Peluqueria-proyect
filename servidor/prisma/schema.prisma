@@ -21,6 +21,7 @@ model Cliente {
   email    String @unique @db.VarChar(255)
 
   usuario Usuario?
+  Reserva Reserva[]
 }
 
 model Usuario {
@@ -31,21 +32,21 @@ model Usuario {
 
   cliente Cliente @relation(fields: [clientId], references: [id])
 
-  reserva Reserva[]
 }
 
 model Reserva {
   id           Int      @id @default(autoincrement())
   fechaCreada  DateTime @default(now())
   fechaReserva DateTime @db.Date
-  hora         DateTime
   total        Int
 
   servicioId Int @unique
-  usuarioId  Int @unique
+  horaId     Int @unique
+  clienteId  Int @unique
 
   servicio Servicio @relation(fields: [servicioId], references: [id])
-  usuario  Usuario  @relation(fields: [usuarioId], references: [id])
+  cliente  Cliente  @relation(fields: [clienteId], references: [id])
+  hora  Hora  @relation(fields: [horaId], references: [id])
 }
 
 model Servicio {
@@ -54,8 +55,17 @@ model Servicio {
   precio        Int
   descripcion   String @db.VarChar(500)
   profesionalId Int    @unique
+  // foto Int @db.VarChar(1)
 
   profesional Profesional @relation(fields: [profesionalId], references: [id])
+  Reserva     Reserva[]
+}
+
+
+model Hora {
+  id            Int    @id @default(autoincrement())
+  hora          String @db.VarChar(10)
+  
   Reserva     Reserva[]
 }
 

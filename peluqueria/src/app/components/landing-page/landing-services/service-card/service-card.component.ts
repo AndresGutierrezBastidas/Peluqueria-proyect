@@ -1,14 +1,49 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ModalReservaHoraComponent } from '@componentes/modal-reserva-hora/modal-reserva-hora.component';
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition,
+  keyframes,
+  // ...
+} from '@angular/animations';
 
 @Component({
   selector: 'service-card',
-  imports: [CommonModule],
+  imports: [CommonModule,ModalReservaHoraComponent],
   standalone: true, // importante si es un componente independiente
   templateUrl: './service-card.component.html',
-  styleUrl: './service-card.component.css'
-})
+  styleUrl: './service-card.component.css',
+    animations: [
+      trigger('fadeIn', [
+        state('open', style({ transform: 'translateX(20px)' })),
+        transition(':enter', [
+          animate('1s ease', keyframes([
+            style({ opacity: 0, transform: 'translateX(-100%)', offset: 0 }),
+            style({ opacity: 0.5, transform: 'translateX(-50%)', offset: 0.3 }),
+            style({ opacity: 1, transform: 'translateX(0)', offset: 1 })
+          ]))
+        ])
+      ])
+    ]
+  })
+
 export class ServiceCardComponent {
+  /* Variables Modal */
+  isModalVisible: boolean = false;
+
+  openModal() {
+    this.isModalVisible = true;
+  }
+
+  closeModal() {
+    this.isModalVisible = false;
+  }
+
+  /* Variables Cards */
   showAll = false;
 
   cards = [
