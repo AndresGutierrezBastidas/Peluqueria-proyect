@@ -17,4 +17,5 @@ export class HorasComponent {
     this.selectedTime.set(time);
     this.hora.emit(this.selectedTime());
   }
+  
 }
