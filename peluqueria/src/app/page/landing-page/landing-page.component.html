@@ -1,38 +1,19 @@
 
-<main class="flex flex-col bg-white min-h-screen">
+<main class="flex flex-col bg-gray-100 min-h-screen">
   <!-- Sección de welcome -->
   <header id="inicio" >
       <landing-welcome></landing-welcome>
   </header>
 
   <!-- Sección de servicios -->
-  @defer (on viewport) {
-
-    <section @fadeIn id="servicios">
-  
-        <landing-services></landing-services>
-    </section>
-  }@placeholder {
-    <div class="size-full">Sección de servicios</div>
-  }
+  <section id="servicios">
+      <landing-services></landing-services>
+  </section>
 
   <!-- Sección sobre nosotros -->
-  @defer (on viewport) {
-    <section @fadeIn id="conoce">
-        <landing-about-us></landing-about-us>
-    </section>
-  }@placeholder {
-    <div class="container size-full">Sección de conócenos</div>
-  }
-
-  @defer (on viewport) {
-
-    <section @fadeIn id="map">
-      <landing-map></landing-map>
-    </section>
-  }@placeholder {
-    <div class="container size-full">Sección del mapa</div>
-  }
+  <section id="conoce">
+      <landing-about-us></landing-about-us>
+  </section>
 
 </main>
 
