@@ -24,7 +24,7 @@ Esta estructura de carpetas utiliza prácticas comunes en proyectos medianos/gra
      * Interacción con modelos/base de datos.
    - Ejemplo: userService.js (con métodos como createUser, updateUser)
 
-3. 📁 /models o prisma
+3. 📁 /models
    - Responsabilidad: Definir la estructura de datos y conexión con BD.
    - Contenido típico:
      * Schemas (Mongoose) o modelos (Sequelize).

@@ -1,7 +1,4 @@
-import { Component, inject, output, signal, Signal } from '@angular/core';
-import { Horas } from '@interfaces/horas.interface';
-import { HorasService } from '@servicios/landingServices/horas-services/horas.service';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { Component, output } from '@angular/core';
 
 @Component({
   selector: 'horas',
@@ -10,15 +7,14 @@ import { toSignal } from '@angular/core/rxjs-interop';
   styleUrl: './horas.component.css'
 })
 export class HorasComponent {
-  private horasS = inject(HorasService)
-  sT = signal<number>(0);
-  hora = output<Horas>();
-  
-  // Horarios disponibles
-  horas: Signal<Horas[] | undefined> = toSignal(this.horasS.getHoras())
+  selectedTime: string = '';
+  hora = output<string>();
 
-  selectTime(time: Horas) {    
-    this.sT.set(time.id);
-    this.hora.emit(time);
+  // Horarios disponibles
+  times = ['10:00 AM', '10:30 AM', '11:00 AM', '11:30 AM', '12:00 PM', '12:30 PM', '13:00 PM', '14:00 PM', '14:30 PM', '15:00 PM', '16:00 PM', '16:30 PM', '17:00 PM', '18:00 PM', '18:30 PM'];
+
+  selectTime(time: string) {
+    this.selectedTime = time;
+    this.hora.emit(this.selectedTime);
   }
 }

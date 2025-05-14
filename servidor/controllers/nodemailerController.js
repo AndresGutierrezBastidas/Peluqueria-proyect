@@ -34,7 +34,7 @@ export async function correo(req, res) {
     }
     htmlCorreo += "<br><h1>Fin correo</h1>"
 
-    const { error } = await transportador.sendMail({
+    const { data, error } = await transportador.sendMail({
         from: '"Prueba de Correo" <proyectofinal118@gmail.com>',
         to: correo,
         subject: asunto,
