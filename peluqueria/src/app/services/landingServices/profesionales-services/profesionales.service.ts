@@ -2,20 +2,24 @@ import { Profesional } from '@interfaces/profesionales.interface';
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { adapter } from '@adapter/commonAdapter';
-import { toSignal } from '@angular/core/rxjs-interop'; // Opcional para Angular 16+
-import { map } from 'rxjs/operators';
+import { map, Observable, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProfesionalesService {
-  private http = inject(HttpClient);
-  private url = 'http://localhost:3000/api/profesionales';
+//Miguel, Sebastian y manu(solo obtener)
+//[❗] deben revisar para que los servicios ocupen el mismo sistema de array
+//[✅] obtener Profesionales
+//[✅] obtener Profesionales por id
+//[❌] crear Profesionales
+//[❌] editar Profesionales
+  http = inject(HttpClient);
+  url = 'http://localhost:3000/api/profesionales';
+  profesionales = signal<Profesional[]>([]);
 
-  // Signal con Map<number, Profesional> (id es number)
   profesionalesMap = signal<Map<number, Profesional>>(new Map());
 
-  // Signal con array original por si necesitas mantenerlo
   profesionalesArray = signal<Profesional[]>([]);
 
   constructor() {
@@ -25,30 +29,31 @@ export class ProfesionalesService {
   obtenerProfesionales() {
     this.http.get<Profesional[]>(`${this.url}/getProf`)
       .pipe(
-        map(resp => adapter(resp)) // Adapta la respuesta si es necesario
+        map(resp => adapter(resp))
       )
       .subscribe((profesionales: Profesional[]) => {
-        // 1. Actualizar el array
         this.profesionalesArray.set(profesionales);
-
-        // 2. Crear un nuevo Map con los profesionales indexados por ID
         const nuevoMap = new Map<number, Profesional>();
         profesionales.forEach(prof => {
-          if (prof.id != null) { // Verificación opcional de null/undefined
+          if (prof.id != null) {
             nuevoMap.set(prof.id, prof);
           }
         });
-
-        // 3. Actualizar la señal del Map
         this.profesionalesMap.set(nuevoMap);
       });
   }
 
-  // Método para obtener un profesional por ID (number)
   getProfesionalById(id: number): Profesional | undefined {
-
     return this.profesionalesMap().get(id);
   }
 
-  
+  /* Profesionales del Servicio */
+  getProfServicios(id: number): Observable<Profesional[]>{
+    return this.http.get<Profesional[]>(`${this.url}/serviceProf/${id}`).pipe(
+      tap((resp: Profesional[]) => {
+        const profesionales = adapter(resp);
+        this.profesionales.update((lista) => [...lista, ...profesionales])
+      })
+    )
+  }
 }

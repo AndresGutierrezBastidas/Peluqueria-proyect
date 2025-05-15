@@ -12,7 +12,6 @@ import { trigger, state, style, animate, transition, keyframes } from '@angular/
   styleUrl: './landing-services.component.css',
 })
 export class LandingServicesComponent {
-  serviciosService = inject(ServiciosLandingService);
-  servicios =  signal<Servicio[]>(this.serviciosService.serviciosArray());
+  
 
 }

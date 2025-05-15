@@ -1,84 +1,43 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ModalReservaHoraComponent } from '@componentes/modal-reserva-hora/modal-reserva-hora.component';
-import {
-  trigger,
-  state,
-  style,
-  animate,
-  transition,
-  keyframes,
-  // ...
-} from '@angular/animations';
+import { ServiciosLandingService } from '@servicios/landingServices/servicio-service/servicios-landing.service';
+import { Servicio } from '@interfaces/servicio.interface';
 
 @Component({
   selector: 'service-card',
   imports: [CommonModule,ModalReservaHoraComponent],
   standalone: true, // importante si es un componente independiente
   templateUrl: './service-card.component.html',
-  styleUrl: './service-card.component.css',
-    animations: [
-      trigger('fadeIn', [
-        state('open', style({ transform: 'translateX(20px)' })),
-        transition(':enter', [
-          animate('1s ease', keyframes([
-            style({ opacity: 0, transform: 'translateX(-100%)', offset: 0 }),
-            style({ opacity: 0.5, transform: 'translateX(-50%)', offset: 0.3 }),
-            style({ opacity: 1, transform: 'translateX(0)', offset: 1 })
-          ]))
-        ])
-      ])
-    ]
-  })
-
-export class ServiceCardComponent {
-  /* Variables Modal */
-  isModalVisible: boolean = false;
-
-  openModal() {
-    this.isModalVisible = true;
-  }
-
-  closeModal() {
-    this.isModalVisible = false;
-  }
+  styleUrl: './service-card.component.css'
+})
+export class ServiceCardComponent implements OnInit {
 
   /* Variables Cards */
   showAll = false;
 
-  cards = [
-    {
-      title: 'Corte de pelo',
-      description: 'Corte de pelo adecuado a tu forma de craneo',
-      image: 'https://iscemp.edu.pe/wp-content/uploads/2023/11/barberia-iscemp-curso-03-1024x694.jpg',
-    },
-    {
-      title: 'Corte de cabello',
-      description: 'Corte moderno para realzar tu estilo.',
-      image: 'https://iscemp.edu.pe/wp-content/uploads/2023/11/barberia-iscemp-curso-03-1024x694.jpg',
-    },
-    {
-      title: 'Asesoría facial',
-      description: 'Análisis facial para corte adecuado.',
-      image: 'https://iscemp.edu.pe/wp-content/uploads/2023/11/barberia-iscemp-curso-03-1024x694.jpg',
-    },
-    {
-      title: 'Tratamiento capilar',
-      description: 'Tratamiento especializado para el cuero cabelludo.',
-      image: 'https://iscemp.edu.pe/wp-content/uploads/2023/11/barberia-iscemp-curso-03-1024x694.jpg',
-    },
-    {
-      title: 'Tratamiento capilar',
-      description: 'Tratamiento especializado para el cuero cabelludo.',
-      image: 'https://iscemp.edu.pe/wp-content/uploads/2023/11/barberia-iscemp-curso-03-1024x694.jpg',
-    }
-  ];
+  isModalVisible = signal<boolean>(false);
+  service = signal<Servicio>({} as Servicio);
 
-  get visibleCards() {
-    return this.showAll ? this.cards : this.cards.slice(0, 4);
+  openModal(card: Servicio) {
+    this.service.set(card);
+    this.isModalVisible.set(true);
+  }
+
+  closeModal() {
+    this.isModalVisible.set(false);
+  }
+
+  serviciosS = inject(ServiciosLandingService);
+  cards = signal<Servicio[]>(this.serviciosS.serviciosArray())
+
+  ngOnInit(){
+    this.cards.set(this.serviciosS.serviciosArray());
   }
 
   toggleShow() {
     this.showAll = !this.showAll;
+    this.showAll ? this.cards.set(this.serviciosS.serviciosArray()) : this.cards.set(this.serviciosS.serviciosArray().slice(0,4));
   }
+
 }

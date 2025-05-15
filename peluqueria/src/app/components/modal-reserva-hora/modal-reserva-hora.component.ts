@@ -1,77 +1,65 @@
-import { Component, output, EventEmitter, input, signal, inject} from '@angular/core';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, output, input, signal, inject} from '@angular/core';
 import { CalendarComponent } from './primer-paso/calendar/calendar.component';
 import { HorasComponent } from './primer-paso/horas/horas.component';
 import { ProfesionalesComponent } from './primer-paso/profesionales/profesionales.component';
-import { DatePipe } from '@angular/common';
 import { DatosServicioComponent } from './segundo-paso/datos-servicio/datos-servicio.component';
 import { FormDatosComponent } from './segundo-paso/form-datos/form-datos.component';
 import { ModalServiceService } from '@servicios/landingServices/modal-services/modal-service.service';
+import { Profesional } from '@interfaces/profesionales.interface';
+import { Horas } from '@interfaces/horas.interface'
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ssInterface } from '@interfaces/forms.interface';
+import { Servicio } from '@interfaces/servicio.interface';
 
 @Component({
   selector: 'modal-reserva-hora',
-  imports: [ReactiveFormsModule,FormsModule,CalendarComponent,
-    HorasComponent,ProfesionalesComponent,DatePipe,
-  DatosServicioComponent,FormDatosComponent],
+  imports: [CalendarComponent,HorasComponent,ProfesionalesComponent,
+    DatosServicioComponent,FormDatosComponent,ReactiveFormsModule],
   templateUrl: './modal-reserva-hora.component.html',
   styleUrl: './modal-reserva-hora.component.css'
 })
-
 export class ModalReservaHoraComponent {
   /* Servicios Injectados */
-  private modalService = inject(ModalServiceService);
+  modalService = inject(ModalServiceService);
 
   /* Variables para el modal */
   isVisible = input<boolean>();
+  serviceId = input.required<Servicio>()
   close = output<void>();
   pasoActual: number = 1;
 
-  /* Mostrar fecha escogida */
-  date = signal<Date>(new Date());
-  hora = signal<string>('');
+  /* Datos FS */
+  dataFS = signal<[Date , Horas , Profesional ]>([new Date, {id: NaN, hora: ''} , {id: NaN, nombre: ''} ]);
+  inputSS = signal(this.modalService.form.get('SS') as FormGroup)
+  valid = signal(this.modalService.form.get('FS')?.valid);
 
-  /* Profesional y servicio */
-  profesional = signal<any>(null);
+  selectedData(data: any, i: number){
+    this.dataFS.update((prev) => {
+      if(i === 0) return [data, prev[1], prev[2]];
+      if(i === 1) return [prev[0], data, prev[2]];
+      if(i === 2) return [prev[0], prev[1], data];
+      return [prev[0], prev[1], prev[2]];
+    });
 
-  /* Form reserva */
-  reservaForm = new FormGroup({
-    formPrimerPaso: new FormGroup({
-      fechaReserva: new FormControl<string>('',Validators.required),
-      horaReserva: new FormControl<string>('', Validators.required),
-      profesional: new FormControl<any>(null , Validators.required)
-    }),
-    formSegundoPaso: new FormGroup({
-      nombre: new FormControl<string>('', Validators.required),
-      apellido: new FormControl<string>('', Validators.required),
-      telefono: new FormControl<number>(0 ,Validators.required),
-      correo: new FormControl<string>('', [Validators.required, Validators.email]),
-    })
-  })
-
-  onDateSelected(date: Date){
-    this.date.set(date);
-    console.log(date);
-    this.reservaForm.get('formPrimerPaso.fechaReserva')?.setValue(this.date().toLocaleString('es-CL'));
-  }
-
-  selectedHour(hora: string){
-    this.hora.set(hora);
-    this.reservaForm.get('formPrimerPaso.horaReserva')?.setValue(this.hora());
-  }
-
-  selectedProf(profesional: any){
-    this.profesional.set(profesional);
-    this.reservaForm.get('formPrimerPaso.profesional')?.setValue(this.profesional());
+    if(this.dataFS()[0] !== new Date && !isNaN(this.dataFS()[1].id) && !isNaN(this.dataFS()[2].id)){
+      this.modalService.form.get('FS')?.setValue({
+        profesional: this.dataFS()[2],
+        horas: this.dataFS()[1],
+        dia: this.dataFS()[0]
+      })
+    }
   }
 
   nextStep() {
-    if (this.reservaForm.get('formPrimerPaso')?.status === 'VALID'){
+    if (this.modalService.form.get('FS')?.valid){
       this.pasoActual++;
     }
   }
 
   closeModal() {
-      this.close.emit();
+    this.pasoActual = 1;
+    this.modalService.form.reset();
+    this.close.emit();
   }
 
   previousStep() {
@@ -79,6 +67,9 @@ export class ModalReservaHoraComponent {
   }
 
   confirmar(){
-    console.log('Reserva confirmada');
+    console.log(this.modalService.form.get('SS')?.valid);
+    if(this.modalService.form.get('SS')?.valid){
+      this.modalService.crearReserva(this.serviceId());
+    }
   }
 }
