@@ -21,4 +21,5 @@ export class HorasComponent {
     this.sT.set(time.id);
     this.hora.emit(time);
   }
+  
 }
