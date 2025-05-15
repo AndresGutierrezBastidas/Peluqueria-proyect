@@ -22,11 +22,8 @@ export class ServiciosLandingService {
   http = inject(HttpClient);
   url = 'http://localhost:3000/api/services';
 
-
-
   servicios = signal<Map<number,Servicio>>(new Map());
   serviciosArray = signal<Servicio[]>([]);
-
 
   obtenerServicios():void{
     this.http.get<Servicio[]>(`${this.url}/getServices`)
@@ -45,7 +42,6 @@ export class ServiciosLandingService {
     });
   }
 
-
   crearServicio(servicio: Servicio) {
     this.http.post<{id: number} & Servicio>('http://localhost:3000/api/services/createServices', servicio).pipe(
       tap((nuevoServicio) => {
@@ -62,6 +58,4 @@ export class ServiciosLandingService {
   obtenerServicioNombreId(id:number){
     return this.servicios().get(id)?.nombre;
   }
-
-
 }
