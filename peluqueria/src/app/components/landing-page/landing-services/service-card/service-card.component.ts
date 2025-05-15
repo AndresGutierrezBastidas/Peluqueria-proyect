@@ -29,21 +29,15 @@ export class ServiceCardComponent {
   }
 
   serviciosS = inject(ServiciosLandingService);
-  cards = signal<Servicio[]>(this.serviciosS.servicios().slice(0,4))
+  cards = signal<Servicio[]>(this.serviciosS.serviciosArray())
 
   ngOnInit(){
-    this.serviciosS.obtenerServicios().subscribe({
-      next: (res) => {
-        if(res.length > 0){
-          this.cards.set(res);
-        }
-      }
-    })
+    this.cards.set(this.serviciosS.serviciosArray().slice(0,4));
   }
 
   toggleShow() {
     this.showAll = !this.showAll;
-    this.showAll ? this.cards.set(this.serviciosS.servicios()) : this.cards.set(this.serviciosS.servicios().slice(0,4));
+    this.showAll ? this.cards.set(this.serviciosS.serviciosArray()) : this.cards.set(this.serviciosS.serviciosArray().slice(0,4));
   }
 
 }

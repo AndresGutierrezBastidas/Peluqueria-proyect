@@ -20,7 +20,6 @@ export class ProfesionalesService {
 
   profesionalesMap = signal<Map<number, Profesional>>(new Map());
 
-
   profesionalesArray = signal<Profesional[]>([]);
 
   constructor() {
@@ -44,9 +43,7 @@ export class ProfesionalesService {
       });
   }
 
-
   getProfesionalById(id: number): Profesional | undefined {
-
     return this.profesionalesMap().get(id);
   }
 
