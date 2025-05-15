@@ -7,8 +7,8 @@ export interface Reserva{
   fechaReserva: Date;
   total: number;
   servicioId: number;
-  clienteId: number;
   horaId: number;
+  clienteId: number;
 }
 
 

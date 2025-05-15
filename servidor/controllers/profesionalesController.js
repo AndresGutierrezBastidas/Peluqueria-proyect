@@ -22,5 +22,4 @@ export async function servicioProfesionales(req, res) {
     } catch (e) {
         console.log('Error al obtener los profesionales', e.message);
     }
-
 }

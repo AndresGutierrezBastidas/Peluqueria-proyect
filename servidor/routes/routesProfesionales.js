@@ -3,6 +3,7 @@ import { obtenerProfesionales, servicioProfesionales } from "../controllers/prof
 
 const router = Router();
 
+
 router.get('/getProf', obtenerProfesionales);
 router.get('/serviceProf/:id', servicioProfesionales);
 
