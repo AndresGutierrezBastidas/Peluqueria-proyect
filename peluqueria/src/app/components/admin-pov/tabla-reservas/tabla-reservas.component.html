@@ -51,13 +51,16 @@
               ${{ dato.total }}
             </td>
             <td class="px-6 py-4 text-gray-800">
-              {{ servicios.obtenerServicioNombreId(dato.servicioId) }}
+              {{ dato.cliente_fullname}}
             </td>
             <td class="px-6 py-4 text-gray-800">
-              {{ dato.clienteId }}
+              {{ dato.servicio_nombre }}
             </td>
             <td class="px-6 py-4 text-gray-800">
-              {{ dato.horaId }}
+              {{ dato.profesional_nombre }}
+            </td>
+            <td class="px-6 py-4 text-gray-800">
+              {{ dato.hora_reserva }}
             </td>
             <td class="px-4 py-2">
               <span (click)="isVisible(true)" class="material-symbols-outlined text-gray-800">open_in_new</span>

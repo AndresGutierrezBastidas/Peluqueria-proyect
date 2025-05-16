@@ -1,7 +1,8 @@
-import { adapter } from '@adapter/commonAdapter';
+import { adapterReserva } from '@adapter/commonAdapter';
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { Reserva } from '@interfaces/reserva.interface';
+import { map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +13,9 @@ import { Reserva } from '@interfaces/reserva.interface';
 //[✅] obtener reserva
 //[✅] crear reserva
 export class ReservaServiceService {
-  constructor() {}
+  constructor() {
+    this.obtenerReservas();
+  }
 
   http = inject(HttpClient);
   url = 'http://localhost:3000/api/reserva';
@@ -20,16 +23,13 @@ export class ReservaServiceService {
 //servicios para lo relacionado con las reservas
 //obtener reserva -> retorna todas las reservas
 //miguel encargado ser manejar el servicio de reserva
-  obtenerReservas(): Reserva[] {
-    this.http
-      .get<Reserva[]>(`${this.url}/getReserva`)
-      .subscribe((resp: Reserva[]) => {
-        const reservas = adapter(resp)
-        this.reservas.update((list) => [...list, ...reservas]);
-      });
-      console.log(this.reservas());
-      return this.reservas();
-  }
+obtenerReservas(): void {
+  this.http.get<any[]>(`${this.url}/getReserva`).subscribe((resp) => {
+    const reservas = adapterReserva(resp); // Ahora sí se transformará correctamente
+    this.reservas.update((list) => [...list, ...reservas]);
+    console.log(reservas); // Verás la estructura plana que defines en tu interfaz
+  });
+}
 //crear reserva asignado manu
   crearReserva(reserva: any){
       this.http.post(`${this.url}/postReserva`,reserva)

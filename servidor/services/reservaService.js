@@ -3,56 +3,49 @@ import  prismaExtended  from '../lib/prismaExtended.js';
 
 
 export async function getReservas() {
+
     try {
-        const reserva = await prismaExtended.reserva.findMany({
+        const reservas = await prismaExtended.reserva.findMany({
             omit: {
-                clienteId: true,
-                horaId: true,
-                servicioId: true
-            }, 
-            include: {
-                cliente: {
-                    select: {
-                        nombre: true,
-                        apellido: true
-                    }
-                },
-                servicio: {
-                    select: {
-                        nombre: true,
-                        precio: true,
-                        servicioprofesional: {  // Nombre correcto de la relación
-                            select: {
-                                profesional: {
-                                    select: {
-                                        nombre: true
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                hora: {
-                    select: {
-                        hora: true
-                    }
-                }
-            }
-        });
-        
-        // Opcional: Formatear los datos para incluir fullName
-        const reservasFormateadas = reserva.map(res => ({
-            ...res,
-            cliente: {
-                fullName: `${res.cliente.nombre} ${res.cliente.apellido}`
+              clienteId: true,
+              horaId: true,
+              servicioId: true
             },
-            profesional: res.servicio.servicioprofesional[0]?.profesional.nombre || 'No asignado'
-        }));
-        
-        return reservasFormateadas;
+            include: {
+              cliente: {
+                select: {
+                  nombre: true,
+                  apellido: true
+                }
+              },
+              servicio: {
+                select: {
+                  nombre: true,
+                  servicioprofesional: {
+                    take: 1, // Solo toma el primer profesional asociado
+                    select: {
+                      profesional: {
+                        select: {
+                          nombre: true
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              hora: {
+                select: {
+                  hora: true
+                }
+              }
+            }
+          });
+        return reservas;
     } catch (error) {
-        console.error("Error en getReservas:", error.message);
+        
+        console.error("Error en getHoras:", error.message);
         throw error; 
+        
     }
 }
 
