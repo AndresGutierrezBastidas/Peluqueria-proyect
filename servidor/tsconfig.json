@@ -9,6 +9,6 @@
     "rootDir": ".",
     "skipLibCheck": true
   },
-  "include": ["**/*.ts", "lib/prisma.js", "lib/prismaExtended.js"],
+  "include": ["**/*.ts", "lib/prisma.ts", "lib/prismaExtended.ts"],
   "exclude": ["node_modules"]
 }
