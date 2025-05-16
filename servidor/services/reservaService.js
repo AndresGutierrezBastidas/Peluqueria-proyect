@@ -2,46 +2,48 @@ import  prisma  from '../lib/prisma.ts';
 import  prismaExtended  from '../lib/prismaExtended.ts';
 
 
-export async function getReservas() {
-
-    try {
-        const reserva = await prismaExtended.reserva.findMany({
-            omit: {
-              clienteId: true,
-              horaId: true,
-              servicioId: true
-            }, 
-            include: {
-                cliente: {
-                    select: {
-                        fullName: true,
-                    }
-                },
-                servicio: {
-                    select: {
-                        servicioprofesional: {
-                            select: {
-                                profesional: {
-                                    select: {
-                                        nombre: true
-                                    }
-                                }
-
-                            }
-                        }
-                    }
-                },
-
-                
+ export async function getReservas() {
+  try {
+    const reservas = await prismaExtended.reserva.findMany({
+      omit: {
+        clienteId: true,
+        horaId: true,
+        servicioId: true
+      },
+      include: {
+        cliente: {
+          select: {
+            fullName: true
+          }
+        },
+        servicio: {
+          select: {
+            nombre: true,
+            servicioprofesional: {
+              take: 1, // Solo toma el primer profesional asociado
+              select: {
+                profesional: {
+                  select: {
+                    nombre: true
+                  }
+                }
+              }
             }
-        });
-        return reserva;
-    } catch (error) {
-        
-        console.error("Error en getHoras:", error.message);
-        throw error; 
-        
-    }
+          }
+        },
+        hora: {
+          select: {
+            hora: true
+          }
+        }
+      }
+    });
+
+    return reservas;
+  } catch (error) {
+    console.error("Error en getReservas:", error.message);
+    throw error;
+  }
 }
 
 export async function createReserva(datos) {
