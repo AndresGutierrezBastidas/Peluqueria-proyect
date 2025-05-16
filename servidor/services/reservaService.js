@@ -1,5 +1,5 @@
-import  prisma  from '../lib/prisma.js';
-import  prismaExtended  from '../lib/prismaExtended.js';
+import  prisma  from '../lib/prisma.ts';
+import  prismaExtended  from '../lib/prismaExtended.ts';
 
 
 export async function getReservas() {
@@ -19,7 +19,7 @@ export async function getReservas() {
                 },
                 servicio: {
                     select: {
-                        serPro: {
+                        servicioprofesional: {
                             select: {
                                 profesional: {
                                     select: {
@@ -31,8 +31,8 @@ export async function getReservas() {
                         }
                     }
                 },
-                
 
+                
             }
         });
         return reserva;
