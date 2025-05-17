@@ -1,7 +1,6 @@
 import  prisma  from '../lib/prisma.js';
 import  prismaExtended  from '../lib/prismaExtended.js';
 
-
 export async function getReservas() {
 
     try {
@@ -21,7 +20,7 @@ export async function getReservas() {
               servicio: {
                 select: {
                   nombre: true,
-                  servicioprofesional: {
+                  serPro: {
                     take: 1, // Solo toma el primer profesional asociado
                     select: {
                       profesional: {
@@ -50,22 +49,46 @@ export async function getReservas() {
 }
 
 export async function createReserva(datos) {
-    console.log("Datos de reserva:", datos);
-    
+    // Verificar si el usuario ya existe
+    const clienteExistente = await prisma.cliente.findUnique({
+      where: {
+        email: datos.cliente.email
+      }
+    });
+    let data = {};
+    if (clienteExistente) {
+      data = {
+        ...datos.reserva,
+        clienteId: clienteExistente.id
+      };
+    } else {
+      data = {
+        fechaReserva: datos.reserva.fechaReserva,
+        total: datos.reserva.total,
+        servicio: {
+          connect: {
+            id: datos.reserva.servicioId
+          }
+        },
+        hora: {
+          connect: {
+            id: datos.reserva.horaId
+          }
+        },
+        cliente: {
+          create: {
+            nombre: datos.cliente.nombre,
+            apellido: datos.cliente.apellido,
+            email: datos.cliente.email
+          }
+        }
+      };
+    }    
     try {
-        const reserva = await prisma.reserva.create({
-            data : {
-                fechaCreada: new Date().toISOString(),
-                fechaReserva: datos.fechaReserva,
-                total: datos.total,
-                servicioId: datos.servicioId,
-                clienteId: datos.clienteId,
-                horaId: datos.horaId
-            }
-        });
+        const reserva = await prisma.reserva.create({data});
         return reserva;
     } catch (error) {
-        console.error("Error en createReserva:", datos , error.message);
+        console.error("Error en createReserva:", data , error.message);
         throw error; 
     }
     

@@ -30,17 +30,24 @@ obtenerReservas(): void {
     console.log(reservas); // Verás la estructura plana que defines en tu interfaz
   });
 }
+
 //crear reserva asignado manu
   crearReserva(reserva: any){
       this.http.post(`${this.url}/postReserva`,reserva)
       .subscribe({
         next: (resp: any) => {
-          console.log(resp);
-          if (resp.error) {
-            console.log(resp.error);
-            return;
-          } else {
+          if (!resp.error) {            
+            const correo = {tipoCorreo: "1", correo: reserva.cliente.email}
+            this.http.post(`${this.url}/enviarCorreo`, correo).subscribe({
+              next: (resp) => {
+                console.log('Correo enviado:', resp);
+              },
+              error: (err) => {
+                console.error('Error al enviar el correo:', err);
+              }
+            })
             this.obtenerReservas();
+            return;
           }
         },
         error: (err) => {

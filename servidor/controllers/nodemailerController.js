@@ -12,7 +12,7 @@ const transportador = createTransport({
 
 export async function correo(req, res) {
 
-    const { tipoCorreo, correo } = req.body;
+    const { tipoCorreo , correo } = req.body;
 
     let asunto = "";
     let htmlCorreo = "<h1>Correo</h1><br>";
