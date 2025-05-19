@@ -36,3 +36,22 @@ export async function getProfServicio(servicioId){
         throw error;
     }
 }
+
+
+export async function addProfesionalService(data) {
+  try {
+    const { nombre  } = data;
+
+    const nuevoProfesional = await prisma.profesional.create({
+      data: {
+        nombre
+      }
+    });
+
+    return nuevoProfesional;
+  } catch (error) {
+    console.error("Error al crear profesional:", error);
+
+    throw error;
+  }
+}

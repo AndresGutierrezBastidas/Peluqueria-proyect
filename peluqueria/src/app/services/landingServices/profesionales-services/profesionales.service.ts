@@ -56,4 +56,9 @@ export class ProfesionalesService {
       })
     )
   }
+
+  addProfesional(Profesional : Profesional):Observable<Profesional>{
+    const UrlPost = `${this.url}/addProfesional`;
+    return this.http.post<Profesional>(UrlPost, Profesional)
+  }
 }

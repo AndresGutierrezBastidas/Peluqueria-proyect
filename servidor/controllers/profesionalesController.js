@@ -1,4 +1,4 @@
-import { getProfesionales, getProfServicio } from "../services/profesionalesService.js"
+import { getProfesionales, getProfServicio, addProfesionalService } from "../services/profesionalesService.js"
 
 export async function obtenerProfesionales(req, res) {
     try{
@@ -21,5 +21,13 @@ export async function servicioProfesionales(req, res) {
         res.json(response);
     } catch (e) {
         console.log('Error al obtener los profesionales', e.message);
+    }
+}
+export async function addProfesionalController(req,res){
+    try{
+        const response = await addProfesionalService(req.body)
+        res.status(201).json(response);
+    }catch(e){
+        console.log("Error al intentar agregar un profesional")
     }
 }
