@@ -15,17 +15,20 @@ export const routes: Routes = [
     },
     {
       path: 'side-bar',
-      loadComponent: () => import('@componentes/admin-pov/side-bar/side-bar.component'),
+      loadComponent: () => import('@paginas/admin-pov/admin-dasboard/admin-dasboard.component'),
       children: [
         {
-          path: 'tabla',
+          path: 'profesionales',
           loadComponent: () =>
           import('@paginas/admin-pov/admin-profesionales/admin-profesionales.component'),
-        },
-        {
-          path: 'cuenta',
+        },{
+          path: 'servicios',
           loadComponent: () =>
-          import('@paginas/admin-pov/admin-cuenta/admin-cuenta.component'),
+          import('@paginas/admin-pov/admin-servicios/admin-servicios.component'),
+        },{
+          path: 'reservas',
+          loadComponent: () =>
+          import('@paginas/admin-pov/admin-reservas/admin-reservas.component'),
         }
       ]
     },

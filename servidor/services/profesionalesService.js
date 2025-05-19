@@ -10,7 +10,6 @@ export async function getProfesionales() {
     }
 }
 
-
 export async function getProfServicio(servicioId){
     try {
         /* RawSql */
@@ -37,5 +36,3 @@ export async function getProfServicio(servicioId){
         throw error;
     }
 }
-
-

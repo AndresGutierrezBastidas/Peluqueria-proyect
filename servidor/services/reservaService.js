@@ -5,37 +5,42 @@ import  prismaExtended  from '../lib/prismaExtended.js';
 export async function getReservas() {
 
     try {
-        const reserva = await prismaExtended.reserva.findMany({
+        const reservas = await prismaExtended.reserva.findMany({
             omit: {
               clienteId: true,
               horaId: true,
               servicioId: true
-            }, 
+            },
             include: {
-                cliente: {
+              cliente: {
+                select: {
+                  nombre: true,
+                  apellido: true
+                }
+              },
+              servicio: {
+                select: {
+                  nombre: true,
+                  servicioprofesional: {
+                    take: 1, // Solo toma el primer profesional asociado
                     select: {
-                        fullName: true,
-                    }
-                },
-                servicio: {
-                    select: {
-                        serPro: {
-                            select: {
-                                profesional: {
-                                    select: {
-                                        nombre: true
-                                    }
-                                }
-
-                            }
+                      profesional: {
+                        select: {
+                          nombre: true
                         }
+                      }
                     }
-                },
-                
-
+                  }
+                }
+              },
+              hora: {
+                select: {
+                  hora: true
+                }
+              }
             }
-        });
-        return reserva;
+          });
+        return reservas;
     } catch (error) {
         
         console.error("Error en getHoras:", error.message);

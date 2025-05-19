@@ -1,33 +1,38 @@
-<div class="w-full bg-white">
+@defer (on viewport) {
 
-  <div class="container mx-auto p-8 md:p-12 h-full flex flex-col  md:flex-row self-start">
-    <!-- apartado de parrafo -->
-    <div class="flex flex-col ">
-      <h1 class="text-5xl md:text-5xl font-bold text-gray-800 ">
-        Conoce a Dolape's Barber
-      </h1>
-      <h2 class="text-4xl text-gray-600 mt-5">Sobre nosotros:</h2>
-      <p
-        class="text-lg md:text-xl text-gray-600 leading-relaxed w-4/5 mb-10 mt-6"
-      >
-        Body text for whatever you’d like to add more to the main point. It
-        provides details, explanations, and context Lorem ipsum dolor sit amet,
-        consectetur adipiscing elit. Sed do eiusmod.
-      </p>
-      <div class="flex flex-col items-center">
-        <button [routerLink]="['/Conocenos']" type="submit" class= "bg-black  text-white size-fit rounded-lg w-28 h-12 text-base">Ver más</button>
+  <div [@fadeIn] class="w-full bg-white">
+  
+    <div class="container mx-auto p-8 md:p-12 h-full flex flex-col  md:flex-row self-start">
+      <!-- apartado de parrafo -->
+      <div class="flex flex-col ">
+        <h1 class="text-5xl md:text-5xl font-bold text-gray-800 ">
+          Conoce a Dolape's Barber
+        </h1>
+        <h2 class="text-4xl text-gray-600 mt-5">Sobre nosotros:</h2>
+        <p
+          class="text-lg md:text-xl text-gray-600 leading-relaxed w-4/5 mb-10 mt-6"
+        >
+          Body text for whatever you’d like to add more to the main point. It
+          provides details, explanations, and context Lorem ipsum dolor sit amet,
+          consectetur adipiscing elit. Sed do eiusmod.
+        </p>
+        <div class="flex flex-col items-center">
+          <button [routerLink]="['/Conocenos']" type="submit" class= "bg-black  text-white size-fit rounded-lg w-28 h-12 text-base">Ver más</button>
+        </div>
+  
+  
       </div>
-
-
+      <div class="hidden md:block sm:hidden">
+        <img
+        src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        alt="Barbería profesional"
+        class="w-1/1 lg:w-4/5  mx-auto rounded-lg shadow-lg object-cover h-auto md:h-auto self-start mt-7 sm:mt-0 "
+      />
+      </div>
+      <!-- imagen -->
+  
     </div>
-    <div class="hidden md:block sm:hidden">
-      <img
-      src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-      alt="Barbería profesional"
-      class="w-1/1 lg:w-4/5  mx-auto rounded-lg shadow-lg object-cover h-auto md:h-auto self-start mt-7 sm:mt-0 "
-    />
-    </div>
-    <!-- imagen -->
-
   </div>
-</div>
+}@placeholder {
+  <div class="w-full">Aquí está la sección de conócenos</div>
+}

@@ -6,7 +6,10 @@ export interface Reserva{
   fechaCreada: Date;
   fechaReserva: Date;
   total: number;
-  fullName: string;
+  cliente_fullname: string;
+  servicio_nombre: string;
+  profesional_nombre: string;
+  hora_reserva: string;
 }
 
 

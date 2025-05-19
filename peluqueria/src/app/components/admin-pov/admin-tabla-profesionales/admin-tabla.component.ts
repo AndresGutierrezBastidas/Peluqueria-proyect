@@ -1,5 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { Component, effect, inject, input, signal } from '@angular/core';
 import { Profesional } from '@interfaces/profesionales.interface';
 import { ProfesionalesService } from '@servicios/landingServices/profesionales-services/profesionales.service';
 
@@ -10,21 +9,22 @@ import { ProfesionalesService } from '@servicios/landingServices/profesionales-s
   styleUrl: './admin-tabla.component.css'
 })
 export default class AdminTablaComponent {
+  datos = input.required<Profesional[]>();
+  profesionales = inject(ProfesionalesService);
+  table = signal(false);
+  titulos = signal<string[]>([]);
 
-  profesionales = inject(ProfesionalesService)
-  datos = signal(this.profesionales.profesionales());
-
-  constructor(){
-    console.log(this.datos())
-    this.titulos.update((titulos) => [...titulos,'editar'])
+  constructor() {
+    effect(() => {
+      console.log(this.datos);
+      const datos = this.datos();
+      if (datos.length > 0) {
+        this.titulos.set([...Object.keys(datos[0]), 'editar']);
+      }
+    });
   }
 
-  table = signal(false);
-
-  isVisible(open:boolean){
+  isVisible(open: boolean) {
     this.table.set(open);
   }
-
-  titulos = signal(this.datos.length > 0 ? Object.keys(this.datos()![0] ) : []);
-
 }

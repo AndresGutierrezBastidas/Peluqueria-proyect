@@ -8,4 +8,3 @@ router.get('/getReserva',obtenerReservas);
 router.post('/postReserva',crearReserva);
 
 export default router;
-

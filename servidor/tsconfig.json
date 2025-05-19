@@ -1,14 +1,14 @@
 {
-  "compilerOptions": {
-    "module": "ESNext",
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "target": "ES2022",
-    "strict": true,
-    "outDir": "./dist",
-    "rootDir": ".",
-    "skipLibCheck": true
-  },
-  "include": ["**/*.ts", "lib/prisma.js", "lib/prismaExtended.js"],
-  "exclude": ["node_modules"]
-}
+    "compilerOptions": {
+      "module": "ESNext",
+      "moduleResolution": "node",
+      "esModuleInterop": true,
+      "target": "ES2022",
+      "strict": true,
+      "outDir": "./dist",
+      "rootDir": ".",
+      "skipLibCheck": true
+    },
+    "include": ["**/*.ts", "lib/prisma.ts", "lib/prismaExtended.ts"],
+    "exclude": ["node_modules"]
+  }

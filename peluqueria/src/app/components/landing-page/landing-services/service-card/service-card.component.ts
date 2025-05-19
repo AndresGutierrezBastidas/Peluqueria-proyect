@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ModalReservaHoraComponent } from '@componentes/modal-reserva-hora/modal-reserva-hora.component';
 import { ServiciosLandingService } from '@servicios/landingServices/servicio-service/servicios-landing.service';
@@ -11,7 +11,7 @@ import { Servicio } from '@interfaces/servicio.interface';
   templateUrl: './service-card.component.html',
   styleUrl: './service-card.component.css'
 })
-export class ServiceCardComponent {
+export class ServiceCardComponent implements OnInit {
 
   /* Variables Cards */
   showAll = false;
@@ -29,21 +29,15 @@ export class ServiceCardComponent {
   }
 
   serviciosS = inject(ServiciosLandingService);
-  cards = signal<Servicio[]>(this.serviciosS.servicios().slice(0,4))
+  cards = signal<Servicio[]>(this.serviciosS.serviciosArray())
 
   ngOnInit(){
-    this.serviciosS.obtenerServicios().subscribe({
-      next: (res) => {
-        if(res.length > 0){
-          this.cards.set(res);
-        }
-      }
-    })
+    this.cards.set(this.serviciosS.serviciosArray());
   }
 
   toggleShow() {
     this.showAll = !this.showAll;
-    this.showAll ? this.cards.set(this.serviciosS.servicios()) : this.cards.set(this.serviciosS.servicios().slice(0,4));
+    this.showAll ? this.cards.set(this.serviciosS.serviciosArray()) : this.cards.set(this.serviciosS.serviciosArray().slice(0,4));
   }
 
 }

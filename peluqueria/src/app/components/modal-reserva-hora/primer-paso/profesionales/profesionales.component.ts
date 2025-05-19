@@ -60,7 +60,6 @@ export class ProfesionalesComponent implements OnInit {
     });
   }
 
-
   private initializeSwiper() {
     setTimeout(() => { // Pequeño delay para asegurar renderizado
       const swiperContainer = document.querySelector('.swiper-container');
@@ -77,13 +76,11 @@ export class ProfesionalesComponent implements OnInit {
     }, 50);
   }
 
-
   private applyInitialView() {
     const initialGroupSize = window.innerWidth >= 768 ? 5 : 3;
     this.groupProfessionals(initialGroupSize);
     this.initializeSwiper();
   }
-
 
   groupProfessionals(qty: number) {
     const groupSize = qty;
@@ -103,13 +100,8 @@ export class ProfesionalesComponent implements OnInit {
     })
   }
 
-
-
   private handleBreakPoint(isLargeScreen: boolean){
     const groupSize = isLargeScreen ? 5 : 3;
     this.groupProfessionals(groupSize)
   }
-
-
-  
 }
