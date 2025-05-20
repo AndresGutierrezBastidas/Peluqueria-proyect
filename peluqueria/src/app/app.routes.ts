@@ -29,6 +29,10 @@ export const routes: Routes = [
           path: 'reservas',
           loadComponent: () =>
           import('@paginas/admin-pov/admin-reservas/admin-reservas.component'),
+        },{
+          path: 'cuenta',
+          loadComponent: () =>
+          import('@paginas/admin-pov/admin-cuenta/admin-cuenta.component'),
         }
       ]
     },
