@@ -22,7 +22,7 @@ app.use('/api/profesionales', routesProfesionales);
 app.use('/api/hours', routesHoras);
 app.use('/api/services', routesServices);
 app.use('/api/reserva', routesReserva);
-app.use('api/usuario', routesUsuarios)
+app.use('/api/usuario', routesUsuarios)
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });

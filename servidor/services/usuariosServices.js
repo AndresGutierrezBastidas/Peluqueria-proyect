@@ -3,13 +3,9 @@ import prisma from '../lib/prisma.js';
 //Falta usuario email o nombre de usuario 
 //encriptar la contraseña
 
-export async function getUsuario(usuarioid) {
+export async function getUsuario() {
     try {
-        const usuario = await prisma.usuario.findUnique({
-            where:{
-                id:usuarioid,
-            },
-        });
+        const usuario = await prisma.usuario.findMany();
         return usuario;
     } catch (error) {
         console.error("Error en obtener el usuario:", error.message);
