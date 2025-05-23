@@ -36,19 +36,7 @@ obtenerReservas(): void {
       this.http.post(`${this.url}/postReserva`,reserva)
       .subscribe({
         next: (resp: any) => {
-          if (!resp.error) {            
-            const correo = {tipoCorreo: "1", correo: reserva.cliente.email}
-            this.http.post(`${this.url}/enviarCorreo`, correo).subscribe({
-              next: (resp) => {
-                console.log('Correo enviado:', resp);
-              },
-              error: (err) => {
-                console.error('Error al enviar el correo:', err);
-              }
-            })
-            this.obtenerReservas();
-            return;
-          }
+          console.log('Reserva creada:', resp);
         },
         error: (err) => {
           console.error('HTTP error occurred:', err);
