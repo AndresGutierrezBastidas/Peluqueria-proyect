@@ -1,4 +1,4 @@
-import { getProfesionales, getProfServicio } from "../services/profesionalesService.js"
+import { getProfesionales, getProfServicio, updateProf } from "../services/profesionalesService.js"
 
 export async function obtenerProfesionales(req, res) {
     try{
@@ -21,5 +21,25 @@ export async function servicioProfesionales(req, res) {
         res.json(response);
     } catch (e) {
         console.log('Error al obtener los profesionales', e.message);
+    }
+}
+
+
+export async function actualizarProfesionales(req, res) {
+    try {
+        const id = parseInt(req.params.id);
+        const data = req.body;
+        const profesionalActualizado = await updateProf(id, data);
+        
+        res.status(200).json({
+            message: "Profesional actualizado correctamente",
+            data: profesionalActualizado
+        });
+    } catch (error) {
+        console.error("Error en actualizarProfesionales", error.message);
+        res.status(500).json({
+            message: "Error al actualizar el profesional",
+            error: error.message
+        });
     }
 }
