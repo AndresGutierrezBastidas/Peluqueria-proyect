@@ -36,3 +36,17 @@ export async function getProfServicio(servicioId){
         throw error;
     }
 }
+
+
+export async function updateProf(id, profesional) {
+    try {
+        const updateProfesionales = await prisma.profesional.update({
+            where: { id: id },
+            data: profesional // CORRECCIÓN: No debe estar anidado en otro objeto
+        });
+        return updateProfesionales;
+    } catch (error) {
+        console.error("Error en updateProf", error.message);
+        throw error;
+    }
+}
