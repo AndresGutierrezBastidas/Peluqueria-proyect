@@ -1,11 +1,12 @@
 import { Router } from "express";
-import { actualizarProfesionales, obtenerProfesionales, servicioProfesionales } from "../controllers/profesionalesController.js";
+import { obtenerProfesionales, servicioProfesionales, addProfesionalController } from "../controllers/profesionalesController.js";
+
 
 const router = Router();
 
 
 router.get('/', obtenerProfesionales);
 router.get('/serviceProf/:id', servicioProfesionales);
-router.put('/:id',actualizarProfesionales);
+router.post('/addProfesional', addProfesionalController)
 
 export default router;
