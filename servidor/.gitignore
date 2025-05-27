@@ -2,3 +2,4 @@ node_modules/
 .env
 generated/prisma/
 bun.lock
+servidor/prisma/migrations/20250522201914_inicial/migration.sql
