@@ -22,7 +22,7 @@ export async function getReservas() {
               servicio: {
                 select: {
                   nombre: true,
-                  serPro: {
+                  servicioprofesional: {
                     take: 1, // Solo toma el primer profesional asociado
                     select: {
                       profesional: {

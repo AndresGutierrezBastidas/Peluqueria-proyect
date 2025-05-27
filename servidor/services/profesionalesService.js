@@ -23,7 +23,7 @@ export async function getProfServicio(servicioId){
         /* PrismaSql */
         const profServicio = await prisma.profesional.findMany({
             where: {
-                serPro:{
+                servicioprofesional:{
                     some:{
                         servicioId: servicioId,
                     }
