@@ -16,31 +16,29 @@ export class ModalServiceService {
       horas: new FormControl(null, Validators.required)
     }),
     SS: new FormGroup<ssInterface>({
-      nombre: new FormControl('', [Validators.required, Validators.minLength(3)]),
-      apellido: new FormControl('', [Validators.required, Validators.minLength(3)]),
+      nombre: new FormControl('', [Validators.required,Validators.pattern(/^[a-zA-Z]+$/)]),
+      apellido: new FormControl('', [Validators.required,Validators.pattern(/^[a-zA-Z]+$/)]),
       email: new FormControl('', [Validators.required, Validators.email]),
-      telefono: new FormControl(null, [Validators.required, Validators.minLength(8)])
+      telefono: new FormControl(null, [Validators.required, Validators.pattern(/^\d+$/)])
     })
   })
 
   crearReserva(service: any){
     if(this.form.get('FS')?.valid && this.form.get('SS')?.valid){
-      const dataCliente = {
+      const data = {"reserva" : {
+        fechaReserva: this.form.get('FS')?.value.dia?.toISOString(),
+        total: Number(service.precio),
+        servicioId: Number(service.id),
+        horaId: this.form.get('FS')?.value.horas?.id
+      },
+      "cliente" : {
         nombre: this.form.get('SS')?.value.nombre,
         apellido: this.form.get('SS')?.value.apellido,
-        email: this.form.get('SS')?.value.email
-      }
-
-      const dataReserva = {
-        fechaReserva: this.form.get('FS')?.value.dia,
-        total: service.precio,
-        servicioId: service.id,
-        clienteId: 1,
-        horaId: this.form.get('FS')?.value.horas?.id
-      }
-      console.log(JSON.stringify(dataReserva));
+        email: this.form.get('SS')?.value.email,  
+      }}
+      console.log(data);
       
-      this.reservaS.crearReserva(dataReserva);
+      this.reservaS.crearReserva(data);
     }
   }
 }

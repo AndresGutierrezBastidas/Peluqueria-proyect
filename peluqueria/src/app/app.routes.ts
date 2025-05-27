@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import path from 'path';
 
 export const routes: Routes = [
     {
@@ -12,6 +11,10 @@ export const routes: Routes = [
     {
       path: 'tabla',
       loadComponent: () => import('@paginas/admin-pov/admin-profesionales/admin-profesionales.component')
+    },
+    {
+      path: 'confirmar-reserva/:token',
+      loadComponent: () => import('@paginas/confirmar-reserva/confirmar-reserva.component')
     },
     {
       path: 'side-bar',

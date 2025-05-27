@@ -1,16 +1,23 @@
 @let localControl = control();
-<label for="formControlName()" class="text-md font-light ">{{ formControlName().charAt(0).toUpperCase() +
-     formControlName().slice(1) }}</label>
-<div>
+<span class="text-md font-light ">{{ formControlName().charAt(0).toUpperCase() +
+     formControlName().slice(1) }} *</span>
+<div class="mb-4">
     <input 
     class="border-1 border-gray-600/25 rounded-lg p-1 w-70"
-    id="formControlName()" [formControl]="localControl" (blur)="onTouched()"/>
-</div>
-
-@if(localControl.invalid && (localControl.dirty || localControl.touched)){
-<div class="error-message">
-    @if (localControl.errors?.["required"]){
-        <span>Este Campo es obligatorio</span>
+    [formControl]="localControl" (blur)="onTouched()"/>
+    
+    @if(localControl.invalid && (localControl.dirty || localControl.touched)){
+    <div class="error-message text-sm text-red-500/70">
+        @if (localControl.errors?.["required"]){
+            <span>* Este Campo es obligatorio</span>
+        }
+        @if (localControl.errors?.["pattern"] || localControl.errors?.["email"]){
+            <span>* Formato invalido</span>
+        }
+        <!-- @if (localControl.errors?.["minLength"]){
+            <span>* Debe tener un minimo de {{ formControlName() !== 'telefono' ? '3 caracteres' : '9 digitos' }}</span>
+        } -->
+    </div>
     }
 </div>
-}
+

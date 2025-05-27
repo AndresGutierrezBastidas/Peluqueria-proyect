@@ -33,10 +33,13 @@ model reserva {
   id           Int      @id @default(autoincrement())
   fechaCreada  DateTime @default(now())
   fechaReserva DateTime @db.Date
-  total        Int
-  servicioId   Int
-  clienteId    Int
-  horaId       Int
+  total        Int      
+  servicioId   Int      
+  clienteId    Int      
+  horaId       Int      
+  token        String   @db.VarChar(100) 
+  confirmada   Boolean  @default(false)
+  
   cliente      cliente  @relation(fields: [clienteId], references: [id])
   hora         hora     @relation(fields: [horaId], references: [id])
   servicio     servicio @relation(fields: [servicioId], references: [id])

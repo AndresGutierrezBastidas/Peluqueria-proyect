@@ -30,18 +30,13 @@ obtenerReservas(): void {
     console.log(reservas); // Verás la estructura plana que defines en tu interfaz
   });
 }
+
 //crear reserva asignado manu
   crearReserva(reserva: any){
       this.http.post(`${this.url}/postReserva`,reserva)
       .subscribe({
         next: (resp: any) => {
-          console.log(resp);
-          if (resp.error) {
-            console.log(resp.error);
-            return;
-          } else {
-            this.obtenerReservas();
-          }
+          console.log('Reserva creada:', resp);
         },
         error: (err) => {
           console.error('HTTP error occurred:', err);
