@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { UsuariosService } from '@servicios/landingServices/usuarios-services/usuarios.service';
 
 @Component({
   selector: 'app-admin-cuenta',
@@ -9,14 +10,21 @@ import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } fr
 })
 export default class AdminCuentaComponent {
   fb = inject(FormBuilder);
+  private Uservice = inject(UsuariosService)
+  usuario = this.Uservice.obtenerUsuario();
   form= this.fb.group({
-    name:['', [Validators.required]],
+    correo:['', [Validators.required]],
     oldPass:['', [Validators.required]],
     newPass:['', [Validators.required]],
     newMail:['', [Validators.required]],    
   })
-
+  user:any
   handleSubmit(){
-    console.log(this.form)
+    console.log(this.usuario.subscribe({
+      next:(usuario)=>{
+        this.user = usuario;
+        console.log(this.user.id)
+      }
+    }))
   }
 }
