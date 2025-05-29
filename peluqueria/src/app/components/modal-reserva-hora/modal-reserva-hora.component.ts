@@ -70,6 +70,8 @@ export class ModalReservaHoraComponent {
     console.log(this.modalService.form.get('SS')?.valid);
     if(this.modalService.form.get('SS')?.valid){
       this.modalService.crearReserva(this.serviceId());
+      alert('Reserva creada con exito');
+      this.closeModal();
     }
   }
 }

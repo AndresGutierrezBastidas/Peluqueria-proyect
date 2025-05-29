@@ -23,7 +23,7 @@ export async function getProfServicio(servicioId){
         /* PrismaSql */
         const profServicio = await prisma.profesional.findMany({
             where: {
-                serPro:{
+                servicioprofesional:{
                     some:{
                         servicioId: servicioId,
                     }
@@ -33,6 +33,20 @@ export async function getProfServicio(servicioId){
         return profServicio;
     } catch (error) {
         console.error("Error en getProfServicio", error.message);
+        throw error;
+    }
+}
+
+
+export async function updateProf(id, profesional) {
+    try {
+        const updateProfesionales = await prisma.profesional.update({
+            where: { id: id },
+            data: profesional // CORRECCIÓN: No debe estar anidado en otro objeto
+        });
+        return updateProfesionales;
+    } catch (error) {
+        console.error("Error en updateProf", error.message);
         throw error;
     }
 }

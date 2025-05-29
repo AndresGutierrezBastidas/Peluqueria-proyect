@@ -1,7 +1,6 @@
 import express from 'express';
 import { json } from 'express';
 import cors from 'cors';
-import routesNodemailer from './routes/routesNodemailer.js'; 
 import routesProfesionales from './routes/routesProfesionales.js';
 import routesHoras from './routes/routesHoras.js';
 import routesReserva from './routes/routesReserva.js';
@@ -17,7 +16,6 @@ app.use(cors({
 }));
 app.use(json());
 
-app.use('/api/nodemailer', routesNodemailer); 
 app.use('/api/profesionales', routesProfesionales);
 app.use('/api/hours', routesHoras);
 app.use('/api/services', routesServices);
