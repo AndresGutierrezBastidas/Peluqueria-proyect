@@ -8,7 +8,6 @@ import { ModalServiceService } from '@servicios/landingServices/modal-services/m
 import { Profesional } from '@interfaces/profesionales.interface';
 import { Horas } from '@interfaces/horas.interface'
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { ssInterface } from '@interfaces/forms.interface';
 import { Servicio } from '@interfaces/servicio.interface';
 
 @Component({
@@ -41,17 +40,28 @@ export class ModalReservaHoraComponent {
       return [prev[0], prev[1], prev[2]];
     });
 
-    if(this.dataFS()[0] !== new Date && !isNaN(this.dataFS()[1].id) && !isNaN(this.dataFS()[2].id)){
-      this.modalService.form.get('FS')?.setValue({
-        profesional: this.dataFS()[2],
-        horas: this.dataFS()[1],
-        dia: this.dataFS()[0]
-      })
+    if(this.dataFS()[0] && !isNaN(this.dataFS()[1].id) && !isNaN(this.dataFS()[2].id)){
+      if(this.dataFS()[0] > new Date() || this.dataFS()[0].getDate() === new Date().getDate()){
+        this.modalService.form.get('FS')?.setValue({
+          profesional: this.dataFS()[2],
+          horas: this.dataFS()[1],
+          dia: this.dataFS()[0]
+        })
+      }else if(this.dataFS()[0] < new Date()) {
+        this.modalService.form.get('FS')?.setValue({
+          profesional: this.dataFS()[2],
+          horas: this.dataFS()[1],
+          dia: null
+        })
+      }
     }
   }
 
   nextStep() {
-    if (this.modalService.form.get('FS')?.valid){
+    if (this.modalService.form.get('FS')?.valid && this.pasoActual < 2){
+      this.pasoActual++;
+    }else if(this.modalService.form.get('SS')?.valid && this.pasoActual == 2){
+      this.modalService.crearReserva(this.serviceId());
       this.pasoActual++;
     }
   }
@@ -64,14 +74,5 @@ export class ModalReservaHoraComponent {
 
   previousStep() {
     this.pasoActual--;
-  }
-
-  confirmar(){
-    console.log(this.modalService.form.get('SS')?.valid);
-    if(this.modalService.form.get('SS')?.valid){
-      this.modalService.crearReserva(this.serviceId());
-      alert('Reserva creada con exito');
-      this.closeModal();
-    }
   }
 }
