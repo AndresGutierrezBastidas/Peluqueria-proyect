@@ -25,7 +25,6 @@ export class HorasService {
     if (!(fecha instanceof Date) || isNaN(fecha.getTime())) {
       return throwError(() => new Error('Invalid date provided'));
     }
-
   // Create a date-only string in local time (avoids timezone issues)
     const year = fecha.getFullYear();
     const month = String(fecha.getMonth() + 1).padStart(2, '0');
