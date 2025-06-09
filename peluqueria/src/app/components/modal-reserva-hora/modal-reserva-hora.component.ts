@@ -10,13 +10,14 @@ import { Horas } from '@interfaces/horas.interface';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ssInterface } from '@interfaces/forms.interface';
 import { Servicio } from '@interfaces/servicio.interface';
+import { ReservaServiceService } from '@servicios/landingServices/reserva-service/reserva-service.service';
 
 @Component({
   selector: 'modal-reserva-hora',
   imports: [CalendarComponent,HorasComponent,ProfesionalesComponent,
     DatosServicioComponent,FormDatosComponent,ReactiveFormsModule],
   templateUrl: './modal-reserva-hora.component.html',
-  styleUrl: './modal-reserva-hora.component.css'
+  styleUrl: './modal-reserva-hora.component.css',
 })
 export class ModalReservaHoraComponent {
   /* Servicios Injectados */
@@ -32,17 +33,21 @@ export class ModalReservaHoraComponent {
   dataFS = signal<[Date , Horas , Profesional ]>([new Date, {id: NaN, hora: ''} , {id: NaN, nombre: ''} ]);
   inputSS = signal(this.modalService.form.get('SS') as FormGroup)
   valid = signal(this.modalService.form.get('FS')?.valid);
+  new: any;
 
 
   selectedData(data: any, i: number){  
+
     this.dataFS.update((prev) => {
       if(i === 0) return [data, prev[1], prev[2]];
       if(i === 1) return [prev[0], data, prev[2]];
       if(i === 2) return [prev[0], prev[1], data];
       return [prev[0], prev[1], prev[2]];
     });
+  
     
     if(this.dataFS()[0] !== new Date && !isNaN(this.dataFS()[1].id) && !isNaN(this.dataFS()[2].id)){
+
       this.modalService.form.get('FS')?.setValue({
         profesional: this.dataFS()[2],
         horas: this.dataFS()[1],

@@ -74,7 +74,7 @@ export class ProfesionalesComponent implements OnInit {
         this.swiperElement.set(swiperContainer as SwiperContainer);
         this.swiperElement()?.initialize();
       }
-    }, 50);
+    }, 150);
   }
 
 

@@ -46,6 +46,66 @@ import  prismaExtended  from '../lib/prismaExtended.ts';
   }
 }
 
+export async function getReservaValidacionHora(fechaISO) {
+      try {
+        
+          const fecha = new Date(fechaISO);
+          if (isNaN(fecha.getTime())) {
+              throw new Error("Fecha no válida proporcionada");
+          }
+
+   
+          const fechaInicio = new Date(fecha);
+          fechaInicio.setUTCHours(0, 0, 0, 0);
+
+          const fechaFin = new Date(fechaInicio);
+          fechaFin.setUTCDate(fechaFin.getUTCDate() + 1);
+
+  
+          const result = await prisma.hora.findMany({
+          select: {
+            id: true,
+            hora: true,
+            Reserva: {
+              where: {
+              fechaReserva: {
+                      gte: fechaInicio,
+                      lt: fechaFin
+                  }
+              },
+              
+              /* include: {
+                servicio: {
+                  select: {
+                    serPro: {
+                      where: {
+                        profesionalId: profesionalID
+                      },
+                    }
+                  }
+                }
+              }, */
+              select: {
+                horaId: true
+
+              }
+            }
+          }
+        });
+
+      const formattedResult = result.map(hora => ({
+        id: hora.id,
+        hora: hora.hora,
+        tomado: hora.Reserva.length > 0 ? true : false
+      }));
+          
+      return formattedResult;
+      } catch (error) {
+          console.error("Error en getReservaValidacion:", error);
+          throw error;
+      }
+}
+
 export async function createReserva(datos) {
     console.log("Datos de reserva:", datos);
     

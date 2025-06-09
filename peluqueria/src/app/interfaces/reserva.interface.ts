@@ -3,11 +3,17 @@
 
 export interface Reserva{
   id: number;
-  fechaCreada: Date;
+  fechaCreada?: Date;
   fechaReserva: Date;
-  total: number;
-  fullName: string;
+  total?: number;
+  fullName?: string;
+  fechaHora?: Date;
+  hora: {
+    hora: string;
+  }
 }
+
+
 
 
 
