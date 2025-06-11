@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, Injector, input, OnDestroy, output, signal } from '@angular/core';
+import { Component, DestroyRef, inject, input, OnDestroy, output, signal } from '@angular/core';
 import { Horas } from '@interfaces/horas.interface';
 import { HorasService } from '@servicios/landingServices/horas-services/horas.service';
 import { takeUntilDestroyed, toObservable, toSignal } from '@angular/core/rxjs-interop';
@@ -17,6 +17,8 @@ export class HorasComponent implements OnDestroy {
 
 
   fecha = input.required<Date>();
+  idProfesional = input<Number>();
+  private idProfesional$ = toObservable(this.fecha);
   private fecha$ = toObservable(this.fecha);
   private destroyRef = inject(DestroyRef);
 
@@ -33,7 +35,7 @@ export class HorasComponent implements OnDestroy {
       takeUntilDestroyed(this.destroyRef),
       switchMap(fecha => {
         console.log('Nueva fecha recibida:', fecha);
-        
+    
         return this.horasS.obtenerReservasPorFecha(fecha).pipe(
           tap(() => console.log('Respuesta recibida para:', fecha)),
           catchError(err => {
@@ -48,6 +50,8 @@ export class HorasComponent implements OnDestroy {
         );
       })
     ),
+    
+
     { initialValue: [],
       manualCleanup: true,
     }
@@ -55,6 +59,7 @@ export class HorasComponent implements OnDestroy {
 
 
   ngOnDestroy() {
+    this.fecha().setDate(new Date().getDate())
     console.log('💥 Componente destruido');
     this.sT.set(0);
   }
