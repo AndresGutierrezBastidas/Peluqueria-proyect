@@ -18,9 +18,9 @@
         [class.bg-gray-100]="sT() !== time.id" 
         [class.text-gray-800]="sT() !== time.id"
         [class.hover:bg-gray-200]="sT() !== time.id"
-        class="bg-gray-100 text-gray-800 disabled:bg-black disabled:text-white text-center px-2 py-2 md:px-4 md:py-2 rounded-lg cursor-pointer"
+        class="bg-gray-100 text-gray-800 disabled:bg-black disabled:cursor-not-allowed disabled:text-white text-center px-2 py-2 md:px-4 md:py-2 rounded-lg cursor-pointer"
         (click)="selectTime(time)"
-        type="text" placeholder="{{time.tomado ? 'Tomado' : time.hora}}" readonly>
+        type="text" placeholder="{{time.hora}}" readonly>
         }
 </div>
 

@@ -2,7 +2,7 @@ import { Component, DestroyRef, inject, input, OnDestroy, output, signal } from 
 import { Horas } from '@interfaces/horas.interface';
 import { HorasService } from '@servicios/landingServices/horas-services/horas.service';
 import { takeUntilDestroyed, toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { catchError, finalize, of, switchMap, tap } from 'rxjs';
+import { asyncScheduler, catchError, finalize, of, scheduled, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'horas',
@@ -35,23 +35,23 @@ export class HorasComponent implements OnDestroy {
       takeUntilDestroyed(this.destroyRef),
       switchMap(fecha => {
         console.log('Nueva fecha recibida:', fecha);
-    
         return this.horasS.obtenerReservasPorFecha(fecha).pipe(
-          tap(() => console.log('Respuesta recibida para:', fecha)),
+          tap(() => {
+            this.sT.set(0);
+            console.log('Respuesta recibida para:', fecha)
+          }),
           catchError(err => {
             if (err.status === 0) {
               console.warn('Petición cancelada para:', fecha);
             } else {
               console.error('Error HTTP:', err);
             }
-            return of([]);
+            return scheduled([], asyncScheduler);
           }),
           finalize(() => console.log('Cleanup para:', fecha))
         );
       })
     ),
-    
-
     { initialValue: [],
       manualCleanup: true,
     }
