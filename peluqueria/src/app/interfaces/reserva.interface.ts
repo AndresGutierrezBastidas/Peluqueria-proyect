@@ -8,11 +8,22 @@ export interface Reserva{
   total?: number;
   fullName?: string;
   fechaHora?: Date;
-  hora: {
+  hora?: {
     hora: string;
   }
 }
 
+
+export interface ReservaMiguel{
+  id: number;
+  cliente_fullname: String;
+  servicio_nombre: String;
+  fechaReserva: Date;
+  fechaCreada: Date;
+  total: number;
+  profesional_nombre: string;
+  hora_reserva: Date;
+}
 
 
 

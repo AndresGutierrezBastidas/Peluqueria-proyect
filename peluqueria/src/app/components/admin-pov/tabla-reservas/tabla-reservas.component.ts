@@ -1,5 +1,5 @@
 import { Component, effect, inject, input, signal } from '@angular/core';
-import { Reserva } from '@interfaces/reserva.interface';
+import { Reserva, ReservaMiguel } from '@interfaces/reserva.interface';
 import { ServiciosLandingService } from '@servicios/landingServices/servicio-service/servicios-landing.service';
 
 @Component({
@@ -9,7 +9,7 @@ import { ServiciosLandingService } from '@servicios/landingServices/servicio-ser
   styleUrl: './tabla-reservas.component.css',
 })
 export class TablaReservasComponent {
-  datos = input.required<Reserva[]>();
+  datos = input.required<ReservaMiguel[]>();
   table = signal(false);
   titulos = signal<string[]>([]);
   servicios = inject(ServiciosLandingService);
