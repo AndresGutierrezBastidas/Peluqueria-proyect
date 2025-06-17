@@ -2,7 +2,8 @@ import { Component, DestroyRef, inject, input, OnDestroy, output, signal } from 
 import { Horas } from '@interfaces/horas.interface';
 import { HorasService } from '@servicios/landingServices/horas-services/horas.service';
 import { takeUntilDestroyed, toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { asyncScheduler, catchError, finalize, of, scheduled, switchMap, tap } from 'rxjs';
+import { asyncScheduler, catchError, finalize, scheduled, switchMap, tap } from 'rxjs';
+import { ModalServiceService } from '@servicios/landingServices/modal-services/modal-service.service';
 
 @Component({
   selector: 'horas',
@@ -12,13 +13,14 @@ import { asyncScheduler, catchError, finalize, of, scheduled, switchMap, tap } f
 })
 export class HorasComponent implements OnDestroy {
   private horasS = inject(HorasService)
+  private formLimpiar = inject(ModalServiceService)
   sT = signal<number>(0);
   hora = output<Horas>();
 
 
   fecha = input.required<Date>();
   idProfesional = input<Number>();
-  private idProfesional$ = toObservable(this.fecha);
+  private idProfesional$ = toObservable(this.idProfesional);
   private fecha$ = toObservable(this.fecha);
   private destroyRef = inject(DestroyRef);
 
@@ -38,6 +40,11 @@ export class HorasComponent implements OnDestroy {
         return this.horasS.obtenerReservasPorFecha(fecha).pipe(
           tap(() => {
             this.sT.set(0);
+            this.formLimpiar.form.get('FS')?.setValue({
+              horas: null,
+              profesional: null,
+              dia: null
+            })
             console.log('Respuesta recibida para:', fecha)
           }),
           catchError(err => {
@@ -64,6 +71,4 @@ export class HorasComponent implements OnDestroy {
     this.sT.set(0);
   }
 
-  
-  
 }
