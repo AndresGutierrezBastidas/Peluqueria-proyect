@@ -1,53 +1,110 @@
-import  prisma  from '../lib/prisma.js';
-import  prismaExtended  from '../lib/prismaExtended.js';
+import  prisma  from '../lib/prisma.ts';
+import  prismaExtended  from '../lib/prismaExtended.ts';
 import crypto from 'crypto';
 import { correo } from '../services/nodemailerController.js';
 
-export async function getReservas() {
-
-    try {
-        const reservas = await prismaExtended.reserva.findMany({
-            omit: {
-              clienteId: true,
-              horaId: true,
-              servicioId: true
-            },
-            include: {
-              cliente: {
-                select: {
-                  nombre: true,
-                  apellido: true
-                }
-              },
-              servicio: {
-                select: {
-                  nombre: true,
-                  servicioprofesional: {
-                    take: 1, // Solo toma el primer profesional asociado
-                    select: {
-                      profesional: {
-                        select: {
-                          nombre: true
-                        }
-                      }
-                    }
+ export async function getReservas() {
+  try {
+    const reservas = await prismaExtended.reserva.findMany({
+      omit: {
+        clienteId: true,
+        horaId: true,
+        servicioId: true
+      },
+      include: {
+        cliente: {
+          select: {
+            fullName: true
+          }
+        },
+        servicio: {
+          select: {
+            nombre: true,
+            servicioprofesional: {
+              take: 1, // Solo toma el primer profesional asociado
+              select: {
+                profesional: {
+                  select: {
+                    nombre: true
                   }
-                }
-              },
-              hora: {
-                select: {
-                  hora: true
                 }
               }
             }
-          });
-        return reservas;
-    } catch (error) {
+          }
+        },
+        hora: {
+          select: {
+            hora: true
+          }
+        }
+      }
+    });
+
+    return reservas;
+  } catch (error) {
+    console.error("Error en getReservas:", error.message);
+    throw error;
+  }
+}
+
+export async function getReservaValidacionHora(fechaISO) {
+      try {
         
-        console.error("Error en getHoras:", error.message);
-        throw error; 
-        
-    }
+          const fecha = new Date(fechaISO);
+          if (isNaN(fecha.getTime())) {
+              throw new Error("Fecha no válida proporcionada");
+          }
+
+   
+          const fechaInicio = new Date(fecha);
+          fechaInicio.setUTCHours(0, 0, 0, 0);
+
+          const fechaFin = new Date(fechaInicio);
+          fechaFin.setUTCDate(fechaFin.getUTCDate() + 1);
+
+  
+          const result = await prisma.hora.findMany({
+          select: {
+            id: true,
+            hora: true,
+            Reserva: {
+              where: {
+              fechaReserva: {
+                      gte: fechaInicio,
+                      lt: fechaFin
+                  }
+              },
+              
+              /* include: {
+                servicio: {
+                  select: {
+                    serPro: {
+                      where: {
+                        profesionalId: profesionalID
+                      },
+                    }
+                  }
+                }
+              }, */
+              select: {
+                horaId: true
+
+              }
+            }
+          }
+        });
+
+      const formattedResult = result.map(hora => ({
+        id: hora.id,
+        hora: hora.hora,
+        tomado: hora.Reserva.length > 0 ? true : false
+      }));
+          
+      return formattedResult;
+      } catch (error) {
+          console.error("Error en getReservaValidacion:", error);
+          throw error;
+      }
 }
 
 export async function createReserva(datos) {

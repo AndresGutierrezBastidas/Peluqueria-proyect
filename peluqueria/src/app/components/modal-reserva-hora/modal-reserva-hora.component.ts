@@ -9,13 +9,14 @@ import { Profesional } from '@interfaces/profesionales.interface';
 import { Horas } from '@interfaces/horas.interface'
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Servicio } from '@interfaces/servicio.interface';
+import { ReservaServiceService } from '@servicios/landingServices/reserva-service/reserva-service.service';
 
 @Component({
   selector: 'modal-reserva-hora',
   imports: [CalendarComponent,HorasComponent,ProfesionalesComponent,
     DatosServicioComponent,FormDatosComponent,ReactiveFormsModule],
   templateUrl: './modal-reserva-hora.component.html',
-  styleUrl: './modal-reserva-hora.component.css'
+  styleUrl: './modal-reserva-hora.component.css',
 })
 export class ModalReservaHoraComponent {
   /* Servicios Injectados */

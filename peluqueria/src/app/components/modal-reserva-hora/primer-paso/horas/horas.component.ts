@@ -1,24 +1,74 @@
-import { Component, inject, output, signal, Signal } from '@angular/core';
+import { Component, DestroyRef, inject, input, OnDestroy, output, signal } from '@angular/core';
 import { Horas } from '@interfaces/horas.interface';
 import { HorasService } from '@servicios/landingServices/horas-services/horas.service';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { asyncScheduler, catchError, finalize, scheduled, switchMap, tap } from 'rxjs';
+import { ModalServiceService } from '@servicios/landingServices/modal-services/modal-service.service';
 
 @Component({
   selector: 'horas',
   imports: [],
   templateUrl: './horas.component.html',
-  styleUrl: './horas.component.css'
+  styleUrl: './horas.component.css',
 })
-export class HorasComponent {
+export class HorasComponent implements OnDestroy {
   private horasS = inject(HorasService)
+  private formLimpiar = inject(ModalServiceService)
   sT = signal<number>(0);
   hora = output<Horas>();
-  
-  // Horarios disponibles
-  horas: Signal<Horas[] | undefined> = toSignal(this.horasS.getHoras())
 
-  selectTime(time: Horas) {    
+
+  fecha = input.required<Date>();
+  idProfesional = input<Number>();
+  private idProfesional$ = toObservable(this.idProfesional);
+  private fecha$ = toObservable(this.fecha);
+  private destroyRef = inject(DestroyRef);
+
+  error = signal<string | null>(null);
+
+  selectTime(time: Horas) {  
+    if(time.tomado) return;  
     this.sT.set(time.id);
     this.hora.emit(time);
   }
+
+  reservas = toSignal(
+    this.fecha$.pipe(
+      takeUntilDestroyed(this.destroyRef),
+      switchMap(fecha => {
+        console.log('Nueva fecha recibida:', fecha);
+        return this.horasS.obtenerReservasPorFecha(fecha).pipe(
+          tap(() => {
+            this.sT.set(0);
+            this.formLimpiar.form.get('FS')?.setValue({
+              horas: null,
+              profesional: null,
+              dia: null
+            })
+            console.log('Respuesta recibida para:', fecha)
+          }),
+          catchError(err => {
+            if (err.status === 0) {
+              console.warn('Petición cancelada para:', fecha);
+            } else {
+              console.error('Error HTTP:', err);
+            }
+            return scheduled([], asyncScheduler);
+          }),
+          finalize(() => console.log('Cleanup para:', fecha))
+        );
+      })
+    ),
+    { initialValue: [],
+      manualCleanup: true,
+    }
+  );
+
+
+  ngOnDestroy() {
+    this.fecha().setDate(new Date().getDate())
+    console.log('💥 Componente destruido');
+    this.sT.set(0);
+  }
+
 }

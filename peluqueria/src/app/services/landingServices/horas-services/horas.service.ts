@@ -1,7 +1,9 @@
+import { adapter } from '@adapter/commonAdapter';
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { Horas } from '@interfaces/horas.interface';
-import { Observable } from 'rxjs';
+import { Reserva } from '@interfaces/reserva.interface';
+import { Observable, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -17,11 +19,27 @@ import { Observable } from 'rxjs';
 export class HorasService {
 
   private apiUrl = 'http://localhost:3000/api/hours';
+
+  private urlReserva = 'http://localhost:3000/api/reserva';
   private http = inject(HttpClient);
+  
 
   //obtener horas desde las base de datos funcion de manu
   getHoras(): Observable<Horas[]> {
     return this.http.get<Horas[]>(`${this.apiUrl}/getHours`);
   } 
+
+
+  obtenerReservasPorFecha(fecha: Date): Observable<Horas[]> {
+    if (!(fecha instanceof Date) || isNaN(fecha.getTime())) {
+      return throwError(() => new Error('Invalid date provided'));
+    }
+  // Create a date-only string in local time (avoids timezone issues)
+    const year = fecha.getFullYear();
+    const month = String(fecha.getMonth() + 1).padStart(2, '0');
+    const day = String(fecha.getDate()).padStart(2, '0');
+    const dateStr = `${year}-${month}-${day}`;
+    return this.http.get<Horas[]>(`${this.urlReserva}/getReservasPorFecha/${dateStr}`)
+  }
 
 }
