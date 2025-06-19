@@ -1,6 +1,6 @@
 export interface usuario {
-    id: number;
-    pasword: string;
-    rol: number;
-    idCliente:number;
+  id: number | null;
+  pasword: string;
+  rol: number | null;
+  idCliente: number | null;
 }

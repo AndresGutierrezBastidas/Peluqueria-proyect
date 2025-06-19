@@ -5,8 +5,6 @@ import { usuario } from '@interfaces/usuario.interface';
   providedIn: 'root'
 })
 export class UsuariosService {
-//[❌] obtener Usuarios por id
-//[❌] Editar Usuarios 
   url = 'http://localhost:3000/api/usuario';
 
   constructor(private http:HttpClient) {
