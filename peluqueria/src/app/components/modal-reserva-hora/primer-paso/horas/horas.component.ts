@@ -1,8 +1,8 @@
-import { Component, DestroyRef, inject, input, OnDestroy, output, signal } from '@angular/core';
+import { Component, DestroyRef, inject, input, OnDestroy, OnInit, output, signal } from '@angular/core';
 import { Horas } from '@interfaces/horas.interface';
 import { HorasService } from '@servicios/landingServices/horas-services/horas.service';
 import { takeUntilDestroyed, toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { asyncScheduler, catchError, finalize, scheduled, switchMap, tap } from 'rxjs';
+import { catchError, combineLatest, finalize, of, switchMap, tap } from 'rxjs';
 import { ModalServiceService } from '@servicios/landingServices/modal-services/modal-service.service';
 
 @Component({
@@ -19,7 +19,7 @@ export class HorasComponent implements OnDestroy {
 
 
   fecha = input.required<Date>();
-  idProfesional = input<Number>();
+  idProfesional = input<number>();
   private idProfesional$ = toObservable(this.idProfesional);
   private fecha$ = toObservable(this.fecha);
   private destroyRef = inject(DestroyRef);
@@ -33,37 +33,37 @@ export class HorasComponent implements OnDestroy {
   }
 
   reservas = toSignal(
-    this.fecha$.pipe(
+    combineLatest([this.fecha$, this.idProfesional$]).pipe(
       takeUntilDestroyed(this.destroyRef),
-      switchMap(fecha => {
-        console.log('Nueva fecha recibida:', fecha);
-        return this.horasS.obtenerReservasPorFecha(fecha).pipe(
+      switchMap(([fecha, idProfesional]) => {
+        
+        if (!fecha || isNaN(fecha.getTime()) || !idProfesional) {
+          this.error.set('Escoge tu profesional y fecha');
+          return of([] as Horas[]); 
+        }else {
+          this.error.set(null);
+        }
+        return this.horasS.obtenerReservasPorFecha(fecha, idProfesional).pipe(
           tap(() => {
-            this.sT.set(0);
-            this.formLimpiar.form.get('FS')?.setValue({
-              horas: null,
-              profesional: null,
-              dia: null
+            this.formLimpiar.form.get('FS')?.reset()
+            this.hora.emit({
+              id: NaN,
+              hora: ''
             })
-            console.log('Respuesta recibida para:', fecha)
+            this.sT.set(0)
           }),
           catchError(err => {
-            if (err.status === 0) {
-              console.warn('Petición cancelada para:', fecha);
-            } else {
-              console.error('Error HTTP:', err);
-            }
-            return scheduled([], asyncScheduler);
+            err;
+            return of([] as Horas[]);
           }),
-          finalize(() => console.log('Cleanup para:', fecha))
+          finalize(() => console.log('Cleanup para:', { fecha, idProfesional }))
         );
       })
     ),
-    { initialValue: [],
+    { initialValue: [] as Horas[],
       manualCleanup: true,
-    }
+     }
   );
-
 
   ngOnDestroy() {
     this.fecha().setDate(new Date().getDate())

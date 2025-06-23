@@ -47,64 +47,43 @@ import { correo } from '../services/nodemailerController.js';
   }
 }
 
-export async function getReservaValidacionHora(fechaISO) {
-      try {
-        
-          const fecha = new Date(fechaISO);
-          if (isNaN(fecha.getTime())) {
-              throw new Error("Fecha no válida proporcionada");
-          }
+export async function getReservaValidacionHora(fecha, profesionalId) {
+    try {
+        const fechaDate = new Date(fecha);
+        if (isNaN(fechaDate.getTime())) {
+            throw new Error("Fecha no válida");
+        }
 
-   
-          const fechaInicio = new Date(fecha);
-          fechaInicio.setUTCHours(0, 0, 0, 0);
-
-          const fechaFin = new Date(fechaInicio);
-          fechaFin.setUTCDate(fechaFin.getUTCDate() + 1);
-
-  
-          const result = await prisma.hora.findMany({
-          select: {
-            id: true,
-            hora: true,
-            Reserva: {
-              where: {
-              fechaReserva: {
-                      gte: fechaInicio,
-                      lt: fechaFin
-                  }
-              },
-              
-              /* include: {
-                servicio: {
-                  select: {
-                    serPro: {
-                      where: {
-                        profesionalId: profesionalID
-                      },
-                    }
-                  }
+        const horas = await prisma.hora.findMany({
+            orderBy: { hora: 'asc' },
+            select: {
+                hora: true,
+                id: true,
+                Reserva: {
+                    where: {
+                        fechaReserva: fechaDate,
+                        confirmada: true,
+                        servicioprofesional: {
+                            profesionalId: profesionalId
+                        }
+                    },
+                    select: { id: true }
                 }
-              }, */
-              select: {
-                horaId: true
-
-              }
             }
-          }
+            
         });
 
-      const formattedResult = result.map(hora => ({
-        id: hora.id,
-        hora: hora.hora,
-        tomado: hora.Reserva.length > 0 ? true : false
-      }));
-          
-      return formattedResult;
-      } catch (error) {
-          console.error("Error en getReservaValidacion:", error);
-          throw error;
-      }
+        return horas.map(hora => ({
+            id: hora.id,
+            hora: hora.hora,
+            profesional_id: profesionalId,
+            tomado: hora.Reserva.length > 0
+        }));
+
+    } catch (error) {
+        console.error("Error en getReservaValidacionHora:", error);
+        throw error;
+    }
 }
 
 export async function createReserva(datos) {

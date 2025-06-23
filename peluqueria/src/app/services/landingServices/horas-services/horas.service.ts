@@ -1,8 +1,6 @@
-import { adapter } from '@adapter/commonAdapter';
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Horas } from '@interfaces/horas.interface';
-import { Reserva } from '@interfaces/reserva.interface';
 import { Observable, throwError } from 'rxjs';
 
 @Injectable({
@@ -30,16 +28,20 @@ export class HorasService {
   } 
 
 
-  obtenerReservasPorFecha(fecha: Date): Observable<Horas[]> {
+  obtenerReservasPorFecha(fecha: Date, id: number): Observable<Horas[]> {
     if (!(fecha instanceof Date) || isNaN(fecha.getTime())) {
-      return throwError(() => new Error('Invalid date provided'));
+      return throwError(() => new Error('Fecha inválida'));
+    }
+
+    if(isNaN(id) && !id){
+       return throwError(() => new Error('Id no es un número'));
     }
   // Create a date-only string in local time (avoids timezone issues)
     const year = fecha.getFullYear();
     const month = String(fecha.getMonth() + 1).padStart(2, '0');
     const day = String(fecha.getDate()).padStart(2, '0');
     const dateStr = `${year}-${month}-${day}`;
-    return this.http.get<Horas[]>(`${this.urlReserva}/getReservasPorFecha/${dateStr}`)
+    return this.http.get<Horas[]>(`${this.urlReserva}/getReservasPorFecha/${dateStr}/${id}`)
   }
 
 }

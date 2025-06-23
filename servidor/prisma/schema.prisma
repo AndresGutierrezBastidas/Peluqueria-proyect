@@ -41,14 +41,17 @@ model reserva {
   horaId       Int
   token        String   @db.VarChar(100)
   confirmada   Boolean  @default(false)
+  servicioprofesionalId Int             // Nuevo campo para la relación directa
 
   cliente  cliente  @relation(fields: [clienteId], references: [id])
   hora     hora     @relation(fields: [horaId], references: [id])
   servicio servicio @relation(fields: [servicioId], references: [id])
+  servicioprofesional servicioprofesional @relation(fields: [servicioprofesionalId], references: [id])
 
   @@index([clienteId], map: "clienteId")
   @@index([horaId], map: "horaId")
   @@index([servicioId], map: "servicioId")
+  @@index([servicioprofesionalId], map: "servicioprofesionalId") // Nuevo índice
 }
 
 model servicio {
@@ -77,4 +80,6 @@ model servicioprofesional {
 
   @@index([profesionalId], map: "profesionalId")
   @@index([servicioId], map: "servicioId")
+
+  reserva reserva[]
 }

@@ -9,7 +9,6 @@ import { Profesional } from '@interfaces/profesionales.interface';
 import { Horas } from '@interfaces/horas.interface'
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Servicio } from '@interfaces/servicio.interface';
-import { ReservaServiceService } from '@servicios/landingServices/reserva-service/reserva-service.service';
 
 @Component({
   selector: 'modal-reserva-hora',
@@ -29,7 +28,7 @@ export class ModalReservaHoraComponent {
   pasoActual: number = 1;
 
   /* Datos FS */
-  dataFS = signal<[Date , Horas , Profesional ]>([new Date, {id: NaN, hora: ''} , {id: NaN, nombre: ''} ]);
+  dataFS = signal<[Date , Horas , Profesional ]>([new Date, {id: NaN , hora: ''} , {id: NaN, nombre: ''} ]);
   inputSS = signal(this.modalService.form.get('SS') as FormGroup)
   valid = signal(this.modalService.form.get('FS')?.valid);
 
@@ -70,6 +69,7 @@ export class ModalReservaHoraComponent {
   closeModal() {
     this.pasoActual = 1;
     this.modalService.form.reset();
+    this.dataFS.set([new Date, {id: NaN , hora: ''} , {id: NaN, nombre: ''} ])
     this.close.emit();
   }
 
