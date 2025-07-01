@@ -110,9 +110,9 @@ export async function correo(tipoCorreo, correo, token) {
   if (error) {
     console.error(error);
     return { error: 'Error enviando correo' };
-  } else {
-    return { success: 'Correo Enviado' };
-  }
+  } 
+  return { success: 'Correo Enviado' };
+  
 
 }
 

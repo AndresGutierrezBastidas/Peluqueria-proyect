@@ -17,8 +17,7 @@ export async function createServicio(info) {
         const servicio = await prisma.servicio.create({data:info});
         return servicio;
     } catch (error) {
-        console.error("Error en createServicio:",info, error.message);
-        throw error; 
+        throw Error `${"Error en createServicio:",info, error.message}`; 
     }
 }
 
