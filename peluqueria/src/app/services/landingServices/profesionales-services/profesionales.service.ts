@@ -33,6 +33,7 @@ export class ProfesionalesService {
       )
       .subscribe((profesionales: Profesional[]) => {
         this.profesionalesArray.set(profesionales);
+        
         const nuevoMap = new Map<number, Profesional>();
         profesionales.forEach(prof => {
           if (prof.id != null) {

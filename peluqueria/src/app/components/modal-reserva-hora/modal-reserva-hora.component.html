@@ -6,10 +6,8 @@
 
     <!-- Modal -->
     <div class="bg-white rounded-lg shadow-lg p-4 w-90 
-    md:w-full max-w-[750px] md:h-full overflow-x-auto"
-    [class.max-h-[770px]]="pasoActual === 1"
-    [class.md:max-h-[500px]]="pasoActual === 2"
-    >
+    md:w-full max-w-[750px] md:h-full overflow-x-auto" [class.max-h-[770px]]="pasoActual === 1"
+        [class.md:max-h-[500px]]="pasoActual === 2" [class.max-h-[440px]]="pasoActual === 3">
         <div class="flex flex-col place-items-end">
             <!-- Boton para cerrar modal -->
             <p (click)="closeModal()"
@@ -18,7 +16,7 @@
             </p>
         </div>
 
-        
+
         <div [class.hidden]="pasoActual !== 1">
             <!-- Titulo -->
             <h2 class="text-2xl md:text-3xl text-center mb-6 ">Seleccione un profesional</h2>
@@ -40,21 +38,33 @@
 
 
                 <div class="flex flex-col md:flex-row justify-end mb-4">
-
+                    <!-- Alerta -->
+                    @if(dataFS()[0] == null){
+                    <div class="flex flex-col justify-center max-w-md m-auto">
+                        <p class="text-red-600"> Selecciona una fecha mayor o igual al dia de hoy </p>
+                    </div>
+                    }
                     <!-- Calendario -->
                     <calendar class="flex flex-col justify-center max-w-md m-auto" (date)="selectedData($event, 0)">
                     </calendar>
 
+
+
+
                     <!-- Horas -->
-                    <horas (hora)="selectedData($event, 1)"
-                        class="flex-col place-items-center w-full md:w-md px-5 md:border-s-1 mt-5 md:mt-0"></horas>
+
+
+                    
+                        <horas [idProfesional]="dataFS()[2].id" [fecha]="dataFS()[0]" (hora)="selectedData($event, 1)"
+                            class="flex-col place-items-center w-full md:w-md px-5 md:border-s-1 mt-5 md:mt-0"></horas>
+
                 </div>
             </form>
             <!-- Botones de accion -->
             <div class="flex flex-row justify-center md:justify-end mt-6  md:-translate-x-5 md:text-end">
 
                 <!-- Boton para pasar a los datos del que reserva -->
-                <button [class.disabled]="!modalService.form.get('FS')?.valid" 
+                <button [class.disabled]="!modalService.form.get('FS')?.valid"
                     [class.opacity-50]="!modalService.form.get('FS')?.valid" (click)="nextStep()"
                     class="bg-gray-800 w-30 text-white py-2 rounded-lg hover:bg-gray-700">
                     Siguiente
@@ -73,8 +83,7 @@
                 </form-datos>
 
                 <!-- Datos servicio -->
-                <datos-servicio [datosFS]="dataFS()"
-                class="flex justify-center md:space-x-4">
+                <datos-servicio [datosFS]="dataFS()" class="flex justify-center md:space-x-4">
                 </datos-servicio>
 
             </div>
@@ -84,20 +93,36 @@
             <div class="flex justify-center md:justify-end mt-6">
 
                 <!-- Boton para pasar a los datos del que reserva -->
-                <button (click)="confirmar()"
+                <button (click)="nextStep()"
                     class="bg-gray-800 mr-2 w-35 text-white px-2 py-2 rounded-lg hover:bg-gray-700">
                     Confirmar
                 </button>
 
                 <!-- Boton para cerrar modal -->
-                <button (click)="previousStep()" class="bg-red-500 w-20 text-white px-2 py-2 rounded-lg hover:bg-red-600">
+                <button (click)="previousStep()"
+                    class="bg-red-500 w-20 text-white px-2 py-2 rounded-lg hover:bg-red-600">
                     Volver
                 </button>
 
             </div>
         </div>
+        <div [class.hidden]="pasoActual !== 3">
+            <!-- Titulo -->
+            <h2 class="text-3xl text-center mb-4 font-bold">¡Reserva realizada!</h2>
+
+            <div class="flex flex-col items-center justify-center">
+                <p class="text-lg text-gray-800 mb-4">Tu reserva ha sido confirmada.</p>
+                <p class="text-lg text-gray-800 mb-4">Recibirás un correo con los detalles de tu cita.</p>
+                <img src="https://cdn-icons-png.flaticon.com/512/157/157977.png" alt="Confirmación" class="w-40 h-40">
+            </div>
+
+            <!-- Boton para cerrar modal -->
+            <div class="flex justify-center mt-6">
+                <button (click)="closeModal()" class="bg-gray-800 w-30 text-white py-2 rounded-lg hover:bg-gray-700">
+                    Cerrar
+                </button>
+            </div>
+        </div>
     </div>
 </div>
 }
-
-

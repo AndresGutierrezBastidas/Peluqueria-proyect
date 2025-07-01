@@ -1,4 +1,4 @@
-import { Reserva } from "@interfaces/reserva.interface";
+import { Reserva, ReservaMiguel } from "@interfaces/reserva.interface";
 
 // Función adapter genérica (si aún la necesitas)
 export const adapter = <T>(objects: T[]): T[] => {
@@ -6,7 +6,7 @@ export const adapter = <T>(objects: T[]): T[] => {
 }
 
 // Función adapter específica para Reserva
-export const adapterReserva = (reservas: any[]): Reserva[] => {
+export const adapterReserva = (reservas: any[]): ReservaMiguel[] => {
   return reservas.map(reserva => ({
     id: reserva.id,
     fechaCreada: new Date(reserva.fechaCreada),

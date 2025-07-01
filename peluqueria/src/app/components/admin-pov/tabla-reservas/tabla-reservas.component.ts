@@ -1,5 +1,5 @@
 import { Component, effect, inject, input, signal } from '@angular/core';
-import { Reserva } from '@interfaces/reserva.interface';
+import { Reserva, ReservaMiguel } from '@interfaces/reserva.interface';
 import { ServiciosLandingService } from '@servicios/landingServices/servicio-service/servicios-landing.service';
 
 @Component({

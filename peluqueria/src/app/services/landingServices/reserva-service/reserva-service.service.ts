@@ -1,7 +1,7 @@
 import { adapterReserva } from '@adapter/commonAdapter';
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
-import { Reserva } from '@interfaces/reserva.interface';
+import { Reserva, ReservaMiguel } from '@interfaces/reserva.interface';
 import { map } from 'rxjs';
 
 @Injectable({
@@ -20,6 +20,8 @@ export class ReservaServiceService {
   httpClient = inject(HttpClient);
   urlServer = 'http://localhost:3000/api/reserva';
   reservas = signal<Reserva[]>([]);
+  http = inject(HttpClient);
+
 //servicios para lo relacionado con las reservas
 //obtener reserva -> retorna todas las reservas
 //miguel encargado ser manejar el servicio de reserva
