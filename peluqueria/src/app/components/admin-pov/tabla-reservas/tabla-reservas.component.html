@@ -27,7 +27,7 @@
       <thead class="text-md text-gray-700 uppercase bg-gray-50 ">
           <tr>
 
-            @for (titulos of titulos(); track $index) {
+            @for (titulos of titulosTabla(); track $index) {
               <th scope="col" class="px-6 py-3">
                 {{titulos}}
             </th>
@@ -36,7 +36,7 @@
           </tr>
       </thead>
       <tbody>
-        @for (dato of datos(); track dato.id) {
+        @for (dato of datosTabla(); track dato.id) {
           <tr class="bg-gray-100">
             <td class="px-6 py-4 font-medium whitespace-nowrap text-gray-800">
               {{ dato.id }}

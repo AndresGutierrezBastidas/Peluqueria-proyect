@@ -32,6 +32,10 @@ export const routes: Routes = [
           path: 'reservas',
           loadComponent: () =>
           import('@paginas/admin-pov/admin-reservas/admin-reservas.component'),
+        },{
+          path: '**',
+          loadComponent: () =>
+          import('@paginas/admin-pov/admin-servicios/admin-servicios.component')
         }
       ]
     },

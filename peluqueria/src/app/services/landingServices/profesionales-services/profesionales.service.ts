@@ -26,7 +26,7 @@ export class ProfesionalesService {
     this.obtenerProfesionales();
   }
 
-  obtenerProfesionales() {
+  obtenerProfesionales():void{
     this.http.get<Profesional[]>(`${this.url}/`)
       .pipe(
         map(resp => adapter(resp))

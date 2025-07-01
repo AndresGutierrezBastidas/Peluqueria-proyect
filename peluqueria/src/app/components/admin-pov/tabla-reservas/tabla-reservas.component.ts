@@ -9,23 +9,22 @@ import { ServiciosLandingService } from '@servicios/landingServices/servicio-ser
   styleUrl: './tabla-reservas.component.css',
 })
 export class TablaReservasComponent {
-  datos = input.required<Reserva[]>();
+  datosTabla = input.required<Reserva[]>();
   table = signal(false);
-  titulos = signal<string[]>([]);
-  servicios = inject(ServiciosLandingService);
+  titulosTabla = signal<string[]>([]);
+  serviciosService = inject(ServiciosLandingService);
 
   constructor() {
     effect(() => {
-      const datos = this.datos();
+      const datos = this.datosTabla();
       if (datos.length > 0) {
-        this.titulos.set([...Object.keys(datos[0]), 'editar']);
+        this.titulosTabla.set([...Object.keys(datos[0]), 'editar']);
       }
     });
   }
 
   fechaFormateada(fecha: any) {
-    const date = new Date(fecha)
-    return date.toLocaleDateString();
+    return new Date(fecha).toLocaleDateString();
   }
 
   isVisible(open: boolean) {

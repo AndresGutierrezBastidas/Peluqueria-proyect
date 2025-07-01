@@ -17,14 +17,14 @@ export class ReservaServiceService {
     this.obtenerReservas();
   }
 
-  http = inject(HttpClient);
-  url = 'http://localhost:3000/api/reserva';
+  httpClient = inject(HttpClient);
+  urlServer = 'http://localhost:3000/api/reserva';
   reservas = signal<Reserva[]>([]);
 //servicios para lo relacionado con las reservas
 //obtener reserva -> retorna todas las reservas
 //miguel encargado ser manejar el servicio de reserva
 obtenerReservas(): void {
-  this.http.get<any[]>(`${this.url}/getReserva`).subscribe((resp) => {
+  this.httpClient.get<any[]>(`${this.urlServer}/getReserva`).subscribe((resp) => {
     const reservas = adapterReserva(resp); // Ahora sí se transformará correctamente
     this.reservas.update((list) => [...list, ...reservas]);
     console.log(reservas); // Verás la estructura plana que defines en tu interfaz
@@ -33,7 +33,7 @@ obtenerReservas(): void {
 
 //crear reserva asignado manu
   crearReserva(reserva: any){
-      this.http.post(`${this.url}/postReserva`,reserva)
+      this.httpClient.post(`${this.urlServer}/postReserva`,reserva)
       .subscribe({
         next: (resp: any) => {
           console.log('Reserva creada:', resp);

@@ -20,6 +20,7 @@ export class TablaServiciosComponent {
       const datos = this.datos();
       if (datos.length > 0) {
         this.titulos.set([...Object.keys(datos[0]), 'editar']);
+        
       }
     });
   }
