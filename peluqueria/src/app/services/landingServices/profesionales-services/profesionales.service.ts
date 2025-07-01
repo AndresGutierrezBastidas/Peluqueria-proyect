@@ -27,7 +27,7 @@ export class ProfesionalesService {
   }
 
   obtenerProfesionales() {
-    this.http.get<Profesional[]>(`${this.url}/getProf`)
+    this.http.get<Profesional[]>(`${this.url}/`)
       .pipe(
         map(resp => adapter(resp))
       )
