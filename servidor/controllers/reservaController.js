@@ -4,7 +4,7 @@ import  prisma  from '../lib/prisma.ts';
 export async function obtenerReservas(req, res) {
     try {
         const response = await getReservas();
-        res.json(response);
+        res.status(200).json(response);
     } catch (error) {
         console.log('Error al obtener las reservas', error.message);
     }

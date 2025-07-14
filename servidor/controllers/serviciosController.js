@@ -4,7 +4,7 @@ import { createServicio, getServicios, updateServ } from "../services/serviciosS
 export async function obtenerServicios(req, res) {
     try{
        const response =  await getServicios();
-       res.json(response)
+       res.status(200).json(response)
     }catch(e){
         console.log('Error al obtener los Servicios', e.message);
     }

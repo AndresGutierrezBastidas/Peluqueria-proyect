@@ -4,7 +4,7 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -50,7 +50,7 @@ model reserva {
 
   @@index([clienteId], map: "clienteId")
   @@index([horaId], map: "horaId")
-  @@index([servicioId], map: "servicioId")
+  @@index([servicioId], map: "reserva_servicioId")
   @@index([servicioprofesionalId], map: "servicioprofesionalId") // Nuevo índice
 }
 

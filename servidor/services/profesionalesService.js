@@ -2,7 +2,11 @@ import prisma from '../lib/prisma.ts';
 
 export async function getProfesionales() {
     try {
-        const profesionales = await prisma.profesional.findMany();
+        const profesionales = await prisma.profesional.findMany({
+            omit: { 
+                usuarioId: true
+            }
+        });
         return profesionales;
     } catch (error) {
         console.error("Error en getProfesionales:", error.message);

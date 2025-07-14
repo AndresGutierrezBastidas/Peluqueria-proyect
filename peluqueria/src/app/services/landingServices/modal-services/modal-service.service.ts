@@ -29,7 +29,8 @@ export class ModalServiceService {
         fechaReserva: this.form.get('FS')?.value.dia?.toISOString(),
         total: Number(service.precio),
         servicioId: Number(service.id),
-        horaId: this.form.get('FS')?.value.horas?.id
+        horaId: this.form.get('FS')?.value.horas?.id,
+        servicioprofesionalId: Number(service.id)
       },
       "cliente" : {
         nombre: this.form.get('SS')?.value.nombre,

@@ -108,6 +108,11 @@ export async function createReserva(datos) {
         fechaReserva: datos.reserva.fechaReserva,
         total: datos.reserva.total,
         token: token,
+        servicioprofesional: {
+          connect: {
+            id: datos.reserva.servicioprofesionalId
+          }
+        },
         servicio: {
           connect: {
             id: datos.reserva.servicioId

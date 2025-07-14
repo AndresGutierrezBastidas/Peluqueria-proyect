@@ -5,6 +5,9 @@ import routesProfesionales from './routes/routesProfesionales.js';
 import routesHoras from './routes/routesHoras.js';
 import routesReserva from './routes/routesReserva.js';
 import routesServices from './routes/routesServicios.js';
+import routesUsuario from './routes/routesUsuario.js';
+
+
 
 const app = express();
 const port = 3000;
@@ -20,6 +23,7 @@ app.use('/api/profesionales', routesProfesionales);
 app.use('/api/hours', routesHoras);
 app.use('/api/services', routesServices);
 app.use('/api/reserva', routesReserva);
+app.use('/api/usuario', routesUsuario)
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);

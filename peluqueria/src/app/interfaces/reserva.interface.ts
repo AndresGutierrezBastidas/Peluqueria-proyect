@@ -16,8 +16,8 @@ export interface Reserva{
 
 export interface ReservaMiguel{
   id: number;
-  cliente_fullname: String;
-  servicio_nombre: String;
+  cliente_fullname: string;
+  servicio_nombre: string;
   fechaReserva: Date;
   fechaCreada: Date;
   total: number;

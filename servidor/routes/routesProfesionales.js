@@ -4,7 +4,7 @@ import { actualizarProfesionales, obtenerProfesionales, servicioProfesionales } 
 const router = Router();
 
 
-router.get('/', obtenerProfesionales);
+router.get('/getProf', obtenerProfesionales);
 router.get('/serviceProf/:id', servicioProfesionales);
 router.put('/:id',actualizarProfesionales);
 

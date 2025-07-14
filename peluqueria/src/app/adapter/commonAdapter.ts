@@ -12,7 +12,7 @@ export const adapterReserva = (reservas: any[]): ReservaMiguel[] => {
     fechaCreada: new Date(reserva.fechaCreada),
     fechaReserva: new Date(reserva.fechaReserva),
     total: reserva.total,
-    cliente_fullname: `${reserva.cliente.nombre} ${reserva.cliente.apellido}`,
+    cliente_fullname: `${reserva.cliente.fullName}`,
     servicio_nombre: reserva.servicio.nombre,
     profesional_nombre: reserva.servicio.servicioprofesional[0]?.profesional.nombre || 'Sin asignar',
     hora_reserva: reserva.hora.hora
