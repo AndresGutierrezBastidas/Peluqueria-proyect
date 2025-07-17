@@ -1,11 +1,14 @@
 generator client {
   provider = "prisma-client-js"
   output   = "../node_modules/.prisma/client"
+  previewFeatures = ["multiSchema"]
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+  schemas   = ["public"]
 }
 
 model cliente {
@@ -14,12 +17,15 @@ model cliente {
   apellido String    @db.VarChar(15)
   email    String    @unique(map: "Cliente_email_key") @db.VarChar(255)
   Reserva  reserva[]
+
+  @@schema("public")
 }
 
 model hora {
   id      Int       @id @default(autoincrement())
   hora    String    @db.VarChar(10)
   Reserva reserva[]
+  @@schema("public")
 }
 
 model profesional {
@@ -29,6 +35,7 @@ model profesional {
   
   usuario             usuario               @relation(fields: [usuarioId], references: [id])
   servicioprofesional servicioprofesional[]
+  @@schema("public")
 }
 
 model reserva {
@@ -52,6 +59,7 @@ model reserva {
   @@index([horaId], map: "horaId")
   @@index([servicioId], map: "reserva_servicioId")
   @@index([servicioprofesionalId], map: "servicioprofesionalId") 
+   @@schema("public")
 }
 
 model servicio {
@@ -61,6 +69,7 @@ model servicio {
   descripcion         String                @db.VarChar(500)
   Reserva             reserva[]
   servicioprofesional servicioprofesional[]
+   @@schema("public")
 }
 
 model usuario {
@@ -69,6 +78,7 @@ model usuario {
   password String @db.VarChar(15)
   rol      Int    @default(1)
   profesional profesional[]
+   @@schema("public")
 }
 
 model servicioprofesional {
@@ -82,4 +92,5 @@ model servicioprofesional {
   @@index([servicioId], map: "servicioId")
 
   reserva reserva[]
+   @@schema("public")
 }
